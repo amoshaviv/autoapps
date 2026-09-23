@@ -1,6 +1,7 @@
 import type { Account } from "next-auth";
 import { capitalCase } from "change-case";
 import { getDBModels } from "@/lib/sequelize";
+import { updateGoogleTokens } from "@/lib/google/oauth";
 import { IUserInstance } from "@/lib/sequelize/models/user";
 import { IOrganizationInstance } from "@/lib/sequelize/models/organization";
 import { UserRole } from "@/lib/sequelize/models/users-organizations";
@@ -98,20 +99,7 @@ export async function ensureUserAndOrganization({
     if (!user.profileImageURL && image) {
       await user.update({ profileImageURL: image });
     }
-    if (
-      user.provider !== account.provider ||
-      !user.providerAccessToken ||
-      user.providerAccountId !== account.providerAccountId
-    ) {
-      await user.update({
-        provider: account.provider,
-        providerAccountId: account.providerAccountId,
-        providerAccessToken: account.access_token,
-        providerAccessTokenPermissions: account.scope,
-        providerRefreshToken: account.refresh_token,
-        providerAccessTokenExpiredAt: (account.expires_at || 0) * 1000,
-      });
-    }
+    await updateGoogleTokens(user, account);
   }
 
   const info = getOrganizationInfoFromEmail(email, displayName);

@@ -34,6 +34,8 @@ export interface IUserInstance extends Model {
   authenticate(password: string): boolean;
   updatePassword(password: string): IUserInstance | Promise<IUserInstance>;
   hashPassword(password: string): string;
+  hasSheetsScope(): boolean;
+  refreshAccessToken(): Promise<IUserInstance | null>;
   getOrganizations(
     options?: BelongsToManyGetAssociationsMixinOptions
   ): Promise<IOrganizationInstance[]>;
@@ -126,6 +128,37 @@ export default function defineUserModel(sequelize: Sequelize): IUserModel {
         email: email,
       },
     });
+  };
+
+  (User.prototype as IUserInstance).hasSheetsScope = function () {
+    return (
+      !!this.providerRefreshToken &&
+      (this.providerAccessTokenPermissions ?? "").includes("auth/spreadsheets")
+    );
+  };
+
+  // Google does not return a new refresh token on refresh. Returns null when
+  // the refresh token was revoked or expired (Testing mode: after 7 days).
+  (User.prototype as IUserInstance).refreshAccessToken = async function () {
+    if (!this.providerRefreshToken) return null;
+    const response = await fetch("https://oauth2.googleapis.com/token", {
+      method: "POST",
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      body: new URLSearchParams({
+        client_id: process.env.GOOGLE_CLIENT_ID!,
+        client_secret: process.env.GOOGLE_CLIENT_SECRET!,
+        refresh_token: this.providerRefreshToken,
+        grant_type: "refresh_token",
+      }),
+    });
+    const body = await response.json();
+    if (!response.ok) {
+      console.error("Google token refresh failed", body.error, body.error_description);
+      return null;
+    }
+    this.providerAccessToken = body.access_token;
+    this.providerAccessTokenExpiredAt = new Date(Date.now() + body.expires_in * 1000);
+    return this.save();
   };
 
   (User.prototype as IUserInstance).authenticate = function (password: string) {

@@ -92,6 +92,9 @@ export const authOptions = {
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID!,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
+      // Plain sign-in asks only for openid/email/profile; include_granted_scopes
+      // keeps an earlier Sheets grant on the new access token.
+      authorization: { params: { include_granted_scopes: "true" } },
     }),
     CredentialsProvider({
       name: "credentials",
