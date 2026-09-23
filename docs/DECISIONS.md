@@ -2,6 +2,8 @@
 
 One paragraph per entry, newest first. Reference the task id. Record only things that differ from `docs/PLAN.md` or that a future session would otherwise have to rediscover (e.g. the P0-6 spike result, a Google API quirk, a library swap).
 
+- **2026-09-23 · Positioning: business tools, Sheets first.** At Amos's direction, all product-facing copy is generic: apps on top of the business tools a company already uses. Google Sheets is described as the first, and only live, integration. The homepage lists planned connectors as "Coming soon" only, as plain names without logos, since none of them work yet: Workday, BambooHR, SAP SuccessFactors, SAP, Oracle NetSuite, Microsoft Dynamics 365, Salesforce, HubSpot, Microsoft Excel, Airtable, Smartsheet, ServiceNow, Jira, PostgreSQL, Snowflake. In-product text that describes what works today (e.g. "Paste the link of a Google Sheet") stays specific. The code seam for more sources remains `Connection.type` (PRD §15).
+
 - **2026-09-23 · No cookie banner in the side panel.** Amos saw the cookie banner every time he opened the extension. The consent choice was stored in a `SameSite=Lax` cookie, which Chrome neither stores nor sends in the side panel's cross-site iframe, so the choice never stuck. Two fixes:
   - The banner is not rendered on `/extension/*`. That page loads no analytics, and a banner there covers the builder.
   - The consent cookie is written with `SameSite=None; Secure` over HTTPS, so a choice made on the site also holds in the panel.

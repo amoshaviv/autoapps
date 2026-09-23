@@ -68,25 +68,26 @@ function SectionHeading({ eyebrow, title, subtitle }: { eyebrow: string; title: 
 const NAV = [
   { href: "#how-it-works", label: "How it works" },
   { href: "#features", label: "Features" },
+  { href: "#integrations", label: "Integrations" },
   { href: "#use-cases", label: "Use cases" },
   { href: "#faq", label: "FAQ" },
 ];
 
 const TRUST = [
-  "No code, no formulas",
-  "Your sheet stays the source of truth",
-  "Sign in with your Google account",
-  "From sheet to shareable link in minutes",
+  "No code, no migration",
+  "Your system of record stays the source of truth",
+  "Sign in with your company account",
+  "From your data to a shareable link in minutes",
 ];
 
 const STEPS = [
   {
-    title: "Open your sheet",
-    body: "Click the AutoApps badge in Google Sheets, or paste the sheet's link. AutoApps reads its columns: who each row belongs to, what's still empty, which columns hold statuses and numbers.",
+    title: "Connect your data",
+    body: "Start from a Google Sheet: click the AutoApps badge, or paste its link. AutoApps reads the structure: who each record belongs to, what's still empty, which fields hold statuses and numbers.",
   },
   {
     title: "Pick a suggestion",
-    body: "Get three app ideas that fit your sheet, like “each owner fills in their own line” or a status board, or describe what you need in your own words.",
+    body: "Get three app ideas that fit your data, like “each owner fills in their own line” or a status board, or describe what you need in your own words.",
   },
   {
     title: "Refine it in chat",
@@ -94,15 +95,15 @@ const STEPS = [
   },
   {
     title: "Share the link",
-    body: "Publish and copy the link. Colleagues sign in with Google and see only their part; their changes land straight in your sheet.",
+    body: "Publish and copy the link. Colleagues sign in and see only their part; their changes land straight in the source.",
   },
 ];
 
 const FEATURES = [
   {
     icon: AutoAwesomeOutlined,
-    title: "Suggestions that fit your sheet",
-    body: "AutoApps works out which columns identify a person, which ones need filling in, and which hold statuses or numbers, then proposes apps that make sense for that sheet.",
+    title: "Suggestions that fit your data",
+    body: "AutoApps works out which fields identify a person, which ones need filling in, and which hold statuses or numbers, then proposes apps that make sense for that data.",
   },
   {
     icon: ChatOutlined,
@@ -126,8 +127,8 @@ const FEATURES = [
   },
   {
     icon: ExtensionOutlined,
-    title: "Right inside Google Sheets",
-    body: "The Chrome extension opens AutoApps in a side panel next to the sheet you're looking at, and follows you as you switch sheets.",
+    title: "Right where you work",
+    body: "The Chrome extension opens AutoApps in a side panel next to the Google Sheet you're looking at, and follows you as you switch. More tools will follow.",
   },
 ];
 
@@ -137,28 +138,38 @@ const USE_CASES = [
   { emoji: "📦", title: "Inventory", body: "A searchable stock list with low-stock totals, and a form to log new counts." },
   { emoji: "🎟️", title: "Event sign-ups", body: "An RSVP form that fills in each person's email automatically, plus a headcount dashboard." },
   { emoji: "🧑‍💼", title: "Onboarding", body: "Managers see only their new hires and tick off onboarding as it's done." },
-  { emoji: "📋", title: "Any team sheet", body: "Trackers, directories, request logs: if it lives in a Google Sheet, it can become an app." },
+  { emoji: "📋", title: "Any business process", body: "Trackers, directories, approvals, request logs: if your team keeps chasing updates to it, it can become an app." },
 ];
 
 const SECURITY = [
-  { icon: LockPersonOutlined, title: "Colleagues never touch the sheet", body: "Consumers use the app, not the spreadsheet. They need no access to it, and the app never exposes its link." },
+  { icon: LockPersonOutlined, title: "Colleagues never touch the source", body: "People use the app, not the spreadsheet or system behind it. They need no access to it, and the app never exposes where the data lives." },
   { icon: ShieldOutlined, title: "Permissions enforced on the server", body: "Which rows and columns each person may read or change is decided on the server from the app's definition, never by the browser." },
   { icon: ApartmentOutlined, title: "Scoped to your organization", body: "People sign in with Google and join the organization that matches their company email domain." },
   { icon: FactCheckOutlined, title: "Every change is recorded", body: "Each edit made through an app is logged with who made it and what changed." },
 ];
 
+// Planned connectors, shown as "coming soon" only. None of these work yet.
+const COMING_SOON = [
+  { category: "HR and people", tools: ["Workday", "BambooHR", "SAP SuccessFactors"] },
+  { category: "ERP and finance", tools: ["SAP", "Oracle NetSuite", "Microsoft Dynamics 365"] },
+  { category: "CRM and sales", tools: ["Salesforce", "HubSpot"] },
+  { category: "Spreadsheets and work management", tools: ["Microsoft Excel", "Airtable", "Smartsheet"] },
+  { category: "IT and service", tools: ["ServiceNow", "Jira"] },
+  { category: "Databases and warehouses", tools: ["PostgreSQL", "Snowflake"] },
+];
+
 const FAQ = [
   {
-    q: "Do my colleagues need access to the spreadsheet?",
-    a: "No. The app reads and writes the sheet with the builder's Google permission. Colleagues only sign in to AutoApps with their company Google account, and only see what the app shows them.",
+    q: "Which tools does AutoApps work with?",
+    a: "Google Sheets today: any sheet with a header row, from budgets and trackers to inventories, form responses and rosters. AutoApps doesn't expect particular column names; it reads the data and adapts. Integrations with Microsoft Excel, Salesforce, Workday, SAP and more are on the way (see Integrations above).",
   },
   {
-    q: "Which sheets work?",
-    a: "Any Google Sheet with a header row: budgets, trackers, inventories, form responses, rosters. AutoApps doesn't expect particular column names; it reads the sheet and adapts. If it picks the wrong header row, you can correct it in one click.",
+    q: "Do my colleagues need access to the underlying system?",
+    a: "No. The app reads and writes the data with the builder's permission. Colleagues only sign in to AutoApps with their company account, and only see what the app shows them.",
   },
   {
     q: "Where does my data live?",
-    a: "In your Google Sheet. AutoApps stores the app definitions, their versions and chat history, an activity log, and a short summary of each connected sheet (column names, types and a few sample values) used to design apps.",
+    a: "In your own system: today, your Google Sheet. AutoApps stores the app definitions, their versions and chat history, an activity log, and a short summary of each connected source (field names, types and a few sample values) used to design apps.",
   },
   {
     q: "What if the app isn't quite right?",
@@ -166,7 +177,7 @@ const FAQ = [
   },
   {
     q: "Do I need the Chrome extension?",
-    a: "No. The extension is a shortcut that opens AutoApps next to your sheet. You can do everything in the web app by pasting the sheet's link.",
+    a: "No. The extension is a shortcut that opens AutoApps next to your Google Sheet. You can do everything in the web app by pasting the sheet's link.",
   },
   {
     q: "Who can use a published app?",
@@ -213,7 +224,7 @@ export default function LandingPage() {
         <Container maxWidth="lg">
           <Box sx={{ textAlign: "center", maxWidth: 860, mx: "auto" }}>
             <Chip
-              label="Google Sheets → internal apps, by chat"
+              label="Google Sheets available now · Workday, SAP and more coming soon"
               sx={{ mb: 3, fontWeight: 600, bgcolor: "rgba(37,99,235,0.08)", color: "primary.dark" }}
             />
             <Typography
@@ -222,14 +233,15 @@ export default function LandingPage() {
               letterSpacing={-1.5}
               sx={{ fontSize: { xs: "2.5rem", sm: "3.25rem", md: "4rem" }, lineHeight: 1.05 }}
             >
-              Turn any Google Sheet into an app{" "}
+              Turn your business data into apps{" "}
               <Box component="span" sx={gradientText}>
                 your team actually uses
               </Box>
             </Typography>
             <Typography color="text.secondary" sx={{ mt: 3, fontSize: { xs: "1.1rem", md: "1.3rem" }, maxWidth: 680, mx: "auto" }}>
-              Describe the app you need in plain words. AutoApps builds it on top of your sheet, and each colleague
-              signs in with Google to see and fill in only their part. The sheet updates underneath.
+              Describe the app you need in plain words. AutoApps builds it on top of the tools your company already
+              runs on, starting with Google Sheets, and each colleague signs in to see and update only their part.
+              Your system of record stays the source of truth.
             </Typography>
             <Stack direction={{ xs: "column", sm: "row" }} spacing={1.5} justifyContent="center" sx={{ mt: 4 }}>
               <Button href={SIGN_IN} variant="contained" size="large" sx={{ px: 4, py: 1.4, fontSize: "1.05rem" }}>
@@ -265,8 +277,8 @@ export default function LandingPage() {
         <Container maxWidth="lg">
           <SectionHeading
             eyebrow="How it works"
-            title="From spreadsheet to shared app in four steps"
-            subtitle="No code, no new database, no migration. Your sheet keeps working exactly as before."
+            title="From your data to a shared app in four steps"
+            subtitle="No code, no new database, no migration. Your data stays where it is and keeps working exactly as before."
           />
           <Grid container spacing={3}>
             {STEPS.map((step, i) => (
@@ -340,13 +352,75 @@ export default function LandingPage() {
         </Container>
       </Box>
 
+      {/* Integrations */}
+      <Box component="section" id="integrations" sx={{ py: { xs: 9, md: 13 }, scrollMarginTop: 64 }}>
+        <Container maxWidth="lg">
+          <SectionHeading
+            eyebrow="Integrations"
+            title={
+              <>
+                Starts with Google Sheets. <Box component="span" sx={gradientText}>Grows with your stack.</Box>
+              </>
+            }
+            subtitle="AutoApps is built to sit on top of any system of record. Google Sheets is live today; connectors for the business tools below are coming soon."
+          />
+          <Grid container spacing={3} alignItems="stretch">
+            <Grid size={{ xs: 12, md: 4 }}>
+              <Box
+                sx={{
+                  height: "100%",
+                  p: 3.5,
+                  borderRadius: 3,
+                  border: 2,
+                  borderColor: "primary.main",
+                  bgcolor: "rgba(37,99,235,0.04)",
+                }}
+              >
+                <Chip label="Available now" size="small" color="success" sx={{ mb: 2 }} />
+                <Typography variant="h5" fontWeight={800} gutterBottom>
+                  Google Sheets
+                </Typography>
+                <Typography color="text.secondary" lineHeight={1.7}>
+                  Build apps on any sheet: per-person rows, forms, boards and dashboards, with every change written back
+                  to the sheet. Includes the Chrome extension for Sheets.
+                </Typography>
+              </Box>
+            </Grid>
+            <Grid size={{ xs: 12, md: 8 }}>
+              <Box sx={{ height: "100%", p: 3.5, borderRadius: 3, border: 1, borderColor: "divider", bgcolor: "background.default" }}>
+                <Stack direction="row" alignItems="center" spacing={1.5} sx={{ mb: 2.5 }}>
+                  <Typography variant="h6" fontWeight={700}>
+                    Coming soon
+                  </Typography>
+                  <Chip label="On the roadmap" size="small" variant="outlined" />
+                </Stack>
+                <Grid container spacing={1.5}>
+                  {COMING_SOON.map((group) => (
+                    <Grid key={group.category} size={{ xs: 12, sm: 6 }}>
+                      <Typography variant="caption" color="text.secondary" fontWeight={700} sx={{ textTransform: "uppercase", letterSpacing: 1 }}>
+                        {group.category}
+                      </Typography>
+                      <Stack direction="row" flexWrap="wrap" useFlexGap spacing={1} sx={{ mt: 0.75, mb: 1 }}>
+                        {group.tools.map((tool) => (
+                          <Chip key={tool} label={tool} sx={{ bgcolor: "background.paper", border: 1, borderColor: "divider", fontWeight: 600 }} />
+                        ))}
+                      </Stack>
+                    </Grid>
+                  ))}
+                </Grid>
+              </Box>
+            </Grid>
+          </Grid>
+        </Container>
+      </Box>
+
       {/* Use cases */}
       <Box component="section" id="use-cases" sx={{ py: { xs: 9, md: 13 }, bgcolor: "background.default", scrollMarginTop: 64 }}>
         <Container maxWidth="lg">
           <SectionHeading
             eyebrow="Use cases"
-            title="Built for the sheets your company already runs on"
-            subtitle="Finance, operations, HR, events: wherever people keep asking “can you update your line in the sheet?”"
+            title="Built for the processes your company already runs on"
+            subtitle="Finance, operations, HR, events: wherever people keep asking “can you update your line?”"
           />
           <Grid container spacing={3}>
             {USE_CASES.map((u) => (
@@ -377,7 +451,7 @@ export default function LandingPage() {
                 Security and control
               </Typography>
               <Typography variant="h3" component="h2" fontWeight={800} letterSpacing={-0.8} sx={{ mt: 1, fontSize: { xs: "2rem", md: "2.75rem" } }}>
-                Share the app, not the spreadsheet
+                Share the app, not the system
               </Typography>
               <Typography sx={{ mt: 2, color: "#cbd5e1", fontSize: { md: "1.125rem" } }}>
                 The people who own the data stay in control. Everyone else gets exactly the view you designed for them,
@@ -444,10 +518,10 @@ export default function LandingPage() {
             }}
           >
             <Typography variant="h3" component="h2" fontWeight={800} letterSpacing={-0.8} sx={{ fontSize: { xs: "2rem", md: "2.75rem" } }}>
-              Your next internal app is already in a spreadsheet
+              Your next internal app is already in your data
             </Typography>
             <Typography sx={{ mt: 2, opacity: 0.9, fontSize: { md: "1.125rem" }, maxWidth: 620, mx: "auto" }}>
-              Sign in with Google, point AutoApps at a sheet, and share a link with your team today.
+              Sign in with Google, point AutoApps at a sheet, and share a link with your team today. More sources are on the way.
             </Typography>
             <Button
               href={SIGN_IN}
@@ -467,7 +541,7 @@ export default function LandingPage() {
             <Stack spacing={1}>
               <Logo />
               <Typography variant="body2" color="text.secondary">
-                Internal apps on top of the sheets you already use.
+                Internal apps on top of the tools you already use.
               </Typography>
             </Stack>
             <Stack direction="row" spacing={3} flexWrap="wrap" useFlexGap>

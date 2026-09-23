@@ -7,13 +7,13 @@ import LandingPage from "@/app/components/landing/LandingPage";
 import { DEMO_VIDEO_ID } from "@/app/components/landing/video";
 
 const description =
-  "Describe the app you need in plain words. AutoApps builds it on top of your Google Sheet, and each colleague signs in with Google to see and fill in only their part.";
+  "Describe the app you need in plain words. AutoApps builds it on top of the business tools you already use, starting with Google Sheets, and each colleague sees and updates only their part.";
 
 export const metadata: Metadata = {
-  title: { absolute: "AutoApps · Turn any Google Sheet into an app your team uses" },
+  title: { absolute: "AutoApps · Turn your business data into apps your team uses" },
   description,
   openGraph: {
-    title: "AutoApps · Turn any Google Sheet into an app your team uses",
+    title: "AutoApps · Turn your business data into apps your team uses",
     description,
     type: "website",
     images: [{ url: `https://i.ytimg.com/vi/${DEMO_VIDEO_ID}/maxresdefault.jpg`, width: 1280, height: 720 }],

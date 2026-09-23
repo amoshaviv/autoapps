@@ -1,6 +1,6 @@
 # AutoApps
 
-Turn any Google Sheet into a small internal app your colleagues can use, by describing it in chat.
+Turn your business data into internal apps your colleagues can use, by describing them in chat. **Google Sheets is the first integration**; connectors for tools like Workday, SAP, Salesforce and Microsoft Excel are planned (listed as "coming soon" on the homepage).
 
 A builder opens a sheet, picks one of three suggested apps (or describes their own), tweaks it in a chat, and publishes a link. Colleagues open the link, sign in with their company Google account, and see only their part: their own row to fill in, a form to submit, a filtered board, or live totals. Every change lands in the sheet, and the builder sees who changed what.
 
