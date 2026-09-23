@@ -60,7 +60,34 @@ async function handleInviteSignup(credentials: any, dbModels: any) {
   };
 }
 
+// The extension side panel embeds the app in an iframe, where only
+// SameSite=None cookies are sent. Chrome accepts Secure cookies from
+// http://localhost, so these options also work in local development.
+// Names match NextAuth's defaults so getToken() finds them.
+const useSecureCookies = (process.env.NEXTAUTH_URL ?? "").startsWith("https://");
+const cookiePrefix = useSecureCookies ? "__Secure-" : "";
+const crossSiteCookieOptions = {
+  httpOnly: true,
+  sameSite: "none" as const,
+  secure: true,
+  path: "/",
+};
+
 export const authOptions = {
+  cookies: {
+    sessionToken: {
+      name: `${cookiePrefix}next-auth.session-token`,
+      options: crossSiteCookieOptions,
+    },
+    callbackUrl: {
+      name: `${cookiePrefix}next-auth.callback-url`,
+      options: crossSiteCookieOptions,
+    },
+    csrfToken: {
+      name: `${useSecureCookies ? "__Host-" : ""}next-auth.csrf-token`,
+      options: crossSiteCookieOptions,
+    },
+  },
   providers: [
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID!,
