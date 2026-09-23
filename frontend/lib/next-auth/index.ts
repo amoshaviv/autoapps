@@ -3,61 +3,8 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import GoogleProvider from "next-auth/providers/google";
 import { type NextAuthOptions, getServerSession } from "next-auth";
 import { getDBModels } from "@/lib/sequelize";
-import { capitalCase } from "change-case";
 import { cookies } from "next/headers";
-
-type OrganizationInfo = { domain: string; name: string; isPersonalEmail: boolean };
-function getOrganizationInfoFromEmail(
-  email: string,
-  fullName: string
-): OrganizationInfo {
-  const commonProviders = [
-    "gmail",
-    "yahoo",
-    "hotmail",
-    "outlook",
-    "icloud",
-    "aol",
-    "protonmail",
-    "msn",
-    "live",
-    "ymail",
-    "mail",
-    "zoho",
-    "gmx",
-    "me",
-    "comcast",
-    "verizon",
-    "att",
-    "sbcglobal",
-    "cox",
-    "charter",
-    "rocketmail",
-    "mail",
-    "yandex",
-    "qq",
-    "naver",
-    "163",
-    "126",
-    "yeah",
-    "googlemail",
-  ];
-  const domainPart = email.split("@")[1];
-  const nakedDomain = domainPart.split(".")[0];
-  if (commonProviders.includes(nakedDomain)) {
-    return {
-      name: fullName,
-      domain: email.replace("@", "."),
-      isPersonalEmail: true,
-    };
-  } else {
-    return {
-      name: capitalCase(nakedDomain),
-      domain: domainPart,
-      isPersonalEmail: false,
-    };
-  }
-}
+import { ensureUserAndOrganization } from "./onboarding";
 
 async function handleInviteSignup(credentials: any, dbModels: any) {
   const { User, Organization, Invite } = dbModels;
@@ -129,7 +76,7 @@ export const authOptions = {
       },
       async authorize(credentials, req) {
         const dbModels = await getDBModels();
-        const { User, Organization } = dbModels;
+        const { User } = dbModels;
         if (!credentials?.email || !credentials?.password) {
           throw new Error("Invalid credentials");
         }
@@ -139,51 +86,26 @@ export const authOptions = {
           return await handleInviteSignup(credentials, dbModels);
         }
 
-        const user = await User.findByEmail(credentials.email);
-        const cookieStore = await cookies();
-
-        if (!user) {
-          if (!credentials?.displayName) throw new Error("Invalid credentials");
-          const newUser = await User.create({
-            email: credentials.email,
-            password: credentials.password,
-            displayName: credentials.displayName,
-            provider: "credentials",
-          });
-
-          try {
-            const organizationInformation = getOrganizationInfoFromEmail(
-              credentials.email,
-              credentials.displayName
-            );
-
-            const defaultOrganization = await Organization.createWithUser(
-              organizationInformation.name,
-              organizationInformation.domain,
-              newUser
-            );
-
-            // Save redirect URL as a cookie
-            cookieStore.set("lastOrganization", defaultOrganization.slug);
-
-            return {
-              id: newUser.id.toString(),
-              email: newUser.email,
-              displayName: newUser.displayName,
-              profileImageURL: newUser.profileImageURL,
-            };
-          } catch (err) {
-            throw new Error("Invalid credentials");
-          }
+        const existingUser = await User.findByEmail(credentials.email);
+        if (!existingUser && !credentials.displayName) {
+          throw new Error("Invalid credentials");
         }
-
-        if (!user.authenticate(credentials.password)) {
+        if (existingUser && !existingUser.authenticate(credentials.password)) {
           throw new Error("Invalid credentials");
         }
 
-        const organizations = await user.getOrganizations();
-        if (organizations.length > 0) {
-          cookieStore.set("lastOrganization", organizations[0].slug);
+        let user;
+        try {
+          const result = await ensureUserAndOrganization({
+            email: credentials.email,
+            displayName: existingUser?.displayName ?? credentials.displayName,
+            password: existingUser ? undefined : credentials.password,
+          });
+          user = result.user;
+          (await cookies()).set("lastOrganization", result.organization.slug);
+        } catch (err) {
+          console.error(err);
+          throw new Error("Invalid credentials");
         }
 
         return {
@@ -199,165 +121,28 @@ export const authOptions = {
     signIn: "/authentication/signin",
   },
   callbacks: {
-    async signIn({ user, account, profile }) {
-      if (account?.provider === "google") {
-        const dbModels = await getDBModels();
-        const { User, Organization, Invite } = dbModels;
-        const cookieStore = await cookies();
+    async signIn({ user, account }) {
+      if (account?.provider !== "google") return true;
 
-        // Check for invite token in cookies
-        const inviteToken = cookieStore.get("inviteToken")?.value;
+      const { User, Organization, Invite } = await getDBModels();
+      const cookieStore = await cookies();
+      const email = user.email!;
+      const inviteToken = cookieStore.get("inviteToken")?.value;
 
-        // Check if user already exists
-        const existingUser = await User.findByEmail(user.email!);
+      // Invite flow takes precedence over domain auto-join
+      if (inviteToken) {
+        try {
+          const invite = await Invite.findByToken(inviteToken);
+          if (!invite) throw new Error("Invalid or expired invitation");
+          if (invite.isExpired()) throw new Error("This invitation has expired");
+          if (invite.email !== email) throw new Error("Email doesn't match invitation");
 
-        if (!existingUser) {
-          // Create new user from OAuth profile
-          const newUser = await User.create({
-            email: user.email!,
-            displayName: user.name || user.email!,
-            profileImageURL: user.image,
-            provider: account.provider,
-            providerAccountId: account.providerAccountId,
-            providerAccessToken: account.access_token,
-            providerAccessTokenPermissions: account.scope,
-            providerRefreshToken: account.refresh_token,
-            providerAccessTokenExpiredAt: (account.expires_at || 0) * 1000,
-          });
-
-          // Handle invite flow if invite token exists
-          if (inviteToken) {
-            try {
-              const invite = await Invite.findByToken(inviteToken);
-
-              if (!invite) {
-                throw new Error("Invalid or expired invitation");
-              }
-
-              if (invite.isExpired()) {
-                throw new Error("This invitation has expired");
-              }
-
-              // Verify email matches invite
-              if (invite.email !== user.email) {
-                throw new Error("Email doesn't match invitation");
-              }
-
-              // Get the organization from the invite
-              const organization = await invite.getOrganization();
-
-              // Add user to organization with the invited role
-              await Organization.addUserToOrganization(
-                organization,
-                newUser,
-                invite.role
-              );
-
-              // Mark invite as used
-              await invite.markAsUsed();
-
-              // Clear invite token cookie
-              cookieStore.delete("inviteToken");
-
-              // Set cookies for redirect
-              cookieStore.set("lastOrganization", organization.slug);
-
-              return true;
-            } catch (err) {
-              console.log("Invite flow error:", err);
-              // Clear the invalid invite token
-              cookieStore.delete("inviteToken");
-              return false;
-            }
-          }
-
-          // Regular signup flow (no invite)
-          try {
-            const organizationInformation = getOrganizationInfoFromEmail(
-              user.email!,
-              user.name || user.email!
-            );
-
-            const defaultOrganization = await Organization.createWithUser(
-              organizationInformation.name,
-              organizationInformation.domain,
-              newUser
-            );
-
-            // Save redirect URL as a cookie
-            cookieStore.set("lastOrganization", defaultOrganization.slug);
-          } catch (err) {
-            console.log(err);
-            return false;
-          }
-        } else {
-          // User already exists
-          // Handle invite flow if invite token exists
-          if (inviteToken) {
-            try {
-              const invite = await Invite.findByToken(inviteToken);
-
-              if (!invite) {
-                throw new Error("Invalid or expired invitation");
-              }
-
-              if (invite.isExpired()) {
-                throw new Error("This invitation has expired");
-              }
-
-              // Verify email matches invite
-              if (invite.email !== user.email) {
-                throw new Error("Email doesn't match invitation");
-              }
-
-              // Get the organization from the invite
-              const organization = await invite.getOrganization();
-
-              // Check if user is already in the organization
-              const userOrganizations = await existingUser.getOrganizations({
-                where: { id: organization.id },
-              });
-
-              if (userOrganizations.length === 0) {
-                // Add user to organization with the invited role
-                await Organization.addUserToOrganization(
-                  organization,
-                  existingUser,
-                  invite.role
-                );
-              }
-
-              // Mark invite as used
-              await invite.markAsUsed();
-
-              // Clear invite token cookie
-              cookieStore.delete("inviteToken");
-
-              // Set cookies for redirect
-              cookieStore.set("lastOrganization", organization.slug);
-
-              return true;
-            } catch (err) {
-              console.log("Invite flow error for existing user:", err);
-              // Clear the invalid invite token
-              cookieStore.delete("inviteToken");
-              return false;
-            }
-          }
-
-          // Regular login flow (no invite)
-          // Update existing user with OAuth profile info if missing
-          if (!existingUser.profileImageURL && user.image) {
-            await existingUser.update({ profileImageURL: user.image });
-          }
-
-          // Update OAuth tokens if this is a different provider or newer tokens
-          if (
-            existingUser.provider !== account.provider ||
-            !existingUser.providerAccessToken ||
-            existingUser.providerAccountId !== account.providerAccountId
-          ) {
-            await existingUser.update({
+          let invitedUser = await User.findByEmail(email);
+          if (!invitedUser) {
+            invitedUser = await User.create({
+              email,
+              displayName: user.name || email,
+              profileImageURL: user.image,
               provider: account.provider,
               providerAccountId: account.providerAccountId,
               providerAccessToken: account.access_token,
@@ -367,13 +152,38 @@ export const authOptions = {
             });
           }
 
-          const organizations = await existingUser.getOrganizations();
-          if (organizations.length > 0) {
-            cookieStore.set("lastOrganization", organizations[0].slug);
+          const organization = await invite.getOrganization();
+          const memberships = await invitedUser.getOrganizations({
+            where: { id: organization.id },
+          });
+          if (memberships.length === 0) {
+            await Organization.addUserToOrganization(organization, invitedUser, invite.role);
           }
+
+          await invite.markAsUsed();
+          cookieStore.delete("inviteToken");
+          cookieStore.set("lastOrganization", organization.slug);
+          return true;
+        } catch (err) {
+          console.log("Invite flow error:", err);
+          cookieStore.delete("inviteToken");
+          return false;
         }
       }
-      return true;
+
+      try {
+        const { organization } = await ensureUserAndOrganization({
+          email,
+          displayName: user.name || email,
+          image: user.image,
+          account,
+        });
+        cookieStore.set("lastOrganization", organization.slug);
+        return true;
+      } catch (err) {
+        console.log(err);
+        return false;
+      }
     },
     async jwt({ token, user, trigger, session, account }) {
       console.log("JWT callback triggered with:", {

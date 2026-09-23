@@ -47,8 +47,8 @@ Add `npx vitest run` once tests exist (P1-4 onward), and `npm run build` from `e
 |---|---|---|---|---|---|---|
 | P0-1 | Copy and strip flow-tester's frontend | must | — | done | 27be745 | deps pinned to flow-tester's locked majors; legal pages are placeholders (see DECISIONS) |
 | P0-2 | Database bootstrap script (`db:sync`) | must | P0-1, H-1 | done | 5f6cd7d | OAuth token columns are TEXT (see DECISIONS) |
-| P0-3 | Auth guards (`lib/auth/guards.ts`) | must | P0-1 | in_progress | | 2026-09-23 |
-| P0-4 | Organization auto-join by email domain | must | P0-2, P0-3, H-2 | todo | | |
+| P0-3 | Auth guards (`lib/auth/guards.ts`) | must | P0-1 | done | 88e223d | checked 401/200/403/404 with minted JWTs on :3001 (another app holds :3000) |
+| P0-4 | Organization auto-join by email domain | must | P0-2, P0-3, H-2 | in_progress | | 2026-09-23 |
 | P0-5 | Session cookie `SameSite=None; Secure` | must | P0-1 | todo | | |
 | P0-6 | Spike: side-panel iframe carries the session | should | P0-5, P0-4 | todo | | record Plan A/Plan B result in `docs/DECISIONS.md` |
 

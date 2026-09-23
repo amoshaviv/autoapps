@@ -32,6 +32,7 @@ export interface IOrganizationInstance extends Model {
 export interface IOrganizationModel extends ModelStatic<IOrganizationInstance> {
   associate(models: IModels): void;
   findUniqueSlug(slug: string): Promise<string>;
+  findByDomain(domain: string): Promise<IOrganizationInstance | null>;
   findBySlugAndUserEmail(
     slug: string,
     email: string
@@ -131,6 +132,10 @@ export default function defineOrganizationModel(
         attributes: [], 
       },
     });
+  };
+
+  Organization.findByDomain = async function findByDomain(domain: string) {
+    return this.findOne({ where: { domain: domain.toLowerCase() } });
   };
 
   Organization.findUniqueSlug = async function findUniqueSlug(
