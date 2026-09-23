@@ -74,10 +74,10 @@ const NAV = [
 ];
 
 const TRUST = [
-  "No code, no migration",
+  "Apps suggested automatically, no prompt needed",
   "Your system of record stays the source of truth",
-  "Sign in with your company account",
   "From your data to a shareable link in minutes",
+  "No code, no migration",
 ];
 
 const STEPS = [
@@ -86,8 +86,8 @@ const STEPS = [
     body: "Start from a Google Sheet: click the AutoApps badge, or paste its link. AutoApps reads the structure: who each record belongs to, what's still empty, which fields hold statuses and numbers.",
   },
   {
-    title: "Pick a suggestion",
-    body: "Get three app ideas that fit your data, like “each owner fills in their own line” or a status board, or describe what you need in your own words.",
+    title: "Get suggestions, automatically",
+    body: "You don't have to ask. AutoApps proposes three apps that fit this data, like “each owner fills in their own line” or a status board. Pick one, or describe something else in your own words.",
   },
   {
     title: "Refine it in chat",
@@ -102,8 +102,8 @@ const STEPS = [
 const FEATURES = [
   {
     icon: AutoAwesomeOutlined,
-    title: "Suggestions that fit your data",
-    body: "AutoApps works out which fields identify a person, which ones need filling in, and which hold statuses or numbers, then proposes apps that make sense for that data.",
+    title: "Suggested in context, before you ask",
+    body: "No blank page and no prompt to write. AutoApps works out which fields identify a person, which need filling in, and which hold statuses or numbers, and proposes the apps that make sense, right next to the data you're looking at.",
   },
   {
     icon: ChatOutlined,
@@ -146,6 +146,13 @@ const SECURITY = [
   { icon: ShieldOutlined, title: "Permissions enforced on the server", body: "Which rows and columns each person may read or change is decided on the server from the app's definition, never by the browser." },
   { icon: ApartmentOutlined, title: "Scoped to your organization", body: "People sign in with Google and join the organization that matches their company email domain." },
   { icon: FactCheckOutlined, title: "Every change is recorded", body: "Each edit made through an app is logged with who made it and what changed." },
+];
+
+// What AutoApps actually suggested for the budget fixture sheet in testing
+const HERO_SUGGESTIONS = [
+  { kind: "Each person fills their own", title: "Fill in your budget line", pitch: "Each cost-center owner sees only their line and completes Q1–Q4 and a justification." },
+  { kind: "Board / tracker", title: "Budget review board", pitch: "Every cost center with its status, filterable, with statuses editable inline." },
+  { kind: "Dashboard + list", title: "Budget progress", pitch: "Totals per quarter and how many lines are submitted or approved." },
 ];
 
 // Planned connectors, shown as "coming soon" only. None of these work yet.
@@ -224,8 +231,17 @@ export default function LandingPage() {
         <Container maxWidth="lg">
           <Box sx={{ textAlign: "center", maxWidth: 860, mx: "auto" }}>
             <Chip
-              label="Google Sheets available now · Workday, SAP and more coming soon"
-              sx={{ mb: 3, fontWeight: 600, bgcolor: "rgba(37,99,235,0.08)", color: "primary.dark" }}
+              icon={<AutoAwesomeOutlined sx={{ fontSize: 18 }} />}
+              label="Apps suggested automatically · Google Sheets now, Workday, SAP and more soon"
+              sx={{
+                mb: 3,
+                fontWeight: 600,
+                bgcolor: "rgba(37,99,235,0.08)",
+                color: "primary.dark",
+                height: "auto",
+                maxWidth: "100%",
+                "& .MuiChip-label": { whiteSpace: "normal", py: 0.75 },
+              }}
             />
             <Typography
               component="h1"
@@ -233,15 +249,15 @@ export default function LandingPage() {
               letterSpacing={-1.5}
               sx={{ fontSize: { xs: "2.5rem", sm: "3.25rem", md: "4rem" }, lineHeight: 1.05 }}
             >
-              Turn your business data into apps{" "}
+              Open your data.{" "}
               <Box component="span" sx={gradientText}>
-                your team actually uses
+                AutoApps suggests the app.
               </Box>
             </Typography>
             <Typography color="text.secondary" sx={{ mt: 3, fontSize: { xs: "1.1rem", md: "1.3rem" }, maxWidth: 680, mx: "auto" }}>
-              Describe the app you need in plain words. AutoApps builds it on top of the tools your company already
-              runs on, starting with Google Sheets, and each colleague signs in to see and update only their part.
-              Your system of record stays the source of truth.
+              No prompt to write, no blank page. Open a Google Sheet and AutoApps reads it in context, then suggests
+              the apps your team needs. Pick one, tweak it in chat, and share a link: each colleague sees and updates
+              only their part, while your system of record stays the source of truth.
             </Typography>
             <Stack direction={{ xs: "column", sm: "row" }} spacing={1.5} justifyContent="center" sx={{ mt: 4 }}>
               <Button href={SIGN_IN} variant="contained" size="large" sx={{ px: 4, py: 1.4, fontSize: "1.05rem" }}>
@@ -253,7 +269,46 @@ export default function LandingPage() {
             </Stack>
           </Box>
 
-          <Box id="demo" sx={{ mt: { xs: 6, md: 9 }, maxWidth: 1000, mx: "auto", scrollMarginTop: 96 }}>
+          <Box
+            sx={{
+              mt: { xs: 6, md: 8 },
+              mx: "auto",
+              maxWidth: 860,
+              p: { xs: 2, md: 2.5 },
+              borderRadius: 4,
+              bgcolor: "background.paper",
+              border: 1,
+              borderColor: "divider",
+              boxShadow: "0 20px 50px -25px rgba(15, 23, 42, 0.25)",
+            }}
+          >
+            <Stack direction="row" spacing={1} alignItems="center" sx={{ mb: 1.5, px: 0.5 }}>
+              <AutoAwesomeOutlined sx={{ fontSize: 18, color: "primary.main" }} />
+              <Typography variant="body2" fontWeight={700}>
+                Suggested automatically for “FY2027 Budget”
+              </Typography>
+              <Typography variant="body2" color="text.secondary" sx={{ display: { xs: "none", sm: "inline" } }}>
+                · you didn&apos;t ask for anything yet
+              </Typography>
+            </Stack>
+            <Grid container spacing={1.5}>
+              {HERO_SUGGESTIONS.map((idea) => (
+                <Grid key={idea.title} size={{ xs: 12, sm: 4 }}>
+                  <Box sx={{ height: "100%", p: 1.75, borderRadius: 2.5, bgcolor: "background.default", border: 1, borderColor: "divider", textAlign: "left" }}>
+                    <Chip label={idea.kind} size="small" sx={{ mb: 1, fontWeight: 600, bgcolor: "rgba(37,99,235,0.08)", color: "primary.dark" }} />
+                    <Typography variant="subtitle2" fontWeight={700}>
+                      {idea.title}
+                    </Typography>
+                    <Typography variant="caption" color="text.secondary" sx={{ display: "block", mt: 0.5, lineHeight: 1.5 }}>
+                      {idea.pitch}
+                    </Typography>
+                  </Box>
+                </Grid>
+              ))}
+            </Grid>
+          </Box>
+
+          <Box id="demo" sx={{ mt: { xs: 5, md: 7 }, maxWidth: 1000, mx: "auto", scrollMarginTop: 96 }}>
             <DemoVideo />
           </Box>
 
@@ -518,10 +573,10 @@ export default function LandingPage() {
             }}
           >
             <Typography variant="h3" component="h2" fontWeight={800} letterSpacing={-0.8} sx={{ fontSize: { xs: "2rem", md: "2.75rem" } }}>
-              Your next internal app is already in your data
+              Your next internal app is already waiting in your data
             </Typography>
             <Typography sx={{ mt: 2, opacity: 0.9, fontSize: { md: "1.125rem" }, maxWidth: 620, mx: "auto" }}>
-              Sign in with Google, point AutoApps at a sheet, and share a link with your team today. More sources are on the way.
+              Sign in with Google and open a sheet: AutoApps suggests the app before you ask. Share a link with your team today. More sources are on the way.
             </Typography>
             <Button
               href={SIGN_IN}
