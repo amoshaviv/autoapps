@@ -1,0 +1,82 @@
+[
+  {
+    "model": "zai-org/GLM-5.3",
+    "fixture": "budget",
+    "taskChecklistPass": true,
+    "reasons": [
+      "Matches the predefined specification checklist. Static output review only, not an end-to-end app test."
+    ]
+  },
+  {
+    "model": "zai-org/GLM-5.3-Flash",
+    "fixture": "budget",
+    "taskChecklistPass": true,
+    "reasons": [
+      "Matches the predefined specification checklist. Static output review only, not an end-to-end app test."
+    ]
+  },
+  {
+    "model": "zai-org/GLM-5.3-Flash",
+    "fixture": "tasks",
+    "taskChecklistPass": false,
+    "reasons": [
+      "Returns my-row rather than the multi-row table required by the predefined checklist. It also enables fallback=choose for unmatched names."
+    ]
+  },
+  {
+    "model": "zai-org/GLM-5.3",
+    "fixture": "tasks",
+    "taskChecklistPass": false,
+    "reasons": [
+      "Returns my-row rather than the multi-row table required by the predefined checklist. It also enables fallback=choose for unmatched names."
+    ]
+  },
+  {
+    "model": "zai-org/GLM-5.3",
+    "fixture": "inventory",
+    "taskChecklistPass": true,
+    "reasons": [
+      "Matches the predefined specification checklist. Static output review only, not an end-to-end app test."
+    ]
+  },
+  {
+    "model": "zai-org/GLM-5.3-Flash",
+    "fixture": "inventory",
+    "taskChecklistPass": true,
+    "reasons": [
+      "Matches the predefined specification checklist. Static output review only, not an end-to-end app test."
+    ]
+  },
+  {
+    "model": "zai-org/GLM-5.3-Flash",
+    "fixture": "rsvp",
+    "taskChecklistPass": true,
+    "reasons": [
+      "Matches the predefined specification checklist. Static output review only, not an end-to-end app test."
+    ]
+  },
+  {
+    "model": "zai-org/GLM-5.3",
+    "fixture": "rsvp",
+    "taskChecklistPass": false,
+    "reasons": [
+      "Omits identity.matchColumn=Email and matchBy=email, so the runtime will not populate the signed-in email despite the summary claiming that behavior."
+    ]
+  },
+  {
+    "model": "zai-org/GLM-5.3",
+    "fixture": "headcount",
+    "taskChecklistPass": true,
+    "reasons": [
+      "Matches the predefined specification checklist. Static output review only, not an end-to-end app test."
+    ]
+  },
+  {
+    "model": "zai-org/GLM-5.3-Flash",
+    "fixture": "headcount",
+    "taskChecklistPass": true,
+    "reasons": [
+      "Matches the predefined specification checklist. Static output review only, not an end-to-end app test."
+    ]
+  }
+]

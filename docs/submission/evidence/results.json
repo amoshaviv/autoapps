@@ -1,0 +1,2368 @@
+[
+  {
+    "model": "zai-org/GLM-5.3",
+    "fixture": "budget",
+    "prompt": "Let each cost-center owner see only their own budget line, edit Q1, Q2, Q3, Q4 and Justification, and see FY2026 Actual as read-only. Do not let unmatched users choose another row.",
+    "started": "2026-09-23T11:40:28.626Z",
+    "attempts": [
+      {
+        "attempt": 1,
+        "requestMs": 4636,
+        "usage": {
+          "completion_tokens": 643,
+          "prompt_tokens": 2240,
+          "total_tokens": 2883,
+          "completion_tokens_details": {
+            "accepted_prediction_tokens": null,
+            "audio_tokens": null,
+            "reasoning_tokens": 128,
+            "rejected_prediction_tokens": null
+          },
+          "prompt_tokens_details": null,
+          "prompt_cache_hit_tokens": 0,
+          "prompt_cache_miss_tokens": 2240,
+          "reasoning_tokens": 128
+        },
+        "responseFormat": "json_schema",
+        "valid": true,
+        "errors": [],
+        "output": {
+          "spec": {
+            "version": 1,
+            "title": "My FY2027 Budget",
+            "description": "Each cost-center owner reviews last year's actual spend and enters quarterly budget amounts and a justification for their own line.",
+            "icon": "💰",
+            "source": {
+              "type": "google_sheets",
+              "sheetTitle": "Budget",
+              "headerRow": 3,
+              "keyColumn": "Cost Center"
+            },
+            "columns": [
+              {
+                "header": "Cost Center",
+                "label": "Cost Center",
+                "type": "text",
+                "readOnly": true
+              },
+              {
+                "header": "Owner Email",
+                "label": "Owner Email",
+                "type": "email",
+                "readOnly": true,
+                "help": "Automatically matched to your signed-in email."
+              },
+              {
+                "header": "FY2026 Actual",
+                "label": "FY2026 Actual Spend",
+                "type": "currency",
+                "readOnly": true,
+                "help": "What this cost center actually spent last fiscal year."
+              },
+              {
+                "header": "Q1",
+                "label": "Q1 Budget",
+                "type": "currency",
+                "required": true,
+                "help": "Budget amount for the first quarter."
+              },
+              {
+                "header": "Q2",
+                "label": "Q2 Budget",
+                "type": "currency",
+                "required": true,
+                "help": "Budget amount for the second quarter."
+              },
+              {
+                "header": "Q3",
+                "label": "Q3 Budget",
+                "type": "currency",
+                "required": true,
+                "help": "Budget amount for the third quarter."
+              },
+              {
+                "header": "Q4",
+                "label": "Q4 Budget",
+                "type": "currency",
+                "required": true,
+                "help": "Budget amount for the fourth quarter."
+              },
+              {
+                "header": "Justification",
+                "label": "Justification",
+                "type": "longtext",
+                "required": true,
+                "help": "Briefly explain what drives this budget (e.g., new hires, flat year over year)."
+              }
+            ],
+            "identity": {
+              "matchColumn": "Owner Email",
+              "matchBy": "email",
+              "fallback": "deny"
+            },
+            "views": [
+              {
+                "type": "my-row",
+                "title": "My Budget Line",
+                "greeting": "Here's your cost center's budget line for FY2027. Last year's actual spend is shown for reference — fill in your quarterly budgets and a justification.",
+                "show": [
+                  "Cost Center",
+                  "Owner Email",
+                  "FY2026 Actual",
+                  "Q1",
+                  "Q2",
+                  "Q3",
+                  "Q4",
+                  "Justification"
+                ],
+                "editable": [
+                  "Q1",
+                  "Q2",
+                  "Q3",
+                  "Q4",
+                  "Justification"
+                ],
+                "submitLabel": "Save my budget",
+                "successMessage": "Your budget line has been saved. Thanks!"
+              }
+            ],
+            "access": {
+              "audience": "organization"
+            }
+          },
+          "summary": "This app matches each signed-in user to their budget line via Owner Email and lets them edit only Q1–Q4 and Justification while FY2026 Actual and Cost Center stay read-only. Users without a matching row are denied rather than allowed to pick someone else's line, as you asked."
+        }
+      }
+    ],
+    "finalValid": true,
+    "spec": {
+      "version": 1,
+      "title": "My FY2027 Budget",
+      "description": "Each cost-center owner reviews last year's actual spend and enters quarterly budget amounts and a justification for their own line.",
+      "icon": "💰",
+      "source": {
+        "type": "google_sheets",
+        "sheetTitle": "Budget",
+        "headerRow": 3,
+        "keyColumn": "Cost Center"
+      },
+      "columns": [
+        {
+          "header": "Cost Center",
+          "label": "Cost Center",
+          "type": "text",
+          "readOnly": true
+        },
+        {
+          "header": "Owner Email",
+          "label": "Owner Email",
+          "type": "email",
+          "readOnly": true,
+          "help": "Automatically matched to your signed-in email."
+        },
+        {
+          "header": "FY2026 Actual",
+          "label": "FY2026 Actual Spend",
+          "type": "currency",
+          "readOnly": true,
+          "help": "What this cost center actually spent last fiscal year."
+        },
+        {
+          "header": "Q1",
+          "label": "Q1 Budget",
+          "type": "currency",
+          "required": true,
+          "help": "Budget amount for the first quarter."
+        },
+        {
+          "header": "Q2",
+          "label": "Q2 Budget",
+          "type": "currency",
+          "required": true,
+          "help": "Budget amount for the second quarter."
+        },
+        {
+          "header": "Q3",
+          "label": "Q3 Budget",
+          "type": "currency",
+          "required": true,
+          "help": "Budget amount for the third quarter."
+        },
+        {
+          "header": "Q4",
+          "label": "Q4 Budget",
+          "type": "currency",
+          "required": true,
+          "help": "Budget amount for the fourth quarter."
+        },
+        {
+          "header": "Justification",
+          "label": "Justification",
+          "type": "longtext",
+          "required": true,
+          "help": "Briefly explain what drives this budget (e.g., new hires, flat year over year)."
+        }
+      ],
+      "identity": {
+        "matchColumn": "Owner Email",
+        "matchBy": "email",
+        "fallback": "deny"
+      },
+      "views": [
+        {
+          "type": "my-row",
+          "title": "My Budget Line",
+          "greeting": "Here's your cost center's budget line for FY2027. Last year's actual spend is shown for reference — fill in your quarterly budgets and a justification.",
+          "show": [
+            "Cost Center",
+            "Owner Email",
+            "FY2026 Actual",
+            "Q1",
+            "Q2",
+            "Q3",
+            "Q4",
+            "Justification"
+          ],
+          "editable": [
+            "Q1",
+            "Q2",
+            "Q3",
+            "Q4",
+            "Justification"
+          ],
+          "submitLabel": "Save my budget",
+          "successMessage": "Your budget line has been saved. Thanks!"
+        }
+      ],
+      "access": {
+        "audience": "organization"
+      }
+    },
+    "elapsedMs": 4640,
+    "firstAttemptValid": true
+  },
+  {
+    "model": "zai-org/GLM-5.3-Flash",
+    "fixture": "budget",
+    "prompt": "Let each cost-center owner see only their own budget line, edit Q1, Q2, Q3, Q4 and Justification, and see FY2026 Actual as read-only. Do not let unmatched users choose another row.",
+    "started": "2026-09-23T11:40:33.267Z",
+    "attempts": [
+      {
+        "attempt": 1,
+        "requestMs": 3332,
+        "usage": {
+          "completion_tokens": 427,
+          "prompt_tokens": 2240,
+          "total_tokens": 2667,
+          "completion_tokens_details": {
+            "accepted_prediction_tokens": null,
+            "audio_tokens": null,
+            "reasoning_tokens": 1,
+            "rejected_prediction_tokens": null
+          },
+          "prompt_tokens_details": null,
+          "prompt_cache_hit_tokens": 0,
+          "prompt_cache_miss_tokens": 2240,
+          "reasoning_tokens": 1
+        },
+        "responseFormat": "json_schema",
+        "valid": true,
+        "errors": [],
+        "output": {
+          "spec": {
+            "version": 1,
+            "title": "FY2027 Budget",
+            "description": "Each cost-center owner sees only their own budget line, fills in quarterly numbers and justification, and reviews last year's actuals read-only. Unmatched users cannot access any row.",
+            "icon": "💵",
+            "source": {
+              "type": "google_sheets",
+              "sheetTitle": "Budget",
+              "headerRow": 3,
+              "keyColumn": "Owner Email"
+            },
+            "columns": [
+              {
+                "header": "Cost Center",
+                "label": "Cost Center",
+                "type": "text",
+                "readOnly": true
+              },
+              {
+                "header": "Owner Email",
+                "label": "Owner Email",
+                "type": "email",
+                "readOnly": true
+              },
+              {
+                "header": "FY2026 Actual",
+                "label": "FY2026 Actual",
+                "type": "currency",
+                "readOnly": true
+              },
+              {
+                "header": "Q1",
+                "label": "Q1 Budget",
+                "type": "currency"
+              },
+              {
+                "header": "Q2",
+                "label": "Q2 Budget",
+                "type": "currency"
+              },
+              {
+                "header": "Q3",
+                "label": "Q3 Budget",
+                "type": "currency"
+              },
+              {
+                "header": "Q4",
+                "label": "Q4 Budget",
+                "type": "currency"
+              },
+              {
+                "header": "Justification",
+                "label": "Justification",
+                "type": "longtext",
+                "help": "Briefly explain any changes or new asks."
+              },
+              {
+                "header": "Status",
+                "label": "Status",
+                "type": "select",
+                "options": [
+                  "Not started",
+                  "Submitted",
+                  "Approved"
+                ],
+                "readOnly": true
+              }
+            ],
+            "identity": {
+              "matchColumn": "Owner Email",
+              "matchBy": "email",
+              "fallback": "deny"
+            },
+            "views": [
+              {
+                "type": "my-row",
+                "title": "Your Budget Line",
+                "greeting": "Here is your cost center's budget for review.",
+                "show": [
+                  "Cost Center",
+                  "Owner Email",
+                  "FY2026 Actual",
+                  "Q1",
+                  "Q2",
+                  "Q3",
+                  "Q4",
+                  "Justification",
+                  "Status"
+                ],
+                "editable": [
+                  "Q1",
+                  "Q2",
+                  "Q3",
+                  "Q4",
+                  "Justification"
+                ],
+                "submitLabel": "Save Budget",
+                "successMessage": "Budget saved. Thank you!"
+              }
+            ],
+            "access": {
+              "audience": "organization"
+            }
+          },
+          "summary": "A my-row app where each owner sees only their own budget line, matched by email, with Q1–Q4 and Justification editable, FY2026 Actual and other fields read-only. Unmatched users are denied, since fallback is set to 'deny'."
+        }
+      }
+    ],
+    "finalValid": true,
+    "spec": {
+      "version": 1,
+      "title": "FY2027 Budget",
+      "description": "Each cost-center owner sees only their own budget line, fills in quarterly numbers and justification, and reviews last year's actuals read-only. Unmatched users cannot access any row.",
+      "icon": "💵",
+      "source": {
+        "type": "google_sheets",
+        "sheetTitle": "Budget",
+        "headerRow": 3,
+        "keyColumn": "Owner Email"
+      },
+      "columns": [
+        {
+          "header": "Cost Center",
+          "label": "Cost Center",
+          "type": "text",
+          "readOnly": true
+        },
+        {
+          "header": "Owner Email",
+          "label": "Owner Email",
+          "type": "email",
+          "readOnly": true
+        },
+        {
+          "header": "FY2026 Actual",
+          "label": "FY2026 Actual",
+          "type": "currency",
+          "readOnly": true
+        },
+        {
+          "header": "Q1",
+          "label": "Q1 Budget",
+          "type": "currency"
+        },
+        {
+          "header": "Q2",
+          "label": "Q2 Budget",
+          "type": "currency"
+        },
+        {
+          "header": "Q3",
+          "label": "Q3 Budget",
+          "type": "currency"
+        },
+        {
+          "header": "Q4",
+          "label": "Q4 Budget",
+          "type": "currency"
+        },
+        {
+          "header": "Justification",
+          "label": "Justification",
+          "type": "longtext",
+          "help": "Briefly explain any changes or new asks."
+        },
+        {
+          "header": "Status",
+          "label": "Status",
+          "type": "select",
+          "options": [
+            "Not started",
+            "Submitted",
+            "Approved"
+          ],
+          "readOnly": true
+        }
+      ],
+      "identity": {
+        "matchColumn": "Owner Email",
+        "matchBy": "email",
+        "fallback": "deny"
+      },
+      "views": [
+        {
+          "type": "my-row",
+          "title": "Your Budget Line",
+          "greeting": "Here is your cost center's budget for review.",
+          "show": [
+            "Cost Center",
+            "Owner Email",
+            "FY2026 Actual",
+            "Q1",
+            "Q2",
+            "Q3",
+            "Q4",
+            "Justification",
+            "Status"
+          ],
+          "editable": [
+            "Q1",
+            "Q2",
+            "Q3",
+            "Q4",
+            "Justification"
+          ],
+          "submitLabel": "Save Budget",
+          "successMessage": "Budget saved. Thank you!"
+        }
+      ],
+      "access": {
+        "audience": "organization"
+      }
+    },
+    "elapsedMs": 3332,
+    "firstAttemptValid": true
+  },
+  {
+    "model": "zai-org/GLM-5.3-Flash",
+    "fixture": "tasks",
+    "prompt": "Show each signed-in assignee all of their tasks, with Due Date and Priority visible. Let them change only Status and Notes.",
+    "started": "2026-09-23T11:40:36.600Z",
+    "attempts": [
+      {
+        "attempt": 1,
+        "requestMs": 7231,
+        "usage": {
+          "completion_tokens": 891,
+          "prompt_tokens": 2117,
+          "total_tokens": 3008,
+          "completion_tokens_details": {
+            "accepted_prediction_tokens": null,
+            "audio_tokens": null,
+            "reasoning_tokens": 326,
+            "rejected_prediction_tokens": null
+          },
+          "prompt_tokens_details": null,
+          "prompt_cache_hit_tokens": 0,
+          "prompt_cache_miss_tokens": 2117,
+          "reasoning_tokens": 326
+        },
+        "responseFormat": "json_schema",
+        "valid": true,
+        "errors": [],
+        "output": {
+          "spec": {
+            "version": 1,
+            "title": "My Q4 Launch Tasks",
+            "description": "Each assignee sees only their own Q4 launch tasks, with due dates and priority visible, and can update Status and Notes.",
+            "icon": "✅",
+            "source": {
+              "type": "google_sheets",
+              "sheetTitle": "Tasks",
+              "headerRow": 1,
+              "keyColumn": "Task"
+            },
+            "columns": [
+              {
+                "header": "Task",
+                "type": "text",
+                "readOnly": true,
+                "help": "The name of the task"
+              },
+              {
+                "header": "Assignee",
+                "type": "select",
+                "options": [
+                  "Sam Rivera",
+                  "Dana Cohen",
+                  "Lee Park",
+                  "Priya Shah",
+                  "Jordan Blake",
+                  "Alex Kim"
+                ],
+                "readOnly": true
+              },
+              {
+                "header": "Due Date",
+                "type": "date",
+                "readOnly": true
+              },
+              {
+                "header": "Priority",
+                "type": "select",
+                "options": [
+                  "High",
+                  "Medium",
+                  "Low"
+                ],
+                "readOnly": true
+              },
+              {
+                "header": "Status",
+                "type": "select",
+                "options": [
+                  "In progress",
+                  "To do",
+                  "Done",
+                  "Blocked"
+                ],
+                "help": "Keep this up to date as work progresses"
+              },
+              {
+                "header": "Notes",
+                "type": "text",
+                "help": "Add a short update, e.g. \"Draft in Docs\" or \"Waiting on staging\""
+              }
+            ],
+            "identity": {
+              "matchColumn": "Assignee",
+              "matchBy": "name",
+              "fallback": "choose"
+            },
+            "views": [
+              {
+                "type": "my-row",
+                "title": "Your tasks",
+                "greeting": "Here are all the Q4 launch tasks assigned to you.",
+                "show": [
+                  "Task",
+                  "Assignee",
+                  "Due Date",
+                  "Priority",
+                  "Status",
+                  "Notes"
+                ],
+                "editable": [
+                  "Status",
+                  "Notes"
+                ],
+                "submitLabel": "Save changes",
+                "successMessage": "Your task updates were saved."
+              }
+            ],
+            "access": {
+              "audience": "organization"
+            }
+          },
+          "summary": "Built a my-row app: each signed-in assignee sees all their tasks with Due Date and Priority shown read-only, and can update only Status and Notes. Since Assignee matches by name, people whose sheet name doesn't match their account name can still pick their row."
+        }
+      }
+    ],
+    "finalValid": true,
+    "spec": {
+      "version": 1,
+      "title": "My Q4 Launch Tasks",
+      "description": "Each assignee sees only their own Q4 launch tasks, with due dates and priority visible, and can update Status and Notes.",
+      "icon": "✅",
+      "source": {
+        "type": "google_sheets",
+        "sheetTitle": "Tasks",
+        "headerRow": 1,
+        "keyColumn": "Task"
+      },
+      "columns": [
+        {
+          "header": "Task",
+          "type": "text",
+          "readOnly": true,
+          "help": "The name of the task"
+        },
+        {
+          "header": "Assignee",
+          "type": "select",
+          "options": [
+            "Sam Rivera",
+            "Dana Cohen",
+            "Lee Park",
+            "Priya Shah",
+            "Jordan Blake",
+            "Alex Kim"
+          ],
+          "readOnly": true
+        },
+        {
+          "header": "Due Date",
+          "type": "date",
+          "readOnly": true
+        },
+        {
+          "header": "Priority",
+          "type": "select",
+          "options": [
+            "High",
+            "Medium",
+            "Low"
+          ],
+          "readOnly": true
+        },
+        {
+          "header": "Status",
+          "type": "select",
+          "options": [
+            "In progress",
+            "To do",
+            "Done",
+            "Blocked"
+          ],
+          "help": "Keep this up to date as work progresses"
+        },
+        {
+          "header": "Notes",
+          "type": "text",
+          "help": "Add a short update, e.g. \"Draft in Docs\" or \"Waiting on staging\""
+        }
+      ],
+      "identity": {
+        "matchColumn": "Assignee",
+        "matchBy": "name",
+        "fallback": "choose"
+      },
+      "views": [
+        {
+          "type": "my-row",
+          "title": "Your tasks",
+          "greeting": "Here are all the Q4 launch tasks assigned to you.",
+          "show": [
+            "Task",
+            "Assignee",
+            "Due Date",
+            "Priority",
+            "Status",
+            "Notes"
+          ],
+          "editable": [
+            "Status",
+            "Notes"
+          ],
+          "submitLabel": "Save changes",
+          "successMessage": "Your task updates were saved."
+        }
+      ],
+      "access": {
+        "audience": "organization"
+      }
+    },
+    "elapsedMs": 7231,
+    "firstAttemptValid": true
+  },
+  {
+    "model": "zai-org/GLM-5.3",
+    "fixture": "tasks",
+    "prompt": "Show each signed-in assignee all of their tasks, with Due Date and Priority visible. Let them change only Status and Notes.",
+    "started": "2026-09-23T11:40:43.832Z",
+    "attempts": [
+      {
+        "attempt": 1,
+        "requestMs": 3672,
+        "usage": {
+          "completion_tokens": 571,
+          "prompt_tokens": 2117,
+          "total_tokens": 2688,
+          "completion_tokens_details": {
+            "accepted_prediction_tokens": null,
+            "audio_tokens": null,
+            "reasoning_tokens": 39,
+            "rejected_prediction_tokens": null
+          },
+          "prompt_tokens_details": {
+            "audio_tokens": null,
+            "cached_tokens": 1664
+          },
+          "prompt_cache_hit_tokens": 1664,
+          "prompt_cache_miss_tokens": 453,
+          "reasoning_tokens": 39
+        },
+        "responseFormat": "json_schema",
+        "valid": true,
+        "errors": [],
+        "output": {
+          "spec": {
+            "version": 1,
+            "title": "My Launch Tasks",
+            "description": "Each assignee sees and updates their own Q4 launch tasks.",
+            "icon": "🚀",
+            "source": {
+              "type": "google_sheets",
+              "sheetTitle": "Tasks",
+              "headerRow": 1,
+              "keyColumn": "Task"
+            },
+            "columns": [
+              {
+                "header": "Task",
+                "label": "Task",
+                "type": "text",
+                "readOnly": true
+              },
+              {
+                "header": "Assignee",
+                "label": "Assignee",
+                "type": "select",
+                "options": [
+                  "Sam Rivera",
+                  "Dana Cohen",
+                  "Lee Park",
+                  "Priya Shah",
+                  "Jordan Blake",
+                  "Alex Kim"
+                ],
+                "readOnly": true
+              },
+              {
+                "header": "Due Date",
+                "label": "Due Date",
+                "type": "date",
+                "readOnly": true
+              },
+              {
+                "header": "Priority",
+                "label": "Priority",
+                "type": "select",
+                "options": [
+                  "High",
+                  "Medium",
+                  "Low"
+                ],
+                "readOnly": true
+              },
+              {
+                "header": "Status",
+                "label": "Status",
+                "type": "select",
+                "options": [
+                  "In progress",
+                  "To do",
+                  "Done",
+                  "Blocked"
+                ]
+              },
+              {
+                "header": "Notes",
+                "label": "Notes",
+                "type": "longtext",
+                "help": "Add a short note about progress, blockers, or where things stand."
+              }
+            ],
+            "identity": {
+              "matchColumn": "Assignee",
+              "matchBy": "name",
+              "fallback": "choose"
+            },
+            "views": [
+              {
+                "type": "my-row",
+                "title": "My Tasks",
+                "greeting": "Here are your Q4 launch tasks. Update the status and add notes as you go — everything else stays as planned.",
+                "show": [
+                  "Task",
+                  "Due Date",
+                  "Priority",
+                  "Status",
+                  "Notes"
+                ],
+                "editable": [
+                  "Status",
+                  "Notes"
+                ],
+                "submitLabel": "Save my updates",
+                "successMessage": "Your task updates have been saved."
+              }
+            ],
+            "access": {
+              "audience": "organization"
+            }
+          },
+          "summary": "Each signed-in assignee sees only their own tasks with the due date and priority, and can edit just the Status and Notes. If their name doesn't match the Assignee column exactly, they can pick which row set is theirs from a list."
+        }
+      }
+    ],
+    "finalValid": true,
+    "spec": {
+      "version": 1,
+      "title": "My Launch Tasks",
+      "description": "Each assignee sees and updates their own Q4 launch tasks.",
+      "icon": "🚀",
+      "source": {
+        "type": "google_sheets",
+        "sheetTitle": "Tasks",
+        "headerRow": 1,
+        "keyColumn": "Task"
+      },
+      "columns": [
+        {
+          "header": "Task",
+          "label": "Task",
+          "type": "text",
+          "readOnly": true
+        },
+        {
+          "header": "Assignee",
+          "label": "Assignee",
+          "type": "select",
+          "options": [
+            "Sam Rivera",
+            "Dana Cohen",
+            "Lee Park",
+            "Priya Shah",
+            "Jordan Blake",
+            "Alex Kim"
+          ],
+          "readOnly": true
+        },
+        {
+          "header": "Due Date",
+          "label": "Due Date",
+          "type": "date",
+          "readOnly": true
+        },
+        {
+          "header": "Priority",
+          "label": "Priority",
+          "type": "select",
+          "options": [
+            "High",
+            "Medium",
+            "Low"
+          ],
+          "readOnly": true
+        },
+        {
+          "header": "Status",
+          "label": "Status",
+          "type": "select",
+          "options": [
+            "In progress",
+            "To do",
+            "Done",
+            "Blocked"
+          ]
+        },
+        {
+          "header": "Notes",
+          "label": "Notes",
+          "type": "longtext",
+          "help": "Add a short note about progress, blockers, or where things stand."
+        }
+      ],
+      "identity": {
+        "matchColumn": "Assignee",
+        "matchBy": "name",
+        "fallback": "choose"
+      },
+      "views": [
+        {
+          "type": "my-row",
+          "title": "My Tasks",
+          "greeting": "Here are your Q4 launch tasks. Update the status and add notes as you go — everything else stays as planned.",
+          "show": [
+            "Task",
+            "Due Date",
+            "Priority",
+            "Status",
+            "Notes"
+          ],
+          "editable": [
+            "Status",
+            "Notes"
+          ],
+          "submitLabel": "Save my updates",
+          "successMessage": "Your task updates have been saved."
+        }
+      ],
+      "access": {
+        "audience": "organization"
+      }
+    },
+    "elapsedMs": 3672,
+    "firstAttemptValid": true
+  },
+  {
+    "model": "zai-org/GLM-5.3",
+    "fixture": "inventory",
+    "prompt": "Create a read-only inventory table sorted by Quantity ascending, with a total Quantity metric.",
+    "started": "2026-09-23T11:40:47.505Z",
+    "attempts": [
+      {
+        "attempt": 1,
+        "requestMs": 4901,
+        "usage": {
+          "completion_tokens": 390,
+          "prompt_tokens": 2111,
+          "total_tokens": 2501,
+          "completion_tokens_details": {
+            "accepted_prediction_tokens": null,
+            "audio_tokens": null,
+            "reasoning_tokens": 23,
+            "rejected_prediction_tokens": null
+          },
+          "prompt_tokens_details": {
+            "audio_tokens": null,
+            "cached_tokens": 1664
+          },
+          "prompt_cache_hit_tokens": 1664,
+          "prompt_cache_miss_tokens": 447,
+          "reasoning_tokens": 23
+        },
+        "responseFormat": "json_schema",
+        "valid": true,
+        "errors": [],
+        "output": {
+          "spec": {
+            "version": 1,
+            "title": "Office Supplies Inventory",
+            "description": "Browse the office supplies stock, sorted from lowest to highest quantity, with a total count of items on hand.",
+            "icon": "📦",
+            "source": {
+              "type": "google_sheets",
+              "sheetTitle": "Inventory",
+              "headerRow": 1,
+              "keyColumn": "SKU"
+            },
+            "columns": [
+              {
+                "header": "SKU",
+                "label": "SKU",
+                "type": "text",
+                "readOnly": true
+              },
+              {
+                "header": "Item",
+                "label": "Item",
+                "type": "text",
+                "readOnly": true
+              },
+              {
+                "header": "Category",
+                "label": "Category",
+                "type": "select",
+                "options": [
+                  "Paper",
+                  "Writing",
+                  "Desk",
+                  "Electronics",
+                  "Kitchen"
+                ],
+                "readOnly": true
+              },
+              {
+                "header": "Quantity",
+                "label": "Quantity",
+                "type": "number",
+                "readOnly": true
+              },
+              {
+                "header": "Reorder Level",
+                "label": "Reorder Level",
+                "type": "number",
+                "readOnly": true
+              },
+              {
+                "header": "Location",
+                "label": "Location",
+                "type": "select",
+                "options": [
+                  "Storage A",
+                  "Storage B",
+                  "IT closet",
+                  "Kitchen"
+                ],
+                "readOnly": true
+              },
+              {
+                "header": "Last Counted",
+                "label": "Last Counted",
+                "type": "date",
+                "readOnly": true
+              }
+            ],
+            "views": [
+              {
+                "type": "stats",
+                "title": "Inventory Totals",
+                "metrics": [
+                  {
+                    "label": "Total quantity in stock",
+                    "column": "Quantity",
+                    "agg": "sum"
+                  },
+                  {
+                    "label": "Items tracked",
+                    "column": "SKU",
+                    "agg": "count"
+                  }
+                ]
+              },
+              {
+                "type": "table",
+                "title": "Inventory (lowest stock first)",
+                "columns": [
+                  "SKU",
+                  "Item",
+                  "Category",
+                  "Quantity",
+                  "Reorder Level",
+                  "Location",
+                  "Last Counted"
+                ],
+                "sort": {
+                  "column": "Quantity",
+                  "direction": "asc"
+                },
+                "search": true
+              }
+            ],
+            "access": {
+              "audience": "organization"
+            }
+          },
+          "summary": "I built a read-only inventory tracker: a searchable table sorted by Quantity from lowest to highest, plus a stats view showing total quantity in stock and the number of items tracked. If you'd like inline quantity edits later, that's an easy follow-up."
+        }
+      }
+    ],
+    "finalValid": true,
+    "spec": {
+      "version": 1,
+      "title": "Office Supplies Inventory",
+      "description": "Browse the office supplies stock, sorted from lowest to highest quantity, with a total count of items on hand.",
+      "icon": "📦",
+      "source": {
+        "type": "google_sheets",
+        "sheetTitle": "Inventory",
+        "headerRow": 1,
+        "keyColumn": "SKU"
+      },
+      "columns": [
+        {
+          "header": "SKU",
+          "label": "SKU",
+          "type": "text",
+          "readOnly": true
+        },
+        {
+          "header": "Item",
+          "label": "Item",
+          "type": "text",
+          "readOnly": true
+        },
+        {
+          "header": "Category",
+          "label": "Category",
+          "type": "select",
+          "options": [
+            "Paper",
+            "Writing",
+            "Desk",
+            "Electronics",
+            "Kitchen"
+          ],
+          "readOnly": true
+        },
+        {
+          "header": "Quantity",
+          "label": "Quantity",
+          "type": "number",
+          "readOnly": true
+        },
+        {
+          "header": "Reorder Level",
+          "label": "Reorder Level",
+          "type": "number",
+          "readOnly": true
+        },
+        {
+          "header": "Location",
+          "label": "Location",
+          "type": "select",
+          "options": [
+            "Storage A",
+            "Storage B",
+            "IT closet",
+            "Kitchen"
+          ],
+          "readOnly": true
+        },
+        {
+          "header": "Last Counted",
+          "label": "Last Counted",
+          "type": "date",
+          "readOnly": true
+        }
+      ],
+      "views": [
+        {
+          "type": "stats",
+          "title": "Inventory Totals",
+          "metrics": [
+            {
+              "label": "Total quantity in stock",
+              "column": "Quantity",
+              "agg": "sum"
+            },
+            {
+              "label": "Items tracked",
+              "column": "SKU",
+              "agg": "count"
+            }
+          ]
+        },
+        {
+          "type": "table",
+          "title": "Inventory (lowest stock first)",
+          "columns": [
+            "SKU",
+            "Item",
+            "Category",
+            "Quantity",
+            "Reorder Level",
+            "Location",
+            "Last Counted"
+          ],
+          "sort": {
+            "column": "Quantity",
+            "direction": "asc"
+          },
+          "search": true
+        }
+      ],
+      "access": {
+        "audience": "organization"
+      }
+    },
+    "elapsedMs": 4904,
+    "firstAttemptValid": true
+  },
+  {
+    "model": "zai-org/GLM-5.3-Flash",
+    "fixture": "inventory",
+    "prompt": "Create a read-only inventory table sorted by Quantity ascending, with a total Quantity metric.",
+    "started": "2026-09-23T11:40:52.410Z",
+    "attempts": [
+      {
+        "attempt": 1,
+        "requestMs": 5272,
+        "usage": {
+          "completion_tokens": 410,
+          "prompt_tokens": 2111,
+          "total_tokens": 2521,
+          "completion_tokens_details": {
+            "accepted_prediction_tokens": null,
+            "audio_tokens": null,
+            "reasoning_tokens": 44,
+            "rejected_prediction_tokens": null
+          },
+          "prompt_tokens_details": null,
+          "prompt_cache_hit_tokens": 0,
+          "prompt_cache_miss_tokens": 2111,
+          "reasoning_tokens": 44
+        },
+        "responseFormat": "json_schema",
+        "valid": true,
+        "errors": [],
+        "output": {
+          "spec": {
+            "version": 1,
+            "title": "Office Supplies Inventory",
+            "description": "Browse the full supplies inventory, see total stock on hand, and spot items running low — sorted so the scarcest items appear first.",
+            "icon": "📦",
+            "source": {
+              "type": "google_sheets",
+              "sheetTitle": "Inventory",
+              "headerRow": 1,
+              "keyColumn": "SKU"
+            },
+            "columns": [
+              {
+                "header": "SKU",
+                "type": "text",
+                "readOnly": true,
+                "help": "Unique item code"
+              },
+              {
+                "header": "Item",
+                "type": "text",
+                "readOnly": true
+              },
+              {
+                "header": "Category",
+                "type": "select",
+                "options": [
+                  "Paper",
+                  "Writing",
+                  "Desk",
+                  "Electronics",
+                  "Kitchen"
+                ],
+                "readOnly": true
+              },
+              {
+                "header": "Quantity",
+                "type": "number",
+                "readOnly": true
+              },
+              {
+                "header": "Reorder Level",
+                "type": "number",
+                "readOnly": true,
+                "help": "Order more when quantity drops to or below this"
+              },
+              {
+                "header": "Location",
+                "type": "select",
+                "options": [
+                  "Storage A",
+                  "Storage B",
+                  "IT closet",
+                  "Kitchen"
+                ],
+                "readOnly": true
+              },
+              {
+                "header": "Last Counted",
+                "type": "date",
+                "readOnly": true
+              }
+            ],
+            "views": [
+              {
+                "type": "stats",
+                "title": "Stock Overview",
+                "metrics": [
+                  {
+                    "label": "Total items in stock",
+                    "column": "Quantity",
+                    "agg": "sum"
+                  },
+                  {
+                    "label": "Items tracked",
+                    "column": "SKU",
+                    "agg": "count"
+                  }
+                ]
+              },
+              {
+                "type": "table",
+                "title": "Inventory (low stock first)",
+                "columns": [
+                  "Item",
+                  "SKU",
+                  "Category",
+                  "Quantity",
+                  "Reorder Level",
+                  "Location",
+                  "Last Counted"
+                ],
+                "sort": {
+                  "column": "Quantity",
+                  "direction": "asc"
+                },
+                "search": true
+              }
+            ],
+            "access": {
+              "audience": "organization"
+            }
+          },
+          "summary": "Built a mixed app with a stats view showing total quantity on hand plus a read-only inventory table sorted by Quantity ascending, with search for quick lookups. Since nothing here should be edited, all columns are locked read-only — let me know if you'd like a separate form for restocking updates."
+        }
+      }
+    ],
+    "finalValid": true,
+    "spec": {
+      "version": 1,
+      "title": "Office Supplies Inventory",
+      "description": "Browse the full supplies inventory, see total stock on hand, and spot items running low — sorted so the scarcest items appear first.",
+      "icon": "📦",
+      "source": {
+        "type": "google_sheets",
+        "sheetTitle": "Inventory",
+        "headerRow": 1,
+        "keyColumn": "SKU"
+      },
+      "columns": [
+        {
+          "header": "SKU",
+          "type": "text",
+          "readOnly": true,
+          "help": "Unique item code"
+        },
+        {
+          "header": "Item",
+          "type": "text",
+          "readOnly": true
+        },
+        {
+          "header": "Category",
+          "type": "select",
+          "options": [
+            "Paper",
+            "Writing",
+            "Desk",
+            "Electronics",
+            "Kitchen"
+          ],
+          "readOnly": true
+        },
+        {
+          "header": "Quantity",
+          "type": "number",
+          "readOnly": true
+        },
+        {
+          "header": "Reorder Level",
+          "type": "number",
+          "readOnly": true,
+          "help": "Order more when quantity drops to or below this"
+        },
+        {
+          "header": "Location",
+          "type": "select",
+          "options": [
+            "Storage A",
+            "Storage B",
+            "IT closet",
+            "Kitchen"
+          ],
+          "readOnly": true
+        },
+        {
+          "header": "Last Counted",
+          "type": "date",
+          "readOnly": true
+        }
+      ],
+      "views": [
+        {
+          "type": "stats",
+          "title": "Stock Overview",
+          "metrics": [
+            {
+              "label": "Total items in stock",
+              "column": "Quantity",
+              "agg": "sum"
+            },
+            {
+              "label": "Items tracked",
+              "column": "SKU",
+              "agg": "count"
+            }
+          ]
+        },
+        {
+          "type": "table",
+          "title": "Inventory (low stock first)",
+          "columns": [
+            "Item",
+            "SKU",
+            "Category",
+            "Quantity",
+            "Reorder Level",
+            "Location",
+            "Last Counted"
+          ],
+          "sort": {
+            "column": "Quantity",
+            "direction": "asc"
+          },
+          "search": true
+        }
+      ],
+      "access": {
+        "audience": "organization"
+      }
+    },
+    "elapsedMs": 5273,
+    "firstAttemptValid": true
+  },
+  {
+    "model": "zai-org/GLM-5.3-Flash",
+    "fixture": "rsvp",
+    "prompt": "Create an RSVP form for Name, Attending?, Dietary needs and Plus one. Use the signed-in email automatically.",
+    "started": "2026-09-23T11:40:57.687Z",
+    "attempts": [
+      {
+        "attempt": 1,
+        "requestMs": 5350,
+        "usage": {
+          "completion_tokens": 420,
+          "prompt_tokens": 2092,
+          "total_tokens": 2512,
+          "completion_tokens_details": {
+            "accepted_prediction_tokens": null,
+            "audio_tokens": null,
+            "reasoning_tokens": 53,
+            "rejected_prediction_tokens": null
+          },
+          "prompt_tokens_details": null,
+          "prompt_cache_hit_tokens": 0,
+          "prompt_cache_miss_tokens": 2092,
+          "reasoning_tokens": 53
+        },
+        "responseFormat": "json_schema",
+        "valid": true,
+        "errors": [],
+        "output": {
+          "spec": {
+            "version": 1,
+            "title": "Offsite RSVP",
+            "description": "Let teammates RSVP to the company offsite. The form records their name, attendance, dietary needs, and whether they're bringing a plus one — their email is captured automatically from their signed-in account.",
+            "icon": "✅",
+            "source": {
+              "type": "google_sheets",
+              "sheetTitle": "Form Responses 1",
+              "headerRow": 1,
+              "keyColumn": "Email"
+            },
+            "columns": [
+              {
+                "header": "Timestamp",
+                "type": "date",
+                "readOnly": true
+              },
+              {
+                "header": "Name",
+                "label": "Your name",
+                "type": "text",
+                "required": true
+              },
+              {
+                "header": "Email",
+                "label": "Email",
+                "type": "email",
+                "readOnly": true
+              },
+              {
+                "header": "Attending?",
+                "label": "Are you attending?",
+                "type": "checkbox",
+                "required": true,
+                "help": "Check this box if you'll be joining the offsite."
+              },
+              {
+                "header": "Dietary needs",
+                "label": "Dietary needs",
+                "type": "text",
+                "help": "Leave blank if none — e.g. Vegetarian, Vegan, Gluten-free."
+              },
+              {
+                "header": "Plus one",
+                "label": "Bringing a plus one?",
+                "type": "select",
+                "options": [
+                  "No",
+                  "Yes"
+                ]
+              }
+            ],
+            "identity": {
+              "matchColumn": "Email",
+              "matchBy": "email",
+              "fallback": "deny"
+            },
+            "views": [
+              {
+                "type": "form",
+                "title": "RSVP for the Offsite",
+                "fields": [
+                  "Name",
+                  "Attending?",
+                  "Dietary needs",
+                  "Plus one"
+                ],
+                "submitLabel": "Submit RSVP",
+                "successMessage": "Thanks! Your RSVP has been recorded. 🎉"
+              }
+            ],
+            "access": {
+              "audience": "organization"
+            }
+          },
+          "summary": "Built a simple RSVP form on top of your responses sheet with Name, Attending?, Dietary needs, and Plus one as the only fields. Email is excluded from the form and filled in automatically from the signed-in user, so people can't RSVP on someone else's behalf."
+        }
+      }
+    ],
+    "finalValid": true,
+    "spec": {
+      "version": 1,
+      "title": "Offsite RSVP",
+      "description": "Let teammates RSVP to the company offsite. The form records their name, attendance, dietary needs, and whether they're bringing a plus one — their email is captured automatically from their signed-in account.",
+      "icon": "✅",
+      "source": {
+        "type": "google_sheets",
+        "sheetTitle": "Form Responses 1",
+        "headerRow": 1,
+        "keyColumn": "Email"
+      },
+      "columns": [
+        {
+          "header": "Timestamp",
+          "type": "date",
+          "readOnly": true
+        },
+        {
+          "header": "Name",
+          "label": "Your name",
+          "type": "text",
+          "required": true
+        },
+        {
+          "header": "Email",
+          "label": "Email",
+          "type": "email",
+          "readOnly": true
+        },
+        {
+          "header": "Attending?",
+          "label": "Are you attending?",
+          "type": "checkbox",
+          "required": true,
+          "help": "Check this box if you'll be joining the offsite."
+        },
+        {
+          "header": "Dietary needs",
+          "label": "Dietary needs",
+          "type": "text",
+          "help": "Leave blank if none — e.g. Vegetarian, Vegan, Gluten-free."
+        },
+        {
+          "header": "Plus one",
+          "label": "Bringing a plus one?",
+          "type": "select",
+          "options": [
+            "No",
+            "Yes"
+          ]
+        }
+      ],
+      "identity": {
+        "matchColumn": "Email",
+        "matchBy": "email",
+        "fallback": "deny"
+      },
+      "views": [
+        {
+          "type": "form",
+          "title": "RSVP for the Offsite",
+          "fields": [
+            "Name",
+            "Attending?",
+            "Dietary needs",
+            "Plus one"
+          ],
+          "submitLabel": "Submit RSVP",
+          "successMessage": "Thanks! Your RSVP has been recorded. 🎉"
+        }
+      ],
+      "access": {
+        "audience": "organization"
+      }
+    },
+    "elapsedMs": 5352,
+    "firstAttemptValid": true
+  },
+  {
+    "model": "zai-org/GLM-5.3",
+    "fixture": "rsvp",
+    "prompt": "Create an RSVP form for Name, Attending?, Dietary needs and Plus one. Use the signed-in email automatically.",
+    "started": "2026-09-23T11:41:03.040Z",
+    "attempts": [
+      {
+        "attempt": 1,
+        "requestMs": 6311,
+        "usage": {
+          "completion_tokens": 481,
+          "prompt_tokens": 2092,
+          "total_tokens": 2573,
+          "completion_tokens_details": {
+            "accepted_prediction_tokens": null,
+            "audio_tokens": null,
+            "reasoning_tokens": 167,
+            "rejected_prediction_tokens": null
+          },
+          "prompt_tokens_details": {
+            "audio_tokens": null,
+            "cached_tokens": 1664
+          },
+          "prompt_cache_hit_tokens": 1664,
+          "prompt_cache_miss_tokens": 428,
+          "reasoning_tokens": 167
+        },
+        "responseFormat": "json_schema",
+        "valid": true,
+        "errors": [],
+        "output": {
+          "spec": {
+            "version": 1,
+            "title": "Offsite RSVP",
+            "description": "Submit your RSVP for the upcoming team offsite — one response per person, with your email recorded automatically.",
+            "icon": "🎉",
+            "source": {
+              "type": "google_sheets",
+              "sheetTitle": "Form Responses 1",
+              "headerRow": 1,
+              "keyColumn": "Email"
+            },
+            "columns": [
+              {
+                "header": "Email",
+                "label": "Email",
+                "type": "email",
+                "readOnly": true,
+                "help": "Filled in automatically with your signed-in email."
+              },
+              {
+                "header": "Name",
+                "label": "Your name",
+                "type": "text",
+                "required": true
+              },
+              {
+                "header": "Attending?",
+                "label": "Will you be attending?",
+                "type": "checkbox",
+                "required": true
+              },
+              {
+                "header": "Dietary needs",
+                "label": "Dietary needs",
+                "type": "select",
+                "options": [
+                  "Vegetarian",
+                  "Vegan",
+                  "Gluten-free"
+                ],
+                "help": "Optional — tell us about any dietary needs for meals."
+              },
+              {
+                "header": "Plus one",
+                "label": "Bringing a plus one?",
+                "type": "select",
+                "options": [
+                  "No",
+                  "Yes"
+                ],
+                "required": true
+              }
+            ],
+            "views": [
+              {
+                "type": "form",
+                "title": "RSVP for the offsite",
+                "fields": [
+                  "Name",
+                  "Attending?",
+                  "Dietary needs",
+                  "Plus one"
+                ],
+                "submitLabel": "Send RSVP",
+                "successMessage": "Thanks! Your RSVP has been recorded."
+              }
+            ],
+            "access": {
+              "audience": "organization"
+            }
+          },
+          "summary": "I built a simple RSVP form where anyone can submit their name, attendance, dietary needs and plus one; their email is filled in automatically from their sign-in. Dietary needs is optional since most people left it blank."
+        }
+      }
+    ],
+    "finalValid": true,
+    "spec": {
+      "version": 1,
+      "title": "Offsite RSVP",
+      "description": "Submit your RSVP for the upcoming team offsite — one response per person, with your email recorded automatically.",
+      "icon": "🎉",
+      "source": {
+        "type": "google_sheets",
+        "sheetTitle": "Form Responses 1",
+        "headerRow": 1,
+        "keyColumn": "Email"
+      },
+      "columns": [
+        {
+          "header": "Email",
+          "label": "Email",
+          "type": "email",
+          "readOnly": true,
+          "help": "Filled in automatically with your signed-in email."
+        },
+        {
+          "header": "Name",
+          "label": "Your name",
+          "type": "text",
+          "required": true
+        },
+        {
+          "header": "Attending?",
+          "label": "Will you be attending?",
+          "type": "checkbox",
+          "required": true
+        },
+        {
+          "header": "Dietary needs",
+          "label": "Dietary needs",
+          "type": "select",
+          "options": [
+            "Vegetarian",
+            "Vegan",
+            "Gluten-free"
+          ],
+          "help": "Optional — tell us about any dietary needs for meals."
+        },
+        {
+          "header": "Plus one",
+          "label": "Bringing a plus one?",
+          "type": "select",
+          "options": [
+            "No",
+            "Yes"
+          ],
+          "required": true
+        }
+      ],
+      "views": [
+        {
+          "type": "form",
+          "title": "RSVP for the offsite",
+          "fields": [
+            "Name",
+            "Attending?",
+            "Dietary needs",
+            "Plus one"
+          ],
+          "submitLabel": "Send RSVP",
+          "successMessage": "Thanks! Your RSVP has been recorded."
+        }
+      ],
+      "access": {
+        "audience": "organization"
+      }
+    },
+    "elapsedMs": 6313,
+    "firstAttemptValid": true
+  },
+  {
+    "model": "zai-org/GLM-5.3",
+    "fixture": "headcount",
+    "prompt": "Let each manager see only their reports and edit only Onboarding Complete. Do not show Salary Band.",
+    "started": "2026-09-23T11:41:09.354Z",
+    "attempts": [
+      {
+        "attempt": 1,
+        "requestMs": 4399,
+        "usage": {
+          "completion_tokens": 608,
+          "prompt_tokens": 2145,
+          "total_tokens": 2753,
+          "completion_tokens_details": {
+            "accepted_prediction_tokens": null,
+            "audio_tokens": null,
+            "reasoning_tokens": 142,
+            "rejected_prediction_tokens": null
+          },
+          "prompt_tokens_details": {
+            "audio_tokens": null,
+            "cached_tokens": 1664
+          },
+          "prompt_cache_hit_tokens": 1664,
+          "prompt_cache_miss_tokens": 481,
+          "reasoning_tokens": 142
+        },
+        "responseFormat": "json_schema",
+        "valid": true,
+        "errors": [],
+        "output": {
+          "spec": {
+            "version": 1,
+            "title": "New Hire Onboarding Tracker",
+            "description": "Managers see only their own incoming reports and check off onboarding as it completes.",
+            "icon": "🧑‍💼",
+            "source": {
+              "type": "google_sheets",
+              "sheetTitle": "Headcount",
+              "headerRow": 1,
+              "keyColumn": "Employee"
+            },
+            "columns": [
+              {
+                "header": "Employee",
+                "label": "New Hire",
+                "type": "text"
+              },
+              {
+                "header": "Manager Email",
+                "label": "Manager Email",
+                "type": "email",
+                "readOnly": true
+              },
+              {
+                "header": "Department",
+                "label": "Department",
+                "type": "select",
+                "options": [
+                  "Engineering",
+                  "Sales",
+                  "Customer Success",
+                  "People"
+                ]
+              },
+              {
+                "header": "Start Date",
+                "label": "Start Date",
+                "type": "date",
+                "readOnly": true
+              },
+              {
+                "header": "Level",
+                "label": "Level",
+                "type": "select",
+                "options": [
+                  "L4",
+                  "L5",
+                  "L3",
+                  "L6"
+                ]
+              },
+              {
+                "header": "Onboarding Complete",
+                "label": "Onboarding Complete",
+                "type": "checkbox"
+              }
+            ],
+            "identity": {
+              "matchColumn": "Manager Email",
+              "matchBy": "email",
+              "fallback": "deny"
+            },
+            "views": [
+              {
+                "type": "table",
+                "title": "My New Hires",
+                "columns": [
+                  "Employee",
+                  "Department",
+                  "Level",
+                  "Start Date",
+                  "Onboarding Complete"
+                ],
+                "filter": [
+                  {
+                    "column": "Manager Email",
+                    "op": "eq",
+                    "value": "$user.email"
+                  }
+                ],
+                "sort": {
+                  "column": "Start Date",
+                  "direction": "asc"
+                },
+                "search": false,
+                "editable": [
+                  "Onboarding Complete"
+                ]
+              },
+              {
+                "type": "stats",
+                "title": "Onboarding Progress",
+                "metrics": [
+                  {
+                    "label": "My new hires",
+                    "column": "Employee",
+                    "agg": "count",
+                    "filter": [
+                      {
+                        "column": "Manager Email",
+                        "op": "eq",
+                        "value": "$user.email"
+                      }
+                    ]
+                  },
+                  {
+                    "label": "Onboarding complete",
+                    "column": "Onboarding Complete",
+                    "agg": "count",
+                    "filter": [
+                      {
+                        "column": "Manager Email",
+                        "op": "eq",
+                        "value": "$user.email"
+                      },
+                      {
+                        "column": "Onboarding Complete",
+                        "op": "eq",
+                        "value": "TRUE"
+                      }
+                    ]
+                  },
+                  {
+                    "label": "Still onboarding",
+                    "column": "Onboarding Complete",
+                    "agg": "count",
+                    "filter": [
+                      {
+                        "column": "Manager Email",
+                        "op": "eq",
+                        "value": "$user.email"
+                      },
+                      {
+                        "column": "Onboarding Complete",
+                        "op": "eq",
+                        "value": "FALSE"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "access": {
+              "audience": "organization"
+            }
+          },
+          "summary": "Each manager signs in and sees only the new hires reporting to them, with just the Onboarding Complete checkbox editable, plus an onboarding progress summary. Salary Band is not shown anywhere in the app."
+        }
+      }
+    ],
+    "finalValid": true,
+    "spec": {
+      "version": 1,
+      "title": "New Hire Onboarding Tracker",
+      "description": "Managers see only their own incoming reports and check off onboarding as it completes.",
+      "icon": "🧑‍💼",
+      "source": {
+        "type": "google_sheets",
+        "sheetTitle": "Headcount",
+        "headerRow": 1,
+        "keyColumn": "Employee"
+      },
+      "columns": [
+        {
+          "header": "Employee",
+          "label": "New Hire",
+          "type": "text"
+        },
+        {
+          "header": "Manager Email",
+          "label": "Manager Email",
+          "type": "email",
+          "readOnly": true
+        },
+        {
+          "header": "Department",
+          "label": "Department",
+          "type": "select",
+          "options": [
+            "Engineering",
+            "Sales",
+            "Customer Success",
+            "People"
+          ]
+        },
+        {
+          "header": "Start Date",
+          "label": "Start Date",
+          "type": "date",
+          "readOnly": true
+        },
+        {
+          "header": "Level",
+          "label": "Level",
+          "type": "select",
+          "options": [
+            "L4",
+            "L5",
+            "L3",
+            "L6"
+          ]
+        },
+        {
+          "header": "Onboarding Complete",
+          "label": "Onboarding Complete",
+          "type": "checkbox"
+        }
+      ],
+      "identity": {
+        "matchColumn": "Manager Email",
+        "matchBy": "email",
+        "fallback": "deny"
+      },
+      "views": [
+        {
+          "type": "table",
+          "title": "My New Hires",
+          "columns": [
+            "Employee",
+            "Department",
+            "Level",
+            "Start Date",
+            "Onboarding Complete"
+          ],
+          "filter": [
+            {
+              "column": "Manager Email",
+              "op": "eq",
+              "value": "$user.email"
+            }
+          ],
+          "sort": {
+            "column": "Start Date",
+            "direction": "asc"
+          },
+          "search": false,
+          "editable": [
+            "Onboarding Complete"
+          ]
+        },
+        {
+          "type": "stats",
+          "title": "Onboarding Progress",
+          "metrics": [
+            {
+              "label": "My new hires",
+              "column": "Employee",
+              "agg": "count",
+              "filter": [
+                {
+                  "column": "Manager Email",
+                  "op": "eq",
+                  "value": "$user.email"
+                }
+              ]
+            },
+            {
+              "label": "Onboarding complete",
+              "column": "Onboarding Complete",
+              "agg": "count",
+              "filter": [
+                {
+                  "column": "Manager Email",
+                  "op": "eq",
+                  "value": "$user.email"
+                },
+                {
+                  "column": "Onboarding Complete",
+                  "op": "eq",
+                  "value": "TRUE"
+                }
+              ]
+            },
+            {
+              "label": "Still onboarding",
+              "column": "Onboarding Complete",
+              "agg": "count",
+              "filter": [
+                {
+                  "column": "Manager Email",
+                  "op": "eq",
+                  "value": "$user.email"
+                },
+                {
+                  "column": "Onboarding Complete",
+                  "op": "eq",
+                  "value": "FALSE"
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "access": {
+        "audience": "organization"
+      }
+    },
+    "elapsedMs": 4401,
+    "firstAttemptValid": true
+  },
+  {
+    "model": "zai-org/GLM-5.3-Flash",
+    "fixture": "headcount",
+    "prompt": "Let each manager see only their reports and edit only Onboarding Complete. Do not show Salary Band.",
+    "started": "2026-09-23T11:41:13.757Z",
+    "attempts": [
+      {
+        "attempt": 1,
+        "requestMs": 7014,
+        "usage": {
+          "completion_tokens": 754,
+          "prompt_tokens": 2145,
+          "total_tokens": 2899,
+          "completion_tokens_details": {
+            "accepted_prediction_tokens": null,
+            "audio_tokens": null,
+            "reasoning_tokens": 171,
+            "rejected_prediction_tokens": null
+          },
+          "prompt_tokens_details": null,
+          "prompt_cache_hit_tokens": 0,
+          "prompt_cache_miss_tokens": 2145,
+          "reasoning_tokens": 171
+        },
+        "responseFormat": "json_schema",
+        "valid": true,
+        "errors": [],
+        "output": {
+          "spec": {
+            "version": 1,
+            "title": "New Hire Onboarding Tracker",
+            "description": "Each manager sees only their own new hires and can check off when onboarding is complete. Salary Band is hidden.",
+            "icon": "🧑‍💼",
+            "source": {
+              "type": "google_sheets",
+              "sheetTitle": "Headcount",
+              "headerRow": 1,
+              "keyColumn": "Employee"
+            },
+            "columns": [
+              {
+                "header": "Employee",
+                "label": "Employee",
+                "type": "text",
+                "readOnly": true
+              },
+              {
+                "header": "Manager Email",
+                "label": "Manager Email",
+                "type": "email",
+                "readOnly": true
+              },
+              {
+                "header": "Department",
+                "label": "Department",
+                "type": "select",
+                "options": [
+                  "Engineering",
+                  "Sales",
+                  "Customer Success",
+                  "People"
+                ],
+                "readOnly": true
+              },
+              {
+                "header": "Start Date",
+                "label": "Start Date",
+                "type": "date",
+                "readOnly": true
+              },
+              {
+                "header": "Level",
+                "label": "Level",
+                "type": "select",
+                "options": [
+                  "L3",
+                  "L4",
+                  "L5",
+                  "L6"
+                ],
+                "readOnly": true
+              },
+              {
+                "header": "Onboarding Complete",
+                "label": "Onboarding Complete",
+                "type": "checkbox",
+                "help": "Check this box once the new hire has finished onboarding."
+              }
+            ],
+            "identity": {
+              "matchColumn": "Manager Email",
+              "matchBy": "email",
+              "fallback": "deny"
+            },
+            "views": [
+              {
+                "type": "table",
+                "title": "My New Hires",
+                "columns": [
+                  "Employee",
+                  "Department",
+                  "Start Date",
+                  "Level",
+                  "Onboarding Complete"
+                ],
+                "filter": [
+                  {
+                    "column": "Manager Email",
+                    "op": "eq",
+                    "value": "$user.email"
+                  }
+                ],
+                "sort": {
+                  "column": "Start Date",
+                  "direction": "asc"
+                },
+                "search": true,
+                "editable": [
+                  "Onboarding Complete"
+                ]
+              }
+            ],
+            "access": {
+              "audience": "organization"
+            }
+          },
+          "summary": "Built a manager view that filters the headcount list to rows where Manager Email matches the signed-in user, sorted by start date, with Onboarding Complete as the only editable checkbox. Salary Band is excluded entirely, and people whose email isn't in the sheet see nothing."
+        }
+      }
+    ],
+    "finalValid": true,
+    "spec": {
+      "version": 1,
+      "title": "New Hire Onboarding Tracker",
+      "description": "Each manager sees only their own new hires and can check off when onboarding is complete. Salary Band is hidden.",
+      "icon": "🧑‍💼",
+      "source": {
+        "type": "google_sheets",
+        "sheetTitle": "Headcount",
+        "headerRow": 1,
+        "keyColumn": "Employee"
+      },
+      "columns": [
+        {
+          "header": "Employee",
+          "label": "Employee",
+          "type": "text",
+          "readOnly": true
+        },
+        {
+          "header": "Manager Email",
+          "label": "Manager Email",
+          "type": "email",
+          "readOnly": true
+        },
+        {
+          "header": "Department",
+          "label": "Department",
+          "type": "select",
+          "options": [
+            "Engineering",
+            "Sales",
+            "Customer Success",
+            "People"
+          ],
+          "readOnly": true
+        },
+        {
+          "header": "Start Date",
+          "label": "Start Date",
+          "type": "date",
+          "readOnly": true
+        },
+        {
+          "header": "Level",
+          "label": "Level",
+          "type": "select",
+          "options": [
+            "L3",
+            "L4",
+            "L5",
+            "L6"
+          ],
+          "readOnly": true
+        },
+        {
+          "header": "Onboarding Complete",
+          "label": "Onboarding Complete",
+          "type": "checkbox",
+          "help": "Check this box once the new hire has finished onboarding."
+        }
+      ],
+      "identity": {
+        "matchColumn": "Manager Email",
+        "matchBy": "email",
+        "fallback": "deny"
+      },
+      "views": [
+        {
+          "type": "table",
+          "title": "My New Hires",
+          "columns": [
+            "Employee",
+            "Department",
+            "Start Date",
+            "Level",
+            "Onboarding Complete"
+          ],
+          "filter": [
+            {
+              "column": "Manager Email",
+              "op": "eq",
+              "value": "$user.email"
+            }
+          ],
+          "sort": {
+            "column": "Start Date",
+            "direction": "asc"
+          },
+          "search": true,
+          "editable": [
+            "Onboarding Complete"
+          ]
+        }
+      ],
+      "access": {
+        "audience": "organization"
+      }
+    },
+    "elapsedMs": 7014,
+    "firstAttemptValid": true
+  }
+]

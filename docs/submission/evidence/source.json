@@ -1,0 +1,14 @@
+{
+  "commit": "f97d21c14e44172ac5f4e73d71fbfe8e92198b80",
+  "files": [
+    "lib/google/schema.ts",
+    "lib/google/columns.ts",
+    "lib/apps/spec.ts",
+    "lib/apps/validate.ts",
+    "lib/apps/shape.ts",
+    "lib/ai/client.ts",
+    "lib/ai/prompts.ts",
+    "lib/http-error.ts",
+    "tests/fixtures/sheets.ts"
+  ]
+}

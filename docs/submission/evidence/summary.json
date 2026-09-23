@@ -1,0 +1,20 @@
+{
+  "zai-org/GLM-5.3": {
+    "requests": 5,
+    "firstAttemptValid": 5,
+    "taskChecklistPass": 3,
+    "medianSeconds": 4.64,
+    "minSeconds": 3.672,
+    "maxSeconds": 6.313,
+    "retries": 0
+  },
+  "zai-org/GLM-5.3-Flash": {
+    "requests": 5,
+    "firstAttemptValid": 5,
+    "taskChecklistPass": 4,
+    "medianSeconds": 5.352,
+    "minSeconds": 3.332,
+    "maxSeconds": 7.231,
+    "retries": 0
+  }
+}

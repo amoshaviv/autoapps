@@ -1,0 +1,48 @@
+{
+  "date": "2026-09-23T11:40:28.622Z",
+  "models": [
+    "zai-org/GLM-5.3",
+    "zai-org/GLM-5.3-Flash"
+  ],
+  "reasoningEffort": "high",
+  "repetitions": 1,
+  "requests": [
+    [
+      "budget",
+      "Let each cost-center owner see only their own budget line, edit Q1, Q2, Q3, Q4 and Justification, and see FY2026 Actual as read-only. Do not let unmatched users choose another row."
+    ],
+    [
+      "tasks",
+      "Show each signed-in assignee all of their tasks, with Due Date and Priority visible. Let them change only Status and Notes."
+    ],
+    [
+      "inventory",
+      "Create a read-only inventory table sorted by Quantity ascending, with a total Quantity metric."
+    ],
+    [
+      "rsvp",
+      "Create an RSVP form for Name, Attending?, Dietary needs and Plus one. Use the signed-in email automatically."
+    ],
+    [
+      "headcount",
+      "Let each manager see only their reports and edit only Onboarding Complete. Do not show Salary Band."
+    ]
+  ],
+  "maximumAttempts": 2,
+  "latency": "End-to-end elapsed time, including validation and retries; first request for each model included. Server warm state unknown.",
+  "quality": "First-attempt and final spec validation automated. Workflow correctness reviewed separately against EVALUATION.md acceptance rules.",
+  "source": {
+    "commit": "f97d21c14e44172ac5f4e73d71fbfe8e92198b80",
+    "files": [
+      "lib/google/schema.ts",
+      "lib/google/columns.ts",
+      "lib/apps/spec.ts",
+      "lib/apps/validate.ts",
+      "lib/apps/shape.ts",
+      "lib/ai/client.ts",
+      "lib/ai/prompts.ts",
+      "lib/http-error.ts",
+      "tests/fixtures/sheets.ts"
+    ]
+  }
+}
