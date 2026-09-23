@@ -2,7 +2,8 @@
 // is decided here from the stored AppSpec; the client is never trusted.
 import { HttpError } from "@/lib/http-error";
 import { AppSpec, Filter, Metric, View } from "./spec";
-import { parseDate, parseNumber, resolveHeaderNames } from "@/lib/google/schema";
+import { parseNumber, resolveHeaderNames } from "@/lib/google/schema";
+import { compareCells } from "./compare";
 
 export interface Viewer {
   email: string;
@@ -103,16 +104,6 @@ function substitute(value: string | undefined, viewer: Viewer) {
   return value ?? "";
 }
 
-function compare(a: string, b: string): number {
-  const na = parseNumber(a);
-  const nb = parseNumber(b);
-  if (na !== null && nb !== null) return na - nb;
-  const da = parseDate(a);
-  const db = parseDate(b);
-  if (da !== null && db !== null) return da - db;
-  return a.localeCompare(b, undefined, { sensitivity: "base", numeric: true });
-}
-
 export function rowPasses(row: SheetRow, filters: Filter[] | undefined, viewer: Viewer): boolean {
   return (filters ?? []).every((f) => {
     const cell = (row.values[f.column] ?? "").trim();
@@ -125,9 +116,9 @@ export function rowPasses(row: SheetRow, filters: Filter[] | undefined, viewer: 
       case "contains":
         return norm(cell).includes(norm(value));
       case "gt":
-        return cell !== "" && compare(cell, value) > 0;
+        return cell !== "" && compareCells(cell, value) > 0;
       case "lt":
-        return cell !== "" && compare(cell, value) < 0;
+        return cell !== "" && compareCells(cell, value) < 0;
       case "empty":
         return cell === "";
       case "not_empty":
@@ -151,7 +142,7 @@ export function sortRows(
     const va = a.values[sort.column] ?? "";
     const vb = b.values[sort.column] ?? "";
     if (va === "" || vb === "") return va === vb ? 0 : va === "" ? 1 : -1;
-    return compare(va, vb) * factor;
+    return compareCells(va, vb) * factor;
   });
 }
 

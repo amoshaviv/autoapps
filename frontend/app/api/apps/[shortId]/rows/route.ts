@@ -13,6 +13,7 @@ import {
   loadSheet,
   projectRow,
   resolveIdentityRow,
+  SheetRow,
   sortRows,
 } from "@/lib/apps/runtime";
 
@@ -33,6 +34,12 @@ export const GET = handleRoute(async (request: NextRequest, context: Context) =>
   if (view.type === "form") return NextResponse.json({});
 
   const sheet = await loadSheet(connection!, spec);
+  // The row's key value lets the client send expectedKey with a PATCH (PRD §7)
+  const keyColumn = spec.source.keyColumn ?? spec.identity?.matchColumn;
+  const withKey = (row: SheetRow, columns: string[]) => ({
+    ...projectRow(row, columns),
+    ...(keyColumn ? { key: row.values[keyColumn] ?? "" } : {}),
+  });
 
   if (view.type === "my-row") {
     const { row, candidates } = resolveIdentityRow(spec, sheet.rows, viewer, sheet.headers);
@@ -45,14 +52,14 @@ export const GET = handleRoute(async (request: NextRequest, context: Context) =>
       chosen = sheet.rows.find((r) => r.rowNumber === Number(picked)) ?? null;
     }
     return NextResponse.json({
-      row: chosen ? projectRow(chosen, view.show) : null,
+      row: chosen ? withKey(chosen, view.show) : null,
       ...(candidates ? { candidates } : {}),
     });
   }
 
   if (view.type === "table") {
     const rows = sortRows(applyFilters(sheet.rows, view.filter, viewer), view.sort);
-    return NextResponse.json({ rows: rows.map((r) => projectRow(r, view.columns)), total: rows.length });
+    return NextResponse.json({ rows: rows.map((r) => withKey(r, view.columns)), total: rows.length });
   }
 
   return NextResponse.json({ metrics: computeMetrics(sheet.rows, view.metrics, viewer) });
