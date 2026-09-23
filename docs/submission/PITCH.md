@@ -11,14 +11,27 @@ Updated to the six confirmed judging criteria and Amos’s context-first positio
 | Slide | Time | What it establishes | Judging coverage |
 | --- | --- | --- | --- |
 | 1. Lovable for the enterprise | 0:00–0:15 | Business teams can build with AI, starting in their existing context | Product and user value |
-| 2. AutoApps reads the context | 0:15–1:05 | Recurring coordination pain, and useful app ideas inferred from a sheet | Product and user value, problem and company potential |
+| 2. Every budget cycle repeats the same work | 0:15–1:05 | Recurring coordination pain, and useful app ideas inferred from a sheet | Product and user value, problem and company potential |
 | 3. Live demo: sheet to generated app | 1:05–2:20 | Suggestions, generation, publication and a visible write-back | Product and user value, demo clarity |
-| 4. Open models shape the app | 2:20–2:55 | Exact model roles, context extraction and validation | Technical execution and Token Factory use |
-| 5. A measured model tradeoff | 2:55–3:40 | Actual matched-task comparison, including task failures | Measurable model advantage |
+| 4. Context, generation and a bounded runtime | 2:20–2:55 | Exact model roles, context extraction and validation | Technical execution and Token Factory use |
+| 5. Model advantage: latency versus task fit | 2:55–3:40 | Actual matched-task comparison, including task failures | Measurable model advantage |
 | 6. Responsible design | 3:40–4:00 | Bounded generation, access enforcement and data flow | Responsible design |
-| 7. Start with Ops. Expand across the company. | 4:00–4:45 | Initial buyer, market context, subscription and expansion hypothesis | Problem and company potential |
+| 7. A subscription for recurring business workflows | 4:00–4:45 | Initial buyer, market context, subscription and expansion hypothesis | Problem and company potential |
 
 The exact weights are product and user value **25%**, problem and company potential **20%**, measurable model advantage **20%**, technical execution and Token Factory use **20%**, demo clarity **10%**, and responsible design **5%**. These come from the screenshot and the BuilderBase event page. Technical execution and Token Factory use are one combined criterion. Demo clarity is a separate criterion.
+
+## What each judge can assess
+
+| Criterion | Visible proof in the pitch | Remaining evidence gap |
+| --- | --- | --- |
+| Product and user value, 25% | Slide 2 names the user and recurring work. Slide 3 shows automatic creation and a source-sheet update. | No observed customer time savings yet. |
+| Problem and company potential, 20% | Slides 2 and 7 cover existing workarounds, recurring pain, buyer, subscription and expansion. | Willingness to pay and addressable-market size remain unvalidated. The Workspace count is only ecosystem context. |
+| Measurable model advantage, 20% | Slide 5 names a baseline, matched tasks, latency and task-fit results. Raw outputs are retained. | Five tasks with one run each establish only a pilot result. No cost advantage measured. |
+| Technical execution and Token Factory use, 20% | Slide 4 names both served models, distinct roles, validation/retry and bounded rendering. | Confirm deployed defaults and rehearse the full live path. |
+| Demo clarity, 10% | Slide 3 has one user story and one visible success condition: the source cell changes. | Complete the stage-browser and distinct-account rehearsal. |
+| Responsible design, 5% | Slide 6 discloses model data, enforced app rules and configuration recovery limits. | Review generated access rules against the intended policy. |
+
+The pitch should make these points naturally, without reading the rubric aloud. Keep unvalidated business assumptions explicit. The current deliverable is `AutoApps-pitch-v3.pptx`.
 
 ## Spoken script
 
@@ -26,11 +39,11 @@ The exact weights are product and user value **25%**, problem and company potent
 
 “AutoApps is Lovable for the enterprise. It reads the business context you already have, suggests useful apps, and generates the one you choose. We start with Google Sheets.”
 
-### 2 — Context creates the starting point
+### 2 — Recurring problem and automatic generation
 
-“Engineers use AI to build software. Business teams should be able to build their own tools too. Think of a Finance analyst collecting budget inputs: they still coordinate sheet edits, chase people, and reconcile responses every cycle.
+“Engineers use AI to build software. Business teams should be able to build their own tools too. Think of a Finance analyst collecting budget inputs. Every cycle means chasing inputs, coordinating sheet edits and reconciling replies. Today they use shared sheets or separate forms, or ask someone to build a tool.
 
-AutoApps reads the sheet’s columns, sample values, ownership signals and missing inputs. It can then propose a budget app for each owner, a status board, or a summary. The user chooses an idea and we generate the app. They can refine it in chat. They don’t need to design the software or write a detailed starting brief.”
+AutoApps reads the columns, sample values and missing inputs to propose useful apps. They choose a budget collection app and we generate it automatically. Colleagues get a focused interface that updates the original sheet. Chat handles refinements after creation.”
 
 ### 3 — Live demo
 
@@ -56,9 +69,11 @@ Exact product defaults: `zai-org/GLM-5.3-Flash`, low effort for suggestions; `za
 
 ### 5 — Measured tradeoff
 
-“We compared both models on the same five generation tasks. Both passed the schema checks in five out of five cases. Flash met four task checklists, and GLM-5.3 met three. GLM-5.3 had a 4.64-second median versus 5.35 seconds for Flash.
+“We used GLM-5.3-Flash as the baseline on five matched generation tasks, both models at high effort. GLM-5.3 had a 4.64-second median, about thirteen percent lower than the baseline. Both passed every schema check. But Flash met four task checklists and GLM-5.3 met three.
 
-Both missed the requested multi-row task view. GLM-5.3 also omitted the RSVP email identity setting. This small pilot gives us a real tradeoff and tells us what to test next. Valid JSON alone isn’t a correct workflow.”
+Both missed the requested multi-row task table, and GLM-5.3 omitted the RSVP identity setting. This is a small measured latency advantage with a task-fit tradeoff. We need repeat runs before changing our model choice.”
+
+Relative median reduction: `(5.352 − 4.640) / 5.352 = 13.30%`, rounded to 13%. This compares the observed medians in this pilot, not an expected speedup for future requests.
 
 Evidence: [comparison and methodology](evidence/README.md). All ten outputs are retained. Task checks are static specification reviews, not end-to-end app tests. One request per fixture per model is insufficient to establish broad superiority. No cost advantage is claimed. The evaluation did not change production model settings.
 
@@ -72,7 +87,7 @@ Do not say AutoApps solves all enterprise security or privacy concerns. The mode
 
 “Our first customer is an Ops team repeatedly collecting updates in spreadsheets. The workflow owner is our buyer hypothesis, with a team subscription justified by less coordination.
 
-Google reported more than eleven million Workspace customers in July 2025. That is a large starting ecosystem, not our addressable-market estimate. We would win one recurring workflow, then expand into more apps and data sources within the company. The next proof is repeat use and willingness to pay. AutoApps gives business teams a way to build with AI.”
+Google reported more than eleven million Workspace customers in July 2025. That is a large starting ecosystem, not our addressable-market estimate. We would win one recurring workflow, then expand into more apps and data sources within the company. The next proof is reduced coordination time, repeat use and willingness to pay. AutoApps gives business teams a way to build with AI.”
 
 Market source: [Google Workspace, 29 July 2025](https://workspace.google.com/blog/identity-and-security/defending-against-account-takeovers-top-threats-passkeys-and-dbsc). Initial segment, pricing and demand remain unvalidated. Do not present the platform count as the number of prospective AutoApps customers.
 
