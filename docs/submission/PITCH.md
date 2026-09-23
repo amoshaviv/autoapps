@@ -39,9 +39,9 @@ Replace this passage after running the comparison. Lead with the measured tradeo
 
 ## Slide 6 — Responsible design — 3:40–4:15
 
-“The implemented layer checks app specifications against the sheet and verifies organization membership on connection routes. For the completed runtime, the server must enforce the app’s row and field rules. We still need to verify that with a separate consumer account. Privacy also matters: the backend stores access credentials and cached sheet samples, and Nebius receives headers, sample values, and builder instructions. We will demonstrate with synthetic data. Restoring an app configuration does not undo edits to the underlying sheet.”
+“The server validates app specifications and enforces the stored app’s organization, row and editable-field rules. We still need to verify the complete flow with a separate consumer account. Privacy also matters: the backend stores access credentials and cached sheet samples, and Nebius receives headers, sample values, and builder instructions. We will demonstrate with synthetic data. Restoring an app configuration does not undo edits to the underlying sheet.”
 
-Once the checks actually pass, replace “must enforce” with the verified behavior and state what you tested. Keep the data-flow disclosure.
+Once the two-account checks pass, state what you tested. Keep the data-flow disclosure.
 
 ## Slide 7 — A recurring workflow business — 4:15–5:00
 
