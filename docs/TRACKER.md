@@ -94,10 +94,10 @@ Phase check: consumer account completes hero steps 7–8 by URL; a PATCH to a no
 
 | ID | Task | Pri | Depends on | Status | Commit | Notes |
 |---|---|---|---|---|---|---|
-| P4-1 | Apps list + New-app dialog | must | P2-5 | in_progress | | 2026-09-23 |
-| P4-2 | New-app flow page (`/[org]/new`) with suggestions | must | P4-1, P2-3 | in_progress | | 2026-09-23 |
-| P4-3 | Builder page (chat + preview + publish + versions + activity) | must | P4-2, P3-3 | in_progress | | 2026-09-23 |
-| P4-4 | Extension panel page (`/extension/panel`, `/extension/connected`) | should | P4-3 | todo | | |
+| P4-1 | Apps list + New-app dialog | must | P2-5 | done | 4b80226 | added theme LinkBehavior (was missing from the copied theme) |
+| P4-2 | New-app flow page (`/[org]/new`) with suggestions | must | P4-1, P2-3 | done | 1b8a0ec | also a tab switcher; accepts spreadsheetId+gid |
+| P4-3 | Builder page (chat + preview + publish + versions + activity) | must | P4-2, P3-3 | done | 7e0d80b | hero steps 3–6 in Chrome on prod; edit guards f97d21c + option-order sort 2cb7b8f (DECISIONS) |
+| P4-4 | Extension panel page (`/extension/panel`, `/extension/connected`) | should | P4-3 | in_progress | | 2026-09-23 |
 
 Phase check: hero steps 3–6 work from `/[org]/new` in a normal tab; `/extension/panel` is usable at 360 px.
 
