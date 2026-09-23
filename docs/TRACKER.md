@@ -61,7 +61,7 @@ Phase check: `grep -ri "flowtester\|testSuite\|gitlab" frontend --exclude-dir=no
 | P1-1 | Models: Connection, App, AppVersion, AppMessage, AppActivity | must | P0-2 | done | 1b5a04a | apps.draft/published_version_id have no FK (avoids cyclic sync) |
 | P1-2 | Google OAuth: incremental Sheets scope, token refresh, `/api/me` | must | P0-4 | blocked | f066917 | code done; `/api/me` verified (401 / 200 with sheetsConnected=false); awaiting Amos's grant check |
 | P1-3 | Sheets client (`lib/google/sheets.ts`, incl. `createSpreadsheet`) | must | P1-2 | todo | | |
-| P1-4 | Schema extraction (types, fill ratio, distinct) + `analyzeShape` + five fixture sheets + vitest | must | P0-1 | in_progress | | 2026-09-23 |
+| P1-4 | Schema extraction (types, fill ratio, distinct) + `analyzeShape` + five fixture sheets + vitest | must | P0-1 | done | 94b65a5 | 13 tests; heuristic clarifications in DECISIONS |
 | P1-5 | Connection routes (`POST connections`, `refresh`) | must | P1-1, P1-3, P1-4, P0-3 | todo | | |
 | P1-6 | Seed the five fixture sheets into the builder's Drive (`seed:sheets`) | must | P1-3, P1-4 | todo | | paste the five URLs into H-5 |
 
