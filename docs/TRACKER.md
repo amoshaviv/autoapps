@@ -48,9 +48,9 @@ Add `npx vitest run` once tests exist (P1-4 onward), and `npm run build` from `e
 | P0-1 | Copy and strip flow-tester's frontend | must | — | done | 27be745 | deps pinned to flow-tester's locked majors; legal pages are placeholders (see DECISIONS) |
 | P0-2 | Database bootstrap script (`db:sync`) | must | P0-1, H-1 | done | 5f6cd7d | OAuth token columns are TEXT (see DECISIONS) |
 | P0-3 | Auth guards (`lib/auth/guards.ts`) | must | P0-1 | done | 88e223d | checked 401/200/403/404 with minted JWTs on :3001 (another app holds :3000) |
-| P0-4 | Organization auto-join by email domain | must | P0-2, P0-3, H-2 | blocked | 9f21d1d | code done; scripted check passed; Google sign-in verified with mail@amoshaviv.com (owner of `amoshaviv`); awaiting a 2nd @amoshaviv.com account |
+| P0-4 | Organization auto-join by email domain | must | P0-2, P0-3, H-2 | done | 9f21d1d | closed on scripted check + one-account Google sign-in (see DECISIONS); re-check with a 2nd same-domain account at H-6 |
 | P0-5 | Session cookie `SameSite=None; Secure` | must | P0-1 | done | ae9a5ea | verified via curl credentials sign-in on :3001: `Secure; HttpOnly; SameSite=none` |
-| P0-6 | Spike: side-panel iframe carries the session | should | P0-5, P0-4 | todo | | record Plan A/Plan B result in `docs/DECISIONS.md` |
+| P0-6 | Spike: side-panel iframe carries the session | should | P0-5, P0-4 | in_progress | | 2026-09-23; record Plan A/Plan B result in `docs/DECISIONS.md` |
 
 Phase check: `grep -ri "flowtester\|testSuite\|gitlab" frontend --exclude-dir=node_modules --exclude-dir=.next` prints nothing; sign-in with Google works locally.
 
@@ -127,7 +127,7 @@ Phase check: hero scenario runs twice in a row on the deployed URL.
 
 (The executing session adds bullets here; Amos deletes them when resolved.)
 
-- **P0-4 browser check** (code is committed in 9f21d1d): run `cd frontend && npm run dev` on :3000, sign in with Google as two accounts on the same company domain (for example two `@amoshaviv.com` accounts; both must be test users on the OAuth consent screen), then tell the executor (dev server now runs on :3000). It will confirm in `users_organizations` that the second account has role `user` in the first account's org and close P0-4. A `gmail.com` account does not auto-join; it gets a personal org and must be added from the Users page after its first sign-in.
+- **(later, with H-6) P0-4 real check** (code is committed in 9f21d1d): run `cd frontend && npm run dev` on :3000, sign in with Google as two accounts on the same company domain (for example two `@amoshaviv.com` accounts; both must be test users on the OAuth consent screen), then tell the executor (dev server now runs on :3000). It will confirm in `users_organizations` that the second account has role `user` in the first account's org and close P0-4. A `gmail.com` account does not auto-join; it gets a personal org and must be added from the Users page after its first sign-in.
 - **P0-6 spike** (after P0-4 is closed): needs a human in Chrome to load `extension/dist` unpacked and open the side panel. The executor builds the skeleton first and tells you exactly what to click.
 
 ---

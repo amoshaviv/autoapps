@@ -1,0 +1,10 @@
+{
+  "manifest_version": 3,
+  "name": "AutoApps",
+  "version": "0.1.0",
+  "description": "Build an app from the Google Sheet you are looking at.",
+  "permissions": ["sidePanel"],
+  "action": { "default_title": "AutoApps" },
+  "side_panel": { "default_path": "sidepanel.html" },
+  "background": { "service_worker": "background.js" }
+}
