@@ -16,13 +16,19 @@ export async function connect() {
 
       const dbURL: string = process.env.DB_URL || "";
 
+      const isLocal = /@(localhost|127\.0\.0\.1)[:/]/.test(dbURL);
+
       global.db = new Sequelize(dbURL, {
-        logging: console.log,
+        logging: process.env.DB_LOGGING === "true" ? console.log : false,
         define: {
           underscored: true,
         },
         dialect: "postgres",
         dialectModule: pg,
+        pool: { max: 5 },
+        ...(isLocal
+          ? {}
+          : { dialectOptions: { ssl: { require: true, rejectUnauthorized: false } } }),
       });
       console.log(Date.now(), "Connected to DB", 'Has DB: ', !!global.db, 'Has Models: ', !!global.models);
       await global.db.authenticate();

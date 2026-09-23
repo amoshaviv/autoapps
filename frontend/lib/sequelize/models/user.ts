@@ -83,16 +83,16 @@ export default function defineUserModel(sequelize: Sequelize): IUserModel {
       type: DataTypes.STRING,
     },
     providerAccessToken: {
-      type: DataTypes.STRING,
+      type: DataTypes.TEXT,
     },
     providerRefreshToken: {
-      type: DataTypes.STRING,
+      type: DataTypes.TEXT,
     },
     providerAccessTokenExpiredAt: {
       type: DataTypes.DATE,
     },
     providerAccessTokenPermissions: {
-      type: DataTypes.STRING,
+      type: DataTypes.TEXT,
     },
     secret: {
       type: DataTypes.STRING,
