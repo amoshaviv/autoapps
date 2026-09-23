@@ -1,14 +1,17 @@
-// P0-6 spike: shows whether the side-panel iframe carries the session.
-// Replaced by the real panel in P4-4.
-import { getSession } from "@/lib/next-auth";
+import * as React from "react";
+import type { Metadata } from "next";
+import ExtensionPanel from "@/app/components/builder/ExtensionPanel";
 
-export default async function ExtensionPanelSpikePage() {
-  const session = await getSession();
-  const email = session?.user?.email;
+export const metadata: Metadata = { title: "Side panel" };
+
+export default async function ExtensionPanelPage(props: {
+  searchParams: Promise<{ spreadsheetId?: string; gid?: string }>;
+}) {
+  const { spreadsheetId, gid } = await props.searchParams;
   return (
-    <main style={{ padding: 16, fontFamily: "system-ui, sans-serif" }}>
-      <h1 style={{ fontSize: 18 }}>AutoApps panel</h1>
-      <p data-testid="session-state">{email ? `Signed in as ${email}` : "signed out"}</p>
-    </main>
+    <ExtensionPanel
+      spreadsheetId={spreadsheetId && /^[a-zA-Z0-9-_]+$/.test(spreadsheetId) ? spreadsheetId : undefined}
+      gid={gid && /^\d+$/.test(gid) ? Number(gid) : undefined}
+    />
   );
 }

@@ -11,7 +11,9 @@ export async function proxy(request: NextRequest) {
     if (url.startsWith("/authentication/")) {
       return NextResponse.redirect(new URL(`/`, request.url));
     }
-  } else if (url.startsWith("/a/") || url.startsWith("/extension/")) {
+  } else if (url.startsWith("/a/") || (url.startsWith("/extension/") && url !== "/extension/panel")) {
+    // /extension/panel runs inside the side-panel iframe, where Google sign-in
+    // cannot load; it shows its own "Sign in" button that opens a new tab
     const signInURL = new URL(SIGNIN_ROUTE, request.url);
     signInURL.searchParams.set(
       "callbackUrl",
