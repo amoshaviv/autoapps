@@ -82,6 +82,13 @@ export function validateSpec(input: unknown, schema: ConnectionSchema): Validati
 
   const isReadOnly = (header: string) => declared.get(header)?.readOnly === true;
 
+  const titles = spec.views.map((v) => v.title.trim().toLowerCase());
+  titles.forEach((title, i) => {
+    if (titles.indexOf(title) !== i) {
+      errors.push(`Views ${titles.indexOf(title) + 1} and ${i + 1} are both titled '${spec.views[i].title}'. Each view needs its own title; change the existing view instead of adding a copy.`);
+    }
+  });
+
   spec.views.forEach((view, i) => {
     const name = `View ${i + 1} (${view.type})`;
 
@@ -101,6 +108,9 @@ export function validateSpec(input: unknown, schema: ConnectionSchema): Validati
     }
 
     if (view.type === "table") {
+      for (const header of view.editable ?? []) {
+        if (!view.columns.includes(header)) errors.push(`${name}: editable column '${header}' must also be in columns`);
+      }
       for (const header of view.editable ?? []) {
         if (isReadOnly(header)) errors.push(`${name}: column '${header}' is readOnly and cannot be editable`);
       }

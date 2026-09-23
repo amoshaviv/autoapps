@@ -144,6 +144,15 @@ describe("validateSpec", () => {
     ).toMatch(/^columns:/);
   });
 
+  it("requires table editable columns to be shown, and view titles to be unique", () => {
+    expect(
+      errorsFor((s) => s.views.push({ type: "table", title: "Lines", columns: ["Cost Center"], editable: ["Q1"] }))
+    ).toContain("editable column 'Q1' must also be in columns");
+    expect(
+      errorsFor((s) => s.views.push({ type: "table", title: "your budget line", columns: ["Q1"] }))
+    ).toContain("both titled");
+  });
+
   it("rejects a column defined twice", () => {
     expect(errorsFor((s) => s.columns.push({ header: "Q1", type: "number" }))).toContain(
       "Column 'Q1' is defined more than once"

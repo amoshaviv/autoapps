@@ -2,6 +2,13 @@
 
 One paragraph per entry, newest first. Reference the task id. Record only things that differ from `docs/PLAN.md` or that a future session would otherwise have to rediscover (e.g. the P0-6 spike result, a Google API quirk, a library swap).
 
+- **2026-09-23 · P4-3 edit guards after a real regression.** In the browser check, "Remove the Notes column and sort by priority" produced a spec that duplicated a view and dropped My Tasks' `Assignee eq $user.name` filter, so a personal view would have shown everyone's rows. Three fixes:
+  - `editSpec` now sends the current spec right next to the request, and the edit prompt lists explicit keep-everything rules.
+  - `validateSpec` requires a table's `editable` ⊆ its `columns`, and unique view titles.
+  - `droppedPersonFilters` rejects an edit that removes a `$user.*` filter unless the request mentions filters or who sees what. The rejected edit goes through the normal retry.
+
+  Replaying the same edit twice gave correct specs both times; one needed the retry.
+
 - **2026-09-23 · Work against production from Phase 3 on.** Amos asked to develop directly against https://autoapps.win, since nobody else uses it yet. Consequences:
   - Commits are pushed to `main` after each task, and Vercel deploys them.
   - Browser checks happen on the production domain.

@@ -25,7 +25,8 @@ function requireSchema(connection: SpecConnection): ConnectionSchema {
 async function callWithRetry(
   system: string,
   messages: ChatMessage[],
-  schema: ConnectionSchema
+  schema: ConnectionSchema,
+  extraCheck: (spec: AppSpec) => string[] = () => []
 ): Promise<{ spec: AppSpec; summary: string }> {
   const conversation = [...messages];
   let errors: string[] = [];
@@ -50,15 +51,15 @@ async function callWithRetry(
 
     if (output) {
       const validation = validateSpec(output.spec, schema);
-      if (validation.ok) return { spec: validation.spec, summary: output.summary };
-      errors = validation.errors;
+      errors = validation.ok ? extraCheck(validation.spec) : validation.errors;
+      if (validation.ok && errors.length === 0) return { spec: validation.spec, summary: output.summary };
       conversation.push({ role: "assistant", content: JSON.stringify(output) });
     }
 
     console.warn(`[ai] spec attempt ${attempt} failed validation:\n- ${errors.join("\n- ")}`);
     conversation.push({
       role: "user",
-      content: `The spec failed validation:\n- ${errors.join("\n- ")}\nFix these and return the full spec.`,
+      content: `The spec failed validation:\n- ${errors.join("\n- ")}\nFix these and return the full spec. The summary is for the builder: describe the change to their app, not these fixes.`,
     });
   }
 
@@ -97,6 +98,28 @@ export async function generateSpec({
   );
 }
 
+// Filters that scope rows to the signed-in person keep other people's rows
+// private. An edit may only drop one when the builder asked about who sees what.
+export function droppedPersonFilters(before: AppSpec, after: AppSpec, message: string): string[] {
+  if (/filter|everyone|everybody|all rows|all the rows|show all|who (can )?see/i.test(message)) return [];
+  const errors: string[] = [];
+  before.views.forEach((view, i) => {
+    if (view.type !== "table") return;
+    const personal = (view.filter ?? []).filter((f) => f.value?.startsWith("$user."));
+    if (personal.length === 0) return;
+    const match = after.views.find((v) => v.title === view.title) ?? after.views[i];
+    const kept = match?.type === "table" ? (match.filter ?? []) : [];
+    for (const f of personal) {
+      if (!kept.some((k) => k.column === f.column && k.op === f.op && k.value === f.value)) {
+        errors.push(
+          `View '${view.title}' lost its filter ${f.column} ${f.op} ${f.value}, which limits it to the signed-in person's rows. Keep that filter; the builder did not ask to change who sees which rows.`
+        );
+      }
+    }
+  });
+  return errors;
+}
+
 export async function editSpec({
   connection,
   currentSpec,
@@ -109,16 +132,19 @@ export async function editSpec({
   message: string;
 }) {
   const schema = requireSchema(connection);
+  // The current spec sits right next to the request, after the history, so the
+  // model edits it instead of reconstructing the app from the conversation
   return callWithRetry(
     EDIT_SYSTEM,
     [
+      { role: "user", content: describeSchema({ title: connection.title, schema }) },
+      ...history.slice(-10),
       {
         role: "user",
-        content: `${describeSchema({ title: connection.title, schema })}\n\n## Current AppSpec\n${JSON.stringify(currentSpec)}\n\nRecent conversation follows.`,
+        content: `## Current AppSpec (edit this)\n${JSON.stringify(currentSpec)}\n\n## Requested change\n${message}`,
       },
-      ...history.slice(-10),
-      { role: "user", content: message },
     ],
-    schema
+    schema,
+    (spec) => droppedPersonFilters(currentSpec, spec, message)
   );
 }

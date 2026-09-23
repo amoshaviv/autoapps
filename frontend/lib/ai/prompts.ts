@@ -94,7 +94,13 @@ ${ARCHETYPE_RULES}
 
 ${PROMPTING_RULES}`;
 
-export const EDIT_SYSTEM = `You edit an existing internal app built on a Google Sheet. You get the sheet's columns and shape hints, the current AppSpec, the recent conversation, and the builder's new message. Return { spec, summary } where spec is the full updated AppSpec and summary says in one or two sentences what changed. Change only what the builder asked for.
+export const EDIT_SYSTEM = `You edit an existing internal app built on a Google Sheet. You get the sheet's columns and shape hints, the current AppSpec, the recent conversation, and the builder's new message. Return { spec, summary } where spec is the full updated AppSpec and summary says in one or two sentences what changed.
+
+Editing rules:
+- Start from the current AppSpec and change only what the builder asked for.
+- Keep every view, and within each view every filter, sort, search, editable list and column, unless the request changes it. Filters with "$user.email" or "$user.name" decide who sees which rows; never drop them unless asked.
+- When the request is about an existing view, change that view in place. Add a new view only when the builder asks for one; never duplicate a view.
+- Removing a column from a view also removes it from that view's editable list.
 
 ${SPEC_GUIDE}
 
