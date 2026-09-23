@@ -7,7 +7,7 @@ import Button from "@mui/material/Button";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import CheckCircleOutline from "@mui/icons-material/CheckCircleOutline";
-import FieldInput from "./FieldInput";
+import FieldInput, { toSheetValue } from "./FieldInput";
 import { apiFetch, runtimeUrl } from "./useAppData";
 import type { AppSpec } from "@/lib/apps/spec";
 
@@ -41,8 +41,9 @@ export default function FormView({
       const payload = Object.fromEntries(
         view.fields
           .map((f) => {
-            const type = spec.columns.find((c) => c.header === f)?.type;
-            return [f, type === "checkbox" && !values[f] ? "FALSE" : values[f]] as const;
+            const column = spec.columns.find((c) => c.header === f);
+            if (column?.type === "checkbox" && !values[f]) return [f, "FALSE"] as const;
+            return [f, column ? toSheetValue(column, values[f] ?? "") : values[f]] as const;
           })
           .filter(([, v]) => v !== "")
       );

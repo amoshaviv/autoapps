@@ -12,7 +12,7 @@ import Snackbar from "@mui/material/Snackbar";
 import Stack from "@mui/material/Stack";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
-import FieldInput, { isChecked } from "./FieldInput";
+import FieldInput, { isChecked, toSheetValue } from "./FieldInput";
 import { ApiError, apiFetch, runtimeUrl, RuntimeRow, useJson } from "./useAppData";
 import type { AppSpec } from "@/lib/apps/spec";
 
@@ -75,7 +75,9 @@ export default function MyRowView({
         method: "PATCH",
         body: JSON.stringify({
           view: viewIndex,
-          values: Object.fromEntries(changed.map((h) => [h, values[h] ?? ""])),
+          values: Object.fromEntries(
+            changed.map((h) => [h, toSheetValue(columnOf(h)!, values[h] ?? "", row.values[h] ?? "")])
+          ),
           expectedKey: row.key,
         }),
       });

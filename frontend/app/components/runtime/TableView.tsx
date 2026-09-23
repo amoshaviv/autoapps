@@ -18,7 +18,7 @@ import TableSortLabel from "@mui/material/TableSortLabel";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import SearchIcon from "@mui/icons-material/Search";
-import FieldInput, { isChecked } from "./FieldInput";
+import FieldInput, { isChecked, toSheetValue } from "./FieldInput";
 import { apiFetch, runtimeUrl, RuntimeRow, useJson } from "./useAppData";
 import { compareCells } from "@/lib/apps/compare";
 import type { AppSpec } from "@/lib/apps/spec";
@@ -66,8 +66,10 @@ export default function TableView({
     return list;
   }, [data, search, sort, view.columns]);
 
-  const commit = async (row: RuntimeRow, column: string, value: string) => {
+  const commit = async (row: RuntimeRow, column: string, raw: string) => {
     setEditing(null);
+    const def = columnOf(column);
+    const value = def ? toSheetValue(def, raw, row.values[column] ?? "") : raw;
     if ((row.values[column] ?? "") === value) return;
     // Optimistic: show the new value right away, reload on failure
     if (data) {

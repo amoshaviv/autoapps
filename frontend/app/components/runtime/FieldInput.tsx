@@ -17,6 +17,16 @@ export function toDateInput(value: string): string {
 
 const CURRENCY = /^[\s(]*([$€£])/;
 
+// What to send to the sheet. Currency keeps its symbol so Sheets (USER_ENTERED)
+// stores a formatted money value, not a bare number.
+export function toSheetValue(column: ColumnDef, value: string, previous = ""): string {
+  const v = value.trim();
+  if (column.type === "currency" && v !== "" && !CURRENCY.test(v) && /^-?[\d.,]+$/.test(v)) {
+    return `${previous.match(CURRENCY)?.[1] ?? "$"}${v}`;
+  }
+  return value;
+}
+
 export function isChecked(value: string) {
   return /^(true|yes|1|x|✓)$/i.test(value.trim());
 }
@@ -82,6 +92,8 @@ export default function FieldInput({
           {...common}
           select
           value={value}
+          // Inline editing: closing the menu without a pick ends editing too
+          slotProps={onCommit ? { select: { onClose: () => onCommit(value) } } : undefined}
           onChange={(e) => {
             onChange(e.target.value);
             onCommit?.(e.target.value);
