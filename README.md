@@ -85,4 +85,4 @@ Load it in `chrome://extensions` → Developer mode → **Load unpacked** → `e
 6. In a second browser profile, open the link and sign in as a colleague on the same domain. They see only their line, fill it in and save.
 7. Back in the sheet, the row is filled. The app's **Activity** tab shows who changed what.
 
-The full rehearsal checklist is in [`docs/DEMO.md`](docs/DEMO.md).
+The full rehearsal checklist is in [`docs/DEMO.md`](docs/DEMO.md). Reset the demo rows between runs with `npm run reset:demo -- "<sheet URL>" --dry-run` (then without `--dry-run`).
