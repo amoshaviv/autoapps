@@ -1,7 +1,7 @@
 // Prompt text for suggestApps, generateSpec and editSpec (PRD §9).
 // The only sheet inputs are the extracted schema and analyzeShape's hints.
 import { ConnectionSchema } from "@/lib/google/schema";
-import { analyzeShape } from "@/lib/apps/shape";
+import { analyzeShape, preferredIdentityColumns } from "@/lib/apps/shape";
 
 const list = (items: string[]) => (items.length ? items.map((i) => `"${i}"`).join(", ") : "none");
 const truncate = (value: string, max = 40) => (value.length > max ? `${value.slice(0, max)}…` : value);
@@ -22,7 +22,15 @@ export function describeSchema(connection: { title: string | null; schema: Conne
     }),
     "",
     "## Shape hints",
-    `- Identity candidates (columns that identify a person): ${list(hints.identityCandidates)}`,
+    `- Identity candidates (columns that identify a person): ${
+      preferredIdentityColumns(schema, hints)
+        .map((name) => {
+          const h = schema.headers.find((x) => x.name === name)!;
+          const perPerson = h.distinctCount ? Math.round((schema.rowCount * h.fillRatio) / h.distinctCount * 10) / 10 : 0;
+          return `"${name}" (${perPerson} rows per person)`;
+        })
+        .join(", ") || "none"
+    }`,
     `- Fill-in candidates (mostly empty, meant to be completed): ${list(hints.fillInCandidates)}`,
     `- Status columns: ${list(hints.statusColumns)}`,
     `- Date columns: ${list(hints.dateColumns)}`,
@@ -59,7 +67,12 @@ export const SUGGEST_SYSTEM = `You help non-technical people turn a Google Sheet
 
 ${ARCHETYPE_RULES}
 
-The three ideas must use three different archetypes. Each idea has a short title, a one-line pitch written for the sheet owner, and its archetype. For a my-row idea, set identityColumn to the exact header that identifies the person (prefer an email column). Do not suggest my-row when the sheet has no identity candidate.
+The three ideas must use three different archetypes. Each idea has a short title, a one-line pitch written for the sheet owner, and its archetype.
+
+When the sheet has an identity candidate, exactly one idea must be scoped to the signed-in person and set identityColumn to that exact header. People sign in with their email, so use an email column whenever the sheet has one; use a name column only when there is no email column. Base the idea's shape on that column's rows per person:
+- my-row when each person has about one row (rows per person ≈ 1), e.g. each owner fills in their own line;
+- otherwise a table that shows only that person's rows (a person owns several rows, e.g. a manager and their reports).
+Do not suggest my-row or set identityColumn when the sheet has no identity candidate.
 
 ${PROMPTING_RULES}`;
 

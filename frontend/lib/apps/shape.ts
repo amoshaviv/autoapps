@@ -32,6 +32,14 @@ function isAscendingDateColumn(schema: ConnectionSchema, header: SchemaHeader) {
   return times.every((t, i) => i === 0 || t >= times[i - 1]);
 }
 
+// People sign in with their email, so email identity columns win over name columns
+export function preferredIdentityColumns(schema: ConnectionSchema, hints = analyzeShape(schema)): string[] {
+  const emails = hints.identityCandidates.filter(
+    (name) => schema.headers.find((h) => h.name === name)?.inferredType === "email"
+  );
+  return emails.length > 0 ? emails : hints.identityCandidates;
+}
+
 export function analyzeShape(schema: ConnectionSchema): ShapeHints {
   const { headers, rowCount } = schema;
 

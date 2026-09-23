@@ -7,13 +7,8 @@ import { validateSpec } from "@/lib/apps/validate";
 import { ConnectionSchema } from "@/lib/google/schema";
 import { callStructured, ChatMessage, MODEL, REASONING_EFFORT } from "./client";
 import { describeSchema, EDIT_SYSTEM, GENERATE_SYSTEM } from "./prompts";
+import type { Idea } from "./suggest";
 
-export interface Idea {
-  title: string;
-  pitch: string;
-  archetype: "my-row" | "form" | "table" | "stats" | "mixed";
-  identityColumn?: string;
-}
 
 type SpecConnection = { title: string | null; schema: ConnectionSchema | null };
 

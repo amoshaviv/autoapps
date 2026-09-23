@@ -36,7 +36,7 @@ Add `npx vitest run` once tests exist (P1-4 onward), and `npm run build` from `e
 | H-2 | Google Cloud OAuth client (Testing mode, test users, Sheets API enabled, both redirect URIs); `GOOGLE_CLIENT_ID`/`GOOGLE_CLIENT_SECRET` in the root `.env` | done | 2026-09-23, localhost redirect URI only; add the Vercel URI in P6-1 |
 | H-3 | Nebius Token Factory API key in the root `.env` as `NEBIUS_API_KEY` (account funded) | done | 2026-09-23, key verified against `/v1/models`; GLM-5.3, GLM-5.3-Flash, DeepSeek-V4.1-Flash all visible |
 | H-4 | Vercel project for `frontend/` with env vars and `NEXTAUTH_URL=https://autoapps.win`; domain `autoapps.win` attached | todo | |
-| H-5 | Fixture sheets: created automatically by P1-6; optionally any real sheet of Amos's for the demo | todo | URLs (from P1-6): |
+| H-5 | Fixture sheets: created automatically by P1-6; optionally any real sheet of Amos's for the demo | done | 2026-09-23 seeded by P1-6 (consumer = builder): [budget](https://docs.google.com/spreadsheets/d/1TKG4ectrsyoW7cdqgTG4aQVnR-az4BqHI9dk0JNzpvg/edit), [tasks](https://docs.google.com/spreadsheets/d/1r5Coh4Qcr2fAeLbVZ1XX6VFVWKb431OpJbFq46mhV90/edit), [inventory](https://docs.google.com/spreadsheets/d/1za_6PwHj4GHyVaxTYMZYXcxJjqwWp1lk7N4L1bla2SE/edit), [rsvp](https://docs.google.com/spreadsheets/d/1PXVh5RIqVSLw8-X7DPtNc_3ghKnjKUDAMURyCkGabzY/edit), [headcount](https://docs.google.com/spreadsheets/d/1UrdCLmw0Jaf56aigyL5q3RMy6gA3OfMPxgnJrv1_npo/edit) |
 | H-6 | A second Google account for the consumer role (any provider), invited into the org from the Users page, signed in on a second Chrome profile or an incognito window; then set `DEMO_CONSUMER_EMAIL` and re-run `seed:sheets` | todo | builder is mail@amoshaviv.com; consumer currently the same account (dev only) |
 
 ---
@@ -62,8 +62,8 @@ Phase check: `grep -ri "flowtester\|testSuite\|gitlab" frontend --exclude-dir=no
 | P1-2 | Google OAuth: incremental Sheets scope, token refresh, `/api/me` | must | P0-4 | done | f066917 | Amos granted on prod; scope + refresh token kept after plain re-sign-in. Refresh fails locally (`unauthorized_client`): prod uses a different OAuth client (Needs Amos) |
 | P1-3 | Sheets client (`lib/google/sheets.ts`, incl. `createSpreadsheet`) | must | P1-2 | done | 45a7c50 | live check passed (create/read/write/append/clear); file-level 403 → `sheet_forbidden` |
 | P1-4 | Schema extraction (types, fill ratio, distinct) + `analyzeShape` + five fixture sheets + vitest | must | P0-1 | done | 94b65a5 | 13 tests; heuristic clarifications in DECISIONS |
-| P1-5 | Connection routes (`POST connections`, `refresh`) | must | P1-1, P1-3, P1-4, P0-3 | in_progress | | 2026-09-23 |
-| P1-6 | Seed the five fixture sheets into the builder's Drive (`seed:sheets`) | must | P1-3, P1-4 | in_progress | | 2026-09-23; paste the five URLs into H-5 |
+| P1-5 | Connection routes (`POST connections`, `refresh`) | must | P1-1, P1-3, P1-4, P0-3 | done | 3581f83 | all 5 seeded sheets connect; schema identical to fixture tests |
+| P1-6 | Seed the five fixture sheets into the builder's Drive (`seed:sheets`) | must | P1-3, P1-4 | done | 30b134b | URLs in H-5; consumer = builder until H-6 |
 
 Phase check: `POST /api/organizations/<org>/connections` with each fixture sheet URL returns headers with sensible inferred types and fill ratios; `npx vitest run` passes.
 
@@ -73,7 +73,7 @@ Phase check: `POST /api/organizations/<org>/connections` with each fixture sheet
 |---|---|---|---|---|---|---|
 | P2-1 | AppSpec zod schema + `validateSpec` + tests | must | P1-4 | done | e2c971b | 12 tests; 3 extra structural rules (DECISIONS) |
 | P2-2 | AI client (Nebius via `openai` SDK, `json_schema`), prompts, `try-nebius` script | must | P2-1, H-3 | done | 4b7cd7e | json_schema accepted by all 3 models; GLM-5.3 cold call 13 s, warm 2–9 s (DECISIONS) |
-| P2-3 | `suggestApps` + suggest route, checked on all five fixture sheets | must | P2-2, P1-5, P1-6 | todo | | |
+| P2-3 | `suggestApps` + suggest route, checked on all five fixture sheets | must | P2-2, P1-5, P1-6 | in_progress | | 2026-09-23 |
 | P2-4 | `generateSpec` / `editSpec` with validation retry + `try-ai` script | must | P2-2 | done | 62ed4e8 | verified on fixture schemas, all valid 1st try; rerun with real connectionIds after P1-6 |
 | P2-5 | Builder-side app routes (create, get, messages, publish, restore, activity, patch, delete) | must | P2-4, P1-5 | todo | | |
 

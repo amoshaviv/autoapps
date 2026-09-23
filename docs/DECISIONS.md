@@ -2,6 +2,18 @@
 
 One paragraph per entry, newest first. Reference the task id. Record only things that differ from `docs/PLAN.md` or that a future session would otherwise have to rediscover (e.g. the P0-6 spike result, a Google API quirk, a library swap).
 
+- **2026-09-23 · P2-3 suggestions: the person-scoped idea may be a table.** The plan expected a `my-row` idea for headcount on Manager Email. But each manager owns about 4.5 rows, and `my-row` shows one row per person, so "a table of your rows" is the right shape (P2-4 built exactly that). The rules are now:
+  - when a sheet has an identity column, exactly one idea is scoped to the signed-in person, with `identityColumn` set;
+  - that idea is `my-row` when there is about one row per person, and otherwise a table of their rows;
+  - email identity columns win over name columns (`preferredIdentityColumns` in `lib/apps/shape.ts`), because people sign in by email. Without this, GLM-5.3-Flash kept choosing the Employee name column for headcount. The model is shown only the preferred columns, with rows per person.
+
+  `suggestApps` checks for distinct archetypes, a person-scoped idea on a preferred column, and no `my-row` without an identity column, retrying once with the errors. Output on the seeded sheets (two identical-shape rounds, 3–10 s each):
+  - budget: my-row (Owner Email), table, mixed/stats;
+  - tasks: my-row (Assignee), table, mixed/form;
+  - inventory: table, mixed, form (no identity);
+  - rsvp: my-row (Email), table, form;
+  - headcount: table scoped to Manager Email, stats, form.
+
 - **2026-09-23 · P1-3 Sheets error mapping.** 401, or a 403 that mentions scope/auth, maps to 428 `sheets_not_connected`, as planned. Any other 403 (the spreadsheet is not shared with the builder) maps to 403 `sheet_forbidden`, and a 404 to 404 `sheet_not_found`, because reconnecting Sheets would not fix either. Sheet names in ranges are always quoted (`'Form Responses 1'!A1`). `createSpreadsheet` pads rows to equal width. Checked live with `scripts/try-sheets.ts`: scratch sheet https://docs.google.com/spreadsheets/d/120bZU0BE2PAz39vG5-WJZkCB833K-eYWTWGT9UYdhtg (safe to delete).
 
 - **2026-09-23 · P2-4 generation results; effort stays `high`.** `try-ai` on the five fixture schemas (`fixture:NAME`, because no real connections exist until the Sheets grant; the same code path runs on `connection.schema`). Every spec passed `validateSpec` on the first attempt.

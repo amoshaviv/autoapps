@@ -8,7 +8,7 @@ import {
   parseNumber,
 } from "@/lib/google/schema";
 import { columnLetter } from "@/lib/google/columns";
-import { analyzeShape } from "@/lib/apps/shape";
+import { analyzeShape, preferredIdentityColumns } from "@/lib/apps/shape";
 
 const schemaOf = (name: FixtureName) =>
   extractSchema(fixtures[name].values, fixtures[name].sheetTitle);
@@ -131,6 +131,15 @@ describe("fixture sheets", () => {
       expect(s.sampleRows).toHaveLength(5);
       for (const row of s.sampleRows) expect(row).toHaveLength(s.headers.length);
     }
+  });
+});
+
+describe("preferredIdentityColumns", () => {
+  it("prefers email identity columns and falls back to name columns", () => {
+    expect(preferredIdentityColumns(schemaOf("headcount"))).toEqual(["Manager Email"]);
+    expect(preferredIdentityColumns(schemaOf("rsvp"))).toEqual(["Email"]);
+    expect(preferredIdentityColumns(schemaOf("tasks"))).toEqual(["Assignee"]);
+    expect(preferredIdentityColumns(schemaOf("inventory"))).toEqual([]);
   });
 });
 
