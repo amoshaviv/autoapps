@@ -49,7 +49,7 @@ Add `npx vitest run` once tests exist (P1-4 onward), and `npm run build` from `e
 | P0-2 | Database bootstrap script (`db:sync`) | must | P0-1, H-1 | done | 5f6cd7d | OAuth token columns are TEXT (see DECISIONS) |
 | P0-3 | Auth guards (`lib/auth/guards.ts`) | must | P0-1 | done | 88e223d | checked 401/200/403/404 with minted JWTs on :3001 (another app holds :3000) |
 | P0-4 | Organization auto-join by email domain | must | P0-2, P0-3, H-2 | blocked | 9f21d1d | code done; scripted check passed (2nd same-domain user joins as `user`); awaiting the two-account Google sign-in check |
-| P0-5 | Session cookie `SameSite=None; Secure` | must | P0-1 | in_progress | | 2026-09-23 |
+| P0-5 | Session cookie `SameSite=None; Secure` | must | P0-1 | done | ae9a5ea | verified via curl credentials sign-in on :3001: `Secure; HttpOnly; SameSite=none` |
 | P0-6 | Spike: side-panel iframe carries the session | should | P0-5, P0-4 | todo | | record Plan A/Plan B result in `docs/DECISIONS.md` |
 
 Phase check: `grep -ri "flowtester\|testSuite\|gitlab" frontend --exclude-dir=node_modules --exclude-dir=.next` prints nothing; sign-in with Google works locally.
@@ -127,7 +127,9 @@ Phase check: hero scenario runs twice in a row on the deployed URL.
 
 (The executing session adds bullets here; Amos deletes them when resolved.)
 
-- 
+- **Port 3000 is taken** by another local Node process (PID 95812 on 2026-09-23, not AutoApps), so `npm run dev` falls back to :3001, and Google sign-in fails there because the OAuth client only allows `http://localhost:3000/api/auth/callback/google`. Either stop that process, or add `http://localhost:3001/api/auth/callback/google` to the OAuth client's redirect URIs. Needed for the P0-4 check, the Phase 0 check ("sign-in with Google works locally"), and P0-6.
+- **P0-4 browser check** (code is committed in 9f21d1d): run `cd frontend && npm run dev` on :3000, sign in with Google as two accounts on the same company domain (for example two `@amoshaviv.com` accounts; both must be test users on the OAuth consent screen), then tell the executor. It will confirm in `users_organizations` that the second account has role `user` in the first account's org and close P0-4. A `gmail.com` account does not auto-join; it gets a personal org and must be added from the Users page after its first sign-in.
+- **P0-6 spike** (after P0-4 is closed): needs a human in Chrome to load `extension/dist` unpacked and open the side panel. The executor builds the skeleton first and tells you exactly what to click.
 
 ---
 
@@ -143,4 +145,4 @@ Executor: Claude Opus 5.5 (`claude --model claude-opus-5-5`), chosen 2026-09-23.
 
 (Newest first. One entry per session: date · model · tasks done · blocked · next.)
 
-- 
+- 2026-09-23 · Claude Opus 5.5 · Initialized git (`chore: planning docs`, ba91d15). Done: P0-1 (27be745), P0-2 (5f6cd7d), P0-3 (88e223d), P0-5 (ae9a5ea). P0-4 is committed (9f21d1d) and passed a scripted check, but is blocked on the two-account Google sign-in check. P0-6 is not started because it depends on P0-4. Port 3000 is held by another app, so the dev server ran on :3001 (see Needs Amos). `next dev` (16.3) writes `frontend/AGENTS.md` + `frontend/CLAUDE.md` (a pointer to Next's bundled docs); they are committed. The database is empty again after the checks. Next: close P0-4 after Amos's sign-in check, then P0-6; Phase 1 tasks P1-1 and P1-4 are unblocked in the meantime. 
