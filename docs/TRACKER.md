@@ -127,8 +127,7 @@ Phase check: hero scenario runs twice in a row on the deployed URL.
 
 (The executing session adds bullets here; Amos deletes them when resolved.)
 
-- **Port 3000 is taken** by another local Node process (PID 95812 on 2026-09-23, not AutoApps), so `npm run dev` falls back to :3001, and Google sign-in fails there because the OAuth client only allows `http://localhost:3000/api/auth/callback/google`. Either stop that process, or add `http://localhost:3001/api/auth/callback/google` to the OAuth client's redirect URIs. Needed for the P0-4 check, the Phase 0 check ("sign-in with Google works locally"), and P0-6.
-- **P0-4 browser check** (code is committed in 9f21d1d): run `cd frontend && npm run dev` on :3000, sign in with Google as two accounts on the same company domain (for example two `@amoshaviv.com` accounts; both must be test users on the OAuth consent screen), then tell the executor. It will confirm in `users_organizations` that the second account has role `user` in the first account's org and close P0-4. A `gmail.com` account does not auto-join; it gets a personal org and must be added from the Users page after its first sign-in.
+- **P0-4 browser check** (code is committed in 9f21d1d): run `cd frontend && npm run dev` on :3000, sign in with Google as two accounts on the same company domain (for example two `@amoshaviv.com` accounts; both must be test users on the OAuth consent screen), then tell the executor (dev server now runs on :3000). It will confirm in `users_organizations` that the second account has role `user` in the first account's org and close P0-4. A `gmail.com` account does not auto-join; it gets a personal org and must be added from the Users page after its first sign-in.
 - **P0-6 spike** (after P0-4 is closed): needs a human in Chrome to load `extension/dist` unpacked and open the side panel. The executor builds the skeleton first and tells you exactly what to click.
 
 ---
