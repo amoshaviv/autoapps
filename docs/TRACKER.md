@@ -127,8 +127,7 @@ Phase check: hero scenario runs twice in a row on the deployed URL.
 
 (The executing session adds bullets here; Amos deletes them when resolved.)
 
-- **Use one Google OAuth client everywhere**: Vercel Production's `GOOGLE_CLIENT_ID`/`GOOGLE_CLIENT_SECRET` differ from `frontend/.env` (token refresh from local fails with `unauthorized_client`, since both share one database). Set Vercel's to the local values, add `https://autoapps.win/api/auth/callback/google` to that client's redirect URIs, redeploy, and grant again at https://autoapps.win/connect/google.
-- **Domain**: `autoapps.win` 308-redirects to `www.autoapps.win` while `NEXTAUTH_URL=https://autoapps.win`. Make the apex primary in Vercel → Domains (or switch `NEXTAUTH_URL` and the OAuth redirect URI to `www`).
+- **Re-grant Sheets once**: open https://www.autoapps.win/connect/google and allow. The stored refresh token was issued while production used a different OAuth client, so it cannot be refreshed (`unauthorized_client`). The client IDs now match, so one new grant fixes it.
 - **(later, with H-6) P0-4 real check** (code is committed in 9f21d1d): run `cd frontend && npm run dev` on :3000, sign in with Google as two accounts on the same company domain (for example two `@amoshaviv.com` accounts; both must be test users on the OAuth consent screen), then tell the executor (dev server now runs on :3000). It will confirm in `users_organizations` that the second account has role `user` in the first account's org and close P0-4. A `gmail.com` account does not auto-join; it gets a personal org and must be added from the Users page after its first sign-in.
 
 ---

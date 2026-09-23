@@ -8,7 +8,7 @@ One paragraph per entry, newest first. Reference the task id. Record only things
   - The extension is built with `APP_ORIGIN=https://autoapps.win`.
   - Production and local development must share one Google OAuth client and the same env values (except `NEXTAUTH_URL`), because they share one database. Otherwise stored refresh tokens only work in one of them.
 
-  This pulls P6-1's deploy steps forward, but P6-1 itself stays open for its remaining checks.
+  This pulls P6-1's deploy steps forward, but P6-1 itself stays open for its remaining checks. `www.autoapps.win` is the primary host (Vercel's default; the apex redirects to it), so the extension is built with `APP_ORIGIN=https://www.autoapps.win`. `NEXTAUTH_URL` still names the apex; Google's callback reaches `www` through the 308. Verified: production accepts sessions signed with the shared `NEXTAUTH_SECRET`, and production and local use the same Google client ID.
 
 - **2026-09-23 · P3-1 runtime write rules.** The rules beyond the plan's wording:
   - **Table edits:** the target row must pass the view's filters, so a manager filtered to `$user.email` cannot PATCH another manager's row.
