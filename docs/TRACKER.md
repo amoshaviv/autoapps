@@ -106,8 +106,8 @@ Phase check: hero steps 3–6 work from `/[org]/new` in a normal tab; `/extensio
 | ID | Task | Pri | Depends on | Status | Commit | Notes |
 |---|---|---|---|---|---|---|
 | P5-1 | Scaffold, esbuild, manifest, icons | should | P0-6 | done | 9c4a588 | APP_ORIGIN defaults to https://www.autoapps.win (prod-first); icons drawn by scripts/make-icons.mjs |
-| P5-2 | Background + content script (badge, OPEN_PANEL, SHEET_CHANGED) | should | P5-1 | done | 4f49e1c | phase check in Chrome pending (Amos) |
-| P5-3 | Side panel iframe host | should | P5-2, P4-4 | blocked | 88e7096 | code done; awaiting Amos's Chrome phase check (Needs Amos) |
+| P5-2 | Background + content script (badge, OPEN_PANEL, SHEET_CHANGED) | should | P5-1 | done | 4f49e1c | badge verified on the budget sheet via Chrome automation; panel page verified in a 360 px iframe |
+| P5-3 | Side panel iframe host | should | P5-2, P4-4 | blocked | 88e7096 | automation cannot see the side panel or chrome-extension:// pages; needs a 30-second human check (Needs Amos) |
 
 Phase check: hero steps 2–6 run inside the side panel against localhost; switching sheets updates the panel.
 
@@ -115,8 +115,8 @@ Phase check: hero steps 2–6 run inside the side panel against localhost; switc
 
 | ID | Task | Pri | Depends on | Status | Commit | Notes |
 |---|---|---|---|---|---|---|
-| P6-1 | Deploy to Vercel, production OAuth redirect, prod `db:sync`, extension build with prod origin | must | P4-3, H-4 | todo | | |
-| P6-2 | Polish, in order: light theme, empty states, error toasts, README, icons | should | P6-1 | todo | | stop when time runs out |
+| P6-1 | Deploy to Vercel, production OAuth redirect, prod `db:sync`, extension build with prod origin | must | P4-3, H-4 | done | bc37ada | done during the switch to production: Vercel deploys main (Next.js preset, root `frontend`), OAuth redirect works via www, shared DB already synced, extension built for https://www.autoapps.win |
+| P6-2 | Polish, in order: light theme, empty states, error toasts, README, icons | should | P6-1 | in_progress | | 2026-09-23; stop when time runs out |
 | P6-3 | Demo rehearsal checklist | should | P6-1 | todo | | warm Nebius first: the first spec generation per deploy takes ~65 s (grammar compile) |
 
 Phase check: hero scenario runs twice in a row on the deployed URL.
@@ -128,13 +128,7 @@ Phase check: hero scenario runs twice in a row on the deployed URL.
 (The executing session adds bullets here; Amos deletes them when resolved.)
 
 - **Local token refresh fails** (`unauthorized_client`) while production refreshes fine with the same client ID. Production works; local scripts can use the current access token for about an hour after each production refresh. Low priority: re-check that Vercel's `GOOGLE_CLIENT_ID`/`GOOGLE_CLIENT_SECRET` have no stray whitespace and match `frontend/.env` exactly.
-- **Phase 5 check (extension)**: in `chrome://extensions`, click reload on AutoApps (same `extension/dist` folder; it now has icons, a content script and host permission for docs.google.com/spreadsheets, so Chrome may ask to accept the new permissions). Then:
-  1. Open the budget fixture sheet: the "⚡ Build an app from this sheet" badge appears bottom-right.
-  2. Click it: the side panel opens and lists the sheet's apps plus "Build another app".
-  3. Click "Build another app", pick a suggestion or type a request, wait for the preview, send one chat edit, and Publish / Copy link.
-  4. Switch to another fixture sheet tab: the panel follows it.
-
-  Report anything that looks wrong.
+- **Phase 5 check (30 seconds)**: with the extension reloaded, open a fixture sheet, click the "⚡ Build an app from this sheet" badge, and confirm the side panel opens showing the sheet and its apps. Then switch to another fixture sheet tab and confirm the panel follows. (Chrome automation cannot see the side panel, so Claude could not check these two steps.)
 - **(later, with H-6) P0-4 real check** (code is committed in 9f21d1d): run `cd frontend && npm run dev` on :3000, sign in with Google as two accounts on the same company domain (for example two `@amoshaviv.com` accounts; both must be test users on the OAuth consent screen), then tell the executor (dev server now runs on :3000). It will confirm in `users_organizations` that the second account has role `user` in the first account's org and close P0-4. A `gmail.com` account does not auto-join; it gets a personal org and must be added from the Users page after its first sign-in.
 
 ---
