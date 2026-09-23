@@ -8,7 +8,8 @@
     "start": "next start",
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",
-    "db:sync": "node --env-file=.env --import tsx scripts/db-sync.ts"
+    "db:sync": "node --env-file=.env --import tsx scripts/db-sync.ts",
+    "seed:sheets": "node --env-file=.env --import tsx scripts/seed-sheets.ts"
   },
   "dependencies": {
     "@aws-sdk/client-ses": "^3.882.0",

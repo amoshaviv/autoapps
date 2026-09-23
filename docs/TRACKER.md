@@ -63,7 +63,7 @@ Phase check: `grep -ri "flowtester\|testSuite\|gitlab" frontend --exclude-dir=no
 | P1-3 | Sheets client (`lib/google/sheets.ts`, incl. `createSpreadsheet`) | must | P1-2 | done | 45a7c50 | live check passed (create/read/write/append/clear); file-level 403 → `sheet_forbidden` |
 | P1-4 | Schema extraction (types, fill ratio, distinct) + `analyzeShape` + five fixture sheets + vitest | must | P0-1 | done | 94b65a5 | 13 tests; heuristic clarifications in DECISIONS |
 | P1-5 | Connection routes (`POST connections`, `refresh`) | must | P1-1, P1-3, P1-4, P0-3 | in_progress | | 2026-09-23 |
-| P1-6 | Seed the five fixture sheets into the builder's Drive (`seed:sheets`) | must | P1-3, P1-4 | todo | | paste the five URLs into H-5 |
+| P1-6 | Seed the five fixture sheets into the builder's Drive (`seed:sheets`) | must | P1-3, P1-4 | in_progress | | 2026-09-23; paste the five URLs into H-5 |
 
 Phase check: `POST /api/organizations/<org>/connections` with each fixture sheet URL returns headers with sensible inferred types and fill ratios; `npx vitest run` passes.
 
