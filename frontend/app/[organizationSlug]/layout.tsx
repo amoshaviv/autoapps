@@ -1,0 +1,51 @@
+import * as React from "react";
+import { AppRouterCacheProvider } from "@mui/material-nextjs/v15-appRouter";
+import { ThemeProvider } from "@mui/material/styles";
+import CssBaseline from "@mui/material/CssBaseline";
+import theme from "@/theme";
+import InitColorSchemeScript from "@mui/material/InitColorSchemeScript";
+import Providers from "@/app/components/authentication/providers";
+import { getSession } from "@/lib/next-auth";
+import NavBar from "@/app/components/layout/NavBar";
+import { getDBModels } from "@/lib/sequelize";
+import { redirect } from "next/navigation";
+
+export default async function OrganizationLayout(props: {
+  children: React.ReactNode;
+  params: Promise<{ organizationSlug: string }>;
+}) {
+  const session = await getSession();
+  const email = session?.user?.email;
+  const { params, children } = props;
+  const { organizationSlug } = await params;
+
+  const dbModels = await getDBModels();
+  const { Organization, User } = dbModels;
+  if (organizationSlug && email) {
+    const user = await User.findByEmail(email);
+
+    const result = await Organization.findBySlugAndUserEmailWithRole(
+      organizationSlug,
+      email
+    );
+    if (!result) return <h1>Not Found</h1>;
+    const { organization, userRole } = result;
+
+    if (organization && user) {
+      return (
+        <>
+          <NavBar key="nav-bar" organization={organization.toJSON()} role={userRole} />
+          {children}
+        </>
+      );
+    } else {
+      redirect("/");
+    }
+  }
+  return (
+    <>
+      <NavBar />
+      {children}
+    </>
+  );
+}

@@ -45,7 +45,7 @@ Add `npx vitest run` once tests exist (P1-4 onward), and `npm run build` from `e
 
 | ID | Task | Pri | Depends on | Status | Commit | Notes |
 |---|---|---|---|---|---|---|
-| P0-1 | Copy and strip flow-tester's frontend | must | — | todo | | |
+| P0-1 | Copy and strip flow-tester's frontend | must | — | in_progress | | 2026-09-23 |
 | P0-2 | Database bootstrap script (`db:sync`) | must | P0-1, H-1 | todo | | |
 | P0-3 | Auth guards (`lib/auth/guards.ts`) | must | P0-1 | todo | | |
 | P0-4 | Organization auto-join by email domain | must | P0-2, P0-3, H-2 | todo | | |
