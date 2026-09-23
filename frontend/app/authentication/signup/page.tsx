@@ -185,7 +185,7 @@ export default function SignupPage() {
           >
             <img
               alt="Application"
-              src="/favicon.ico"
+              src="/logo.png"
               style={{ height: 64, width: 64 }}
             />
           </Grid>

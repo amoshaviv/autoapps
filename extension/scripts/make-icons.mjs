@@ -1,4 +1,5 @@
-// Draws the AutoApps icon (rounded gradient square with an "A") at 16/48/128 px.
+// Draws the AutoApps icon (rounded gradient square with an "A") for the extension
+// (16/48/128 px) and the web app (favicon, apple touch icon, logo).
 // No image libraries: pixels are computed directly and written as PNG with zlib.
 import { writeFileSync } from "node:fs";
 import { deflateSync } from "node:zlib";
@@ -77,7 +78,16 @@ function pixel(x, y, size) {
   return [Math.round(cr), Math.round(cg), Math.round(cb), Math.round(255 * inside)];
 }
 
-for (const size of [16, 48, 128]) {
-  writeFileSync(`icons/icon-${size}.png`, png(size, pixel));
-  console.log(`icons/icon-${size}.png`);
+const outputs = [
+  ["icons/icon-16.png", 16],
+  ["icons/icon-48.png", 48],
+  ["icons/icon-128.png", 128],
+  // The web app uses the same mark (Next.js serves app/icon.png as the favicon)
+  ["../frontend/app/icon.png", 64],
+  ["../frontend/app/apple-icon.png", 180],
+  ["../frontend/public/logo.png", 256],
+];
+for (const [file, size] of outputs) {
+  writeFileSync(file, png(size, pixel));
+  console.log(file);
 }

@@ -161,7 +161,7 @@ export default function InviteSignupClient({ invite }: InviteSignupClientProps) 
         >
           <img
             alt="Application"
-            src="/favicon.ico"
+            src="/logo.png"
             style={{ height: 64, width: 64 }}
           />
         </Grid>

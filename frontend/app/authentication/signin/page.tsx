@@ -146,7 +146,7 @@ export default function SigninPage() {
           <Grid justifyContent="center" alignItems="center" textAlign="center" size={12}>
             <img
               alt="Application"
-              src="/favicon.ico"
+              src="/logo.png"
               style={{ height: 64, width: 64 }}
             />
           </Grid>

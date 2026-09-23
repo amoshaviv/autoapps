@@ -15,9 +15,6 @@ export const metadata: Metadata = {
   },
   description:
     "Build small internal apps on top of your Google Sheets by describing them in chat.",
-  icons: {
-    icon: [{ url: "/favicon.ico", sizes: "any" }],
-  },
 };
 
 export default async function RootLayout(props: { children: React.ReactNode }) {
