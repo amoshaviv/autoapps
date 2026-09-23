@@ -85,8 +85,8 @@ Phase check: `scripts/try-ai.ts` yields valid specs for all five fixture sheets;
 |---|---|---|---|---|---|---|
 | P3-1 | Runtime resolution library + tests | must | P2-1, P1-3 | done | 80046d6 | 21 tests; table edits also check the view filter (DECISIONS); fix-up 3e6601f for a test typecheck error |
 | P3-2 | Runtime routes + `requireAppAccess` | must | P3-1, P2-5 | done | ed43899 | live: own-row read, Q1 PATCH in sheet, Cost Center 403, RSVP append w/ server email, row_moved relocate; `?row=N` picks among allowed candidates |
-| P3-3 | Renderer components (my-row, form, table, stats) | must | P3-2 | in_progress | | 2026-09-23; code 77bb4b8; render check on production after push (test app `/a/DdQJoEtren`) |
-| P3-4 | Runtime page `/a/[shortId]` | must | P3-3 | in_progress | | 2026-09-23; code 3d0262a, signed-out redirect verified; render check on production after push |
+| P3-3 | Renderer components (my-row, form, table, stats) | must | P3-2 | done | 77bb4b8 | all four views checked in Chrome on www.autoapps.win, no console errors; fix-up 7bb7e5e (currency symbol on save, select close) |
+| P3-4 | Runtime page `/a/[shortId]` | must | P3-3 | done | 3d0262a | renders on production; signed-out redirect with callbackUrl; save/submit end to end (consumer = builder until H-6) |
 
 Phase check: consumer account completes hero steps 7–8 by URL; a PATCH to a non-editable column returns 403.
 
@@ -94,7 +94,7 @@ Phase check: consumer account completes hero steps 7–8 by URL; a PATCH to a no
 
 | ID | Task | Pri | Depends on | Status | Commit | Notes |
 |---|---|---|---|---|---|---|
-| P4-1 | Apps list + New-app dialog | must | P2-5 | todo | | |
+| P4-1 | Apps list + New-app dialog | must | P2-5 | in_progress | | 2026-09-23 |
 | P4-2 | New-app flow page (`/[org]/new`) with suggestions | must | P4-1, P2-3 | todo | | |
 | P4-3 | Builder page (chat + preview + publish + versions + activity) | must | P4-2, P3-3 | todo | | |
 | P4-4 | Extension panel page (`/extension/panel`, `/extension/connected`) | should | P4-3 | todo | | |
@@ -127,7 +127,7 @@ Phase check: hero scenario runs twice in a row on the deployed URL.
 
 (The executing session adds bullets here; Amos deletes them when resolved.)
 
-- **Re-grant Sheets once**: open https://www.autoapps.win/connect/google and allow. The stored refresh token was issued while production used a different OAuth client, so it cannot be refreshed (`unauthorized_client`). The client IDs now match, so one new grant fixes it.
+- **Local token refresh fails** (`unauthorized_client`) while production refreshes fine with the same client ID. Production works; local scripts can use the current access token for about an hour after each production refresh. Low priority: re-check that Vercel's `GOOGLE_CLIENT_ID`/`GOOGLE_CLIENT_SECRET` have no stray whitespace and match `frontend/.env` exactly.
 - **(later, with H-6) P0-4 real check** (code is committed in 9f21d1d): run `cd frontend && npm run dev` on :3000, sign in with Google as two accounts on the same company domain (for example two `@amoshaviv.com` accounts; both must be test users on the OAuth consent screen), then tell the executor (dev server now runs on :3000). It will confirm in `users_organizations` that the second account has role `user` in the first account's org and close P0-4. A `gmail.com` account does not auto-join; it gets a personal org and must be added from the Users page after its first sign-in.
 
 ---
