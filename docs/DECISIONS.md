@@ -2,6 +2,8 @@
 
 One paragraph per entry, newest first. Reference the task id. Record only things that differ from `docs/PLAN.md` or that a future session would otherwise have to rediscover (e.g. the P0-6 spike result, a Google API quirk, a library swap).
 
+- **2026-09-23 · P4-4 `/extension/panel` is not redirected when signed out.** P0-1's proxy sent signed-out visitors on `/extension/*` to sign-in. Inside the side-panel iframe that would load Google's sign-in page, which Google refuses to show in iframes. So the panel page handles the signed-out state itself: a "Sign in" button with `target="_blank"` and a 3-second `/api/me` poll (PLAN P4-4). `/extension/connected` still redirects.
+
 - **2026-09-23 · P4-3 edit guards after a real regression.** In the browser check, "Remove the Notes column and sort by priority" produced a spec that duplicated a view and dropped My Tasks' `Assignee eq $user.name` filter, so a personal view would have shown everyone's rows. Three fixes:
   - `editSpec` now sends the current spec right next to the request, and the edit prompt lists explicit keep-everything rules.
   - `validateSpec` requires a table's `editable` ⊆ its `columns`, and unique view titles.

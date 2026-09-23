@@ -97,7 +97,7 @@ Phase check: consumer account completes hero steps 7–8 by URL; a PATCH to a no
 | P4-1 | Apps list + New-app dialog | must | P2-5 | done | 4b80226 | added theme LinkBehavior (was missing from the copied theme) |
 | P4-2 | New-app flow page (`/[org]/new`) with suggestions | must | P4-1, P2-3 | done | 1b8a0ec | also a tab switcher; accepts spreadsheetId+gid |
 | P4-3 | Builder page (chat + preview + publish + versions + activity) | must | P4-2, P3-3 | done | 7e0d80b | hero steps 3–6 in Chrome on prod; edit guards f97d21c + option-order sort 2cb7b8f (DECISIONS) |
-| P4-4 | Extension panel page (`/extension/panel`, `/extension/connected`) | should | P4-3 | in_progress | | 2026-09-23 |
+| P4-4 | Extension panel page (`/extension/panel`, `/extension/connected`) | should | P4-3 | done | c258941 | checked in a 360 px iframe on prod; proxy no longer redirects /extension/panel (panel shows its own sign-in button); polish 151760f |
 
 Phase check: hero steps 3–6 work from `/[org]/new` in a normal tab; `/extension/panel` is usable at 360 px.
 
@@ -105,7 +105,7 @@ Phase check: hero steps 3–6 work from `/[org]/new` in a normal tab; `/extensio
 
 | ID | Task | Pri | Depends on | Status | Commit | Notes |
 |---|---|---|---|---|---|---|
-| P5-1 | Scaffold, esbuild, manifest, icons | should | P0-6 | todo | | |
+| P5-1 | Scaffold, esbuild, manifest, icons | should | P0-6 | in_progress | | 2026-09-23 |
 | P5-2 | Background + content script (badge, OPEN_PANEL, SHEET_CHANGED) | should | P5-1 | todo | | Plan B: badge opens `/[org]/new?spreadsheetId=…` |
 | P5-3 | Side panel iframe host | should | P5-2, P4-4 | todo | | |
 
