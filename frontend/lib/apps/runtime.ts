@@ -35,27 +35,32 @@ export function sheetFromValues(values: string[][], headerRow: number): LoadedSh
   return { headers, rows };
 }
 
-// Reads the sheet with the connection owner's Google credentials (PRD §7)
-export async function loadSheet(
-  connection: { spreadsheetId: string; ownerUserId: string },
-  spec: AppSpec
-): Promise<LoadedSheet> {
-  const [{ getDBModels }, { getAccessTokenForUser }, { getValues }] = await Promise.all([
+// The connection owner's Google access token: all reads and writes use the
+// builder's credentials, never the consumer's (PRD §7)
+export async function getOwnerToken(connection: { ownerUserId: string }): Promise<string> {
+  const [{ getDBModels }, { getAccessTokenForUser }] = await Promise.all([
     import("@/lib/sequelize"),
     import("@/lib/google/oauth"),
-    import("@/lib/google/sheets"),
   ]);
   const { User } = await getDBModels();
   const owner = await User.findByPk(connection.ownerUserId);
   if (!owner) throw new HttpError(409, "The app's sheet owner no longer exists", "owner_missing");
-  const token = await getAccessTokenForUser(owner).catch((err) => {
+  return getAccessTokenForUser(owner).catch((err) => {
     // Consumers cannot fix the owner's Google connection; say so plainly
     if (err instanceof HttpError && err.status === 428) {
       throw new HttpError(503, "The app's owner needs to reconnect Google Sheets", "owner_not_connected");
     }
     throw err;
   });
-  const values = await getValues(token, connection.spreadsheetId, spec.source.sheetTitle);
+}
+
+export async function loadSheet(
+  connection: { spreadsheetId: string; ownerUserId: string },
+  spec: AppSpec,
+  token?: string
+): Promise<LoadedSheet> {
+  const { getValues } = await import("@/lib/google/sheets");
+  const values = await getValues(token ?? (await getOwnerToken(connection)), connection.spreadsheetId, spec.source.sheetTitle);
   return sheetFromValues(values, spec.source.headerRow);
 }
 

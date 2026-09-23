@@ -83,7 +83,7 @@ Phase check: `scripts/try-ai.ts` yields valid specs for all five fixture sheets;
 
 | ID | Task | Pri | Depends on | Status | Commit | Notes |
 |---|---|---|---|---|---|---|
-| P3-1 | Runtime resolution library + tests | must | P2-1, P1-3 | done | 80046d6 | 21 tests; table edits also check the view filter (DECISIONS) |
+| P3-1 | Runtime resolution library + tests | must | P2-1, P1-3 | done | 80046d6 | 21 tests; table edits also check the view filter (DECISIONS); fix-up 3e6601f for a test typecheck error |
 | P3-2 | Runtime routes + `requireAppAccess` | must | P3-1, P2-5 | in_progress | | 2026-09-23 |
 | P3-3 | Renderer components (my-row, form, table, stats) | must | P3-2 | todo | | |
 | P3-4 | Runtime page `/a/[shortId]` | must | P3-3 | todo | | |
