@@ -97,7 +97,7 @@ function median(numbers: number[]) {
   return sorted.length % 2 ? sorted[mid] : (sorted[mid - 1] + sorted[mid]) / 2;
 }
 
-function inferType(typeSample: string[], distinct: Set<string>, rowCount: number): InferredType {
+function inferType(typeSample: string[], distinct: Set<string>, filledCount: number): InferredType {
   if (typeSample.length === 0) return "text";
   if (typeSample.every((v) => /^(true|false)$/i.test(v))) return "checkbox";
   if (share(typeSample, (v) => v.includes("@")) >= 0.8) return "email";
@@ -105,7 +105,8 @@ function inferType(typeSample: string[], distinct: Set<string>, rowCount: number
     return typeSample.some((v) => /[$€£]/.test(v)) ? "currency" : "number";
   }
   if (share(typeSample, (v) => parseDate(v) !== null) >= 0.8) return "date";
-  if (distinct.size <= 8 && rowCount >= 10) return "select";
+  // ">= 10 rows" counts filled cells, so sparse free-text columns stay text
+  if (distinct.size <= 8 && filledCount >= 10) return "select";
   return median(typeSample.map((v) => v.length)) > 60 ? "longtext" : "text";
 }
 
@@ -147,7 +148,7 @@ export function extractSchema(
       distinct.add(v);
     }
     const typeSample = column.slice(0, TYPE_SAMPLE_ROWS).filter((v) => v !== "");
-    const inferredType = inferType(typeSample, distinct, rowCount);
+    const inferredType = inferType(typeSample, distinct, filled.length);
 
     headers.push({
       name,

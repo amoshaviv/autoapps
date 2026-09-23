@@ -2,6 +2,14 @@
 
 One paragraph per entry, newest first. Reference the task id. Record only things that differ from `docs/PLAN.md` or that a future session would otherwise have to rediscover (e.g. the P0-6 spike result, a Google API quirk, a library swap).
 
+- **2026-09-23 · P1-4 schema heuristics.** Four clarifications of PRD §9 / PLAN P1-4, chosen for arbitrary sheets rather than the fixtures:
+  1. `select` needs ≤ 8 distinct values over ≥ 10 *filled* cells. Counting all rows turned sparse free-text columns (a Justification with two entries) into selects.
+  2. Name-like identity columns may be `text` or `select`: an Assignee column with six people is inferred as `select`, and PRD's rule only named `text`. `identityCandidates` lists email columns first, then name-like ones.
+  3. Dates are recognised by explicit patterns (ISO, `m/d/yyyy` with optional time and AM/PM, month names), not `Date.parse`, which accepts strings like "Item 2".
+  4. `looksLikeLog` = ≥ 10 rows, a ≥ 90 %-filled date column whose sample rows are in ascending order (a form timestamp), and at most a third of the columns being fill-in candidates.
+
+  Select columns also carry `options` (all distinct values) in the schema, for the spec generator.
+
 - **2026-09-23 · P0-6 spike result: Plan A.** Amos checked it in Chrome: an iframe of `http://localhost:3000/extension/panel` in the side panel shows "Signed in as mail@amoshaviv.com", so the `SameSite=None; Secure` session cookie is sent and no `host_permissions` were needed. Phase 5 follows the full side-panel plan (P5-2/P5-3), not Plan B. Recheck on the production origin in P6-1.
 
 - **2026-09-23 · P1-2 plain sign-in keeps the Sheets token.** The plan says a plain sign-in always overwrites `providerAccessToken`, but that token only carries `openid email profile`, so Sheets calls would fail until it expired while `hasSheetsScope()` still said true. Two changes: the Google provider always sends `include_granted_scopes=true`, so new tokens keep earlier grants; and `updateGoogleTokens` (`lib/google/oauth.ts`) does not replace a stored Sheets-scoped access token with one that lacks the scope. Scopes are merged, and the refresh token is overwritten only when Google sends a new one. `SHEETS_SCOPE` lives in `lib/google/scopes.ts` so the client page `/connect/google` does not import server code.
