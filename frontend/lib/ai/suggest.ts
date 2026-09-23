@@ -52,6 +52,9 @@ export async function suggestApps({
 }): Promise<Idea[]> {
   const schema = connection.schema;
   if (!schema) throw new HttpError(409, "The sheet has not been read yet", "no_schema");
+  if (schema.headers.length === 0) {
+    throw new HttpError(422, "This tab has no header row or data to build on", "empty_sheet");
+  }
 
   const messages: ChatMessage[] = [
     {

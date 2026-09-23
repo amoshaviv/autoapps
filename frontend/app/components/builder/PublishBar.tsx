@@ -39,7 +39,10 @@ export default function PublishBar({
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ name: next }),
     });
-    if (!response.ok) setName(app.name);
+    if (!response.ok) {
+      setName(app.name);
+      setError((await response.json().catch(() => ({}))).error ?? "Could not rename the app");
+    }
     onChanged();
   };
 

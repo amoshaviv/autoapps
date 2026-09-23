@@ -72,9 +72,10 @@ export default function SuggestionsPanel({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [organizationSlug, schemaKey]);
 
+  const hasColumns = (connection.schema?.headers.length ?? 0) > 0;
   React.useEffect(() => {
-    loadIdeas();
-  }, [loadIdeas]);
+    if (hasColumns) loadIdeas();
+  }, [loadIdeas, hasColumns]);
 
   React.useEffect(() => {
     if (!creating) return;
@@ -97,6 +98,16 @@ export default function SuggestionsPanel({
       setCreating(null);
     }
   };
+
+  const empty = !connection.schema || connection.schema.headers.length === 0;
+
+  if (empty) {
+    return (
+      <Alert severity="info">
+        This tab looks empty: there is no header row or data to build on. Pick another tab, or add column headers to the sheet and read it again.
+      </Alert>
+    );
+  }
 
   if (creating) {
     return (

@@ -24,19 +24,42 @@ export interface AppSummary {
   creator: { email: string; displayName: string; profileImageURL: string | null };
 }
 
+// Clipboard API first; inside an iframe without clipboard permission, fall
+// back to a hidden textarea and execCommand("copy")
+async function copyText(text: string): Promise<boolean> {
+  try {
+    await navigator.clipboard.writeText(text);
+    return true;
+  } catch {
+    const area = document.createElement("textarea");
+    area.value = text;
+    area.style.position = "fixed";
+    area.style.opacity = "0";
+    document.body.appendChild(area);
+    area.select();
+    const ok = document.execCommand("copy");
+    area.remove();
+    return ok;
+  }
+}
+
 export function CopyLinkButton({ shortId, size = "small" }: { shortId: string; size?: "small" | "medium" }) {
-  const [copied, setCopied] = React.useState(false);
+  const [state, setState] = React.useState<"idle" | "copied" | "failed">("idle");
+  const url = `/a/${shortId}`;
   return (
-    <Button
-      size={size}
-      onClick={async () => {
-        await navigator.clipboard.writeText(`${window.location.origin}/a/${shortId}`);
-        setCopied(true);
-        setTimeout(() => setCopied(false), 2000);
-      }}
-    >
-      {copied ? "Copied!" : "Copy link"}
-    </Button>
+    <Tooltip title={state === "failed" ? `Copy failed. The link is ${typeof window === "undefined" ? url : window.location.origin + url}` : ""}>
+      <Button
+        size={size}
+        color={state === "failed" ? "error" : "primary"}
+        onClick={async () => {
+          const ok = await copyText(`${window.location.origin}${url}`);
+          setState(ok ? "copied" : "failed");
+          setTimeout(() => setState("idle"), ok ? 2000 : 6000);
+        }}
+      >
+        {state === "copied" ? "Copied!" : state === "failed" ? "Copy failed" : "Copy link"}
+      </Button>
+    </Tooltip>
   );
 }
 
