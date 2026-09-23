@@ -115,7 +115,9 @@ describe("identity", () => {
 
 describe("filters, sort and metrics", () => {
   it("substitutes $user.email in filters", () => {
-    const mine = applyFilters(headcount.rows, (headcountSpec.views[0] as { filter: never }).filter, lee);
+    const view = headcountSpec.views[0];
+    if (view.type !== "table") throw new Error("expected a table view");
+    const mine = applyFilters(headcount.rows, view.filter, lee);
     expect(mine.map((r) => r.values["Employee"])).toContain("Nora Quinn");
     expect(mine.every((r) => r.values["Manager Email"] === "lee@acme.example")).toBe(true);
     expect(mine).toHaveLength(6);
@@ -128,8 +130,9 @@ describe("filters, sort and metrics", () => {
   });
 
   it("computes metrics with filters", () => {
-    const metrics = (budgetSpec().views[1] as { metrics: never }).metrics;
-    expect(computeMetrics(budget.rows, metrics, sam)).toEqual([
+    const view = budgetSpec().views[1];
+    if (view.type !== "stats") throw new Error("expected a stats view");
+    expect(computeMetrics(budget.rows, view.metrics, sam)).toEqual([
       { label: "Lines", value: 15 },
       { label: "Q1 total", value: 307000 },
       { label: "Q1 filled", value: 3 },
