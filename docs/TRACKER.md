@@ -106,8 +106,8 @@ Phase check: hero steps 3–6 work from `/[org]/new` in a normal tab; `/extensio
 | ID | Task | Pri | Depends on | Status | Commit | Notes |
 |---|---|---|---|---|---|---|
 | P5-1 | Scaffold, esbuild, manifest, icons | should | P0-6 | done | 9c4a588 | APP_ORIGIN defaults to https://www.autoapps.win (prod-first); icons drawn by scripts/make-icons.mjs |
-| P5-2 | Background + content script (badge, OPEN_PANEL, SHEET_CHANGED) | should | P5-1 | in_progress | | 2026-09-23; Plan B: badge opens `/[org]/new?spreadsheetId=…` |
-| P5-3 | Side panel iframe host | should | P5-2, P4-4 | todo | | |
+| P5-2 | Background + content script (badge, OPEN_PANEL, SHEET_CHANGED) | should | P5-1 | done | 4f49e1c | phase check in Chrome pending (Amos) |
+| P5-3 | Side panel iframe host | should | P5-2, P4-4 | in_progress | | 2026-09-23 |
 
 Phase check: hero steps 2–6 run inside the side panel against localhost; switching sheets updates the panel.
 
