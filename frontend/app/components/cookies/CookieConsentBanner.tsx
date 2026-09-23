@@ -50,8 +50,9 @@ export default function CookieConsentBanner() {
           maxWidth: 600,
           mx: "auto",
           p: 3,
-          bgcolor: "rgba(17, 17, 24, 0.98)",
-          border: "1px solid rgba(255, 255, 255, 0.1)",
+          bgcolor: "background.paper",
+          border: 1,
+          borderColor: "divider",
           backdropFilter: "blur(10px)",
           borderRadius: 2,
           pointerEvents: "auto",
@@ -70,7 +71,7 @@ export default function CookieConsentBanner() {
         </Typography>
 
         <Collapse in={showSettings}>
-          <Box sx={{ mb: 3, p: 2, bgcolor: "rgba(0,0,0,0.3)", borderRadius: 1 }}>
+          <Box sx={{ mb: 3, p: 2, bgcolor: "action.hover", borderRadius: 1 }}>
             <Stack spacing={2}>
               <Box>
                 <FormControlLabel
@@ -157,11 +158,11 @@ export default function CookieConsentBanner() {
                 onClick={() => setShowSettings(false)}
                 sx={{
                   flex: 1,
-                  borderColor: "rgba(255,255,255,0.2)",
-                  color: "white",
+                  borderColor: "divider",
+                  color: "text.primary",
                   "&:hover": {
-                    borderColor: "rgba(255,255,255,0.4)",
-                    bgcolor: "rgba(255,255,255,0.05)",
+                    borderColor: "text.secondary",
+                    bgcolor: "action.hover",
                   },
                 }}
               >
@@ -188,11 +189,11 @@ export default function CookieConsentBanner() {
                 onClick={rejectNonEssential}
                 sx={{
                   flex: 1,
-                  borderColor: "rgba(255,255,255,0.2)",
-                  color: "white",
+                  borderColor: "divider",
+                  color: "text.primary",
                   "&:hover": {
-                    borderColor: "rgba(255,255,255,0.4)",
-                    bgcolor: "rgba(255,255,255,0.05)",
+                    borderColor: "text.secondary",
+                    bgcolor: "action.hover",
                   },
                 }}
               >
@@ -204,8 +205,8 @@ export default function CookieConsentBanner() {
                 sx={{
                   color: "text.secondary",
                   "&:hover": {
-                    color: "white",
-                    bgcolor: "rgba(255,255,255,0.05)",
+                    color: "text.primary",
+                    bgcolor: "action.hover",
                   },
                 }}
               >

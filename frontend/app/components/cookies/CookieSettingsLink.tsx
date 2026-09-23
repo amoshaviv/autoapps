@@ -98,7 +98,7 @@ export default function CookieSettingsLink({ sx, children }: CookieSettingsLinkP
         border: "none",
         cursor: "pointer",
         textDecoration: "none",
-        "&:hover": { color: "white", textDecoration: "underline" },
+        "&:hover": { color: "text.primary", textDecoration: "underline" },
         ...sx,
       }}
     >
