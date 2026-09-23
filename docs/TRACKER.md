@@ -116,8 +116,8 @@ Phase check: hero steps 2–6 run inside the side panel against localhost; switc
 | ID | Task | Pri | Depends on | Status | Commit | Notes |
 |---|---|---|---|---|---|---|
 | P6-1 | Deploy to Vercel, production OAuth redirect, prod `db:sync`, extension build with prod origin | must | P4-3, H-4 | done | bc37ada | done during the switch to production: Vercel deploys main (Next.js preset, root `frontend`), OAuth redirect works via www, shared DB already synced, extension built for https://www.autoapps.win |
-| P6-2 | Polish, in order: light theme, empty states, error toasts, README, icons | should | P6-1 | in_progress | | 2026-09-23; stop when time runs out |
-| P6-3 | Demo rehearsal checklist | should | P6-1 | todo | | warm Nebius first: the first spec generation per deploy takes ~65 s (grammar compile) |
+| P6-2 | Polish, in order: light theme, empty states, error toasts, README, icons | should | P6-1 | done | 5d61b40 | all five items: light theme d4cf664, empty states/errors 04bc9a1 (incl. clipboard-write in the panel), icons 17f575a, README 5d61b40 |
+| P6-3 | Demo rehearsal checklist | should | P6-1 | in_progress | | 2026-09-23; warm Nebius first: the first spec generation per deploy takes ~65 s (grammar compile) |
 
 Phase check: hero scenario runs twice in a row on the deployed URL.
 
