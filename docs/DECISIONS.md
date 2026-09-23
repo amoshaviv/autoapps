@@ -2,6 +2,13 @@
 
 One paragraph per entry, newest first. Reference the task id. Record only things that differ from `docs/PLAN.md` or that a future session would otherwise have to rediscover (e.g. the P0-6 spike result, a Google API quirk, a library swap).
 
+- **2026-09-23 · P2-1 extra spec rules.** Besides PRD §6's rules, `validateSpec` also requires:
+  - every header a view uses (show, editable, fields, table columns, filters, sort, metrics) to be declared in `columns`, so the renderer always has a type for it;
+  - no header declared twice in `columns`;
+  - `source.sheetTitle` and `source.headerRow` to match the connection's cached schema, because otherwise the header names refer to a different tab or row.
+
+  `validateSpec` returns the parsed spec on success (`{ ok: true, spec }`).
+
 - **2026-09-23 · P1-4 schema heuristics.** Four clarifications of PRD §9 / PLAN P1-4, chosen for arbitrary sheets rather than the fixtures:
   1. `select` needs ≤ 8 distinct values over ≥ 10 *filled* cells. Counting all rows turned sparse free-text columns (a Justification with two entries) into selects.
   2. Name-like identity columns may be `text` or `select`: an Assignee column with six people is inferred as `select`, and PRD's rule only named `text`. `identityCandidates` lists email columns first, then name-like ones.
