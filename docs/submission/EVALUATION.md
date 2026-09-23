@@ -1,6 +1,6 @@
 # AutoApps — minimal model comparison
 
-Purpose: turn the existing feasibility observations into a defensible answer to “Measurable model advantage.” This is a protocol, not completed results. No additional paid inference was run while preparing these materials.
+Purpose: turn feasibility observations into a defensible answer to “Measurable model advantage.” A first pilot is now complete: see [measured results and raw evidence](evidence/README.md). It used one trial per fixture per model, ten successful API responses. The three-repeat protocol below remains a proposed follow-up, not completed work.
 
 ## Existing evidence
 

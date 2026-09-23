@@ -1,88 +1,93 @@
-# AutoApps — five-minute pitch and demo
+# AutoApps — five-minute pitch
 
-Working pitch for the current prototype. Total allocation: 5:00 including a 1:30 demo. The deck intentionally identifies unfinished verification and missing comparison evidence. Update those parts when measured results are available. Timing is a rehearsal allocation, not a measured speaking duration.
+Updated to the six confirmed judging criteria and Amos’s context-first positioning. Seven slides, 4:45 of planned delivery, including a 75-second live demo. Leave 15 seconds for transitions or delays. Timing is a rehearsal allocation.
 
-## Slide 1 — AutoApps — 0:00–0:20
+## Story
 
-“Engineers use AI to build software. Business teams should be able to build their own tools too. AutoApps starts with something they already know: a Google Sheet. They describe the workflow, and AutoApps generates an internal-app specification.”
+**AutoApps reads the business context people already have, suggests useful apps, and generates the one they choose.** Google Sheets is the first source. Chat refines an app after creation. Keep this order visible in the demo: context, suggestions, generation, colleague action, update in the original sheet.
 
-## Slide 2 — The budget handoff — 0:20–0:55
+## Timing and rubric coverage
 
-“Consider a Finance analyst collecting budget inputs. A chat answer can explain how to organize the process, but the analyst still has to build the workflow. They coordinate edits in the sheet, reconcile separate responses, or ask someone to configure a tool. AutoApps is designed to turn that request into an app colleagues can use. Finance and Ops teams with recurring updates are our first customer hypothesis.”
+| Slide | Time | What it establishes | Judging coverage |
+| --- | --- | --- | --- |
+| 1. Lovable for the enterprise | 0:00–0:15 | Business teams can build with AI, starting in their existing context | Product and user value |
+| 2. AutoApps reads the context | 0:15–1:05 | Recurring coordination pain, and useful app ideas inferred from a sheet | Product and user value, problem and company potential |
+| 3. Live demo: sheet to generated app | 1:05–2:20 | Suggestions, generation, publication and a visible write-back | Product and user value, demo clarity |
+| 4. Open models shape the app | 2:20–2:55 | Exact model roles, context extraction and validation | Technical execution and Token Factory use |
+| 5. A measured model tradeoff | 2:55–3:40 | Actual matched-task comparison, including task failures | Measurable model advantage |
+| 6. Responsible design | 3:40–4:00 | Bounded generation, access enforcement and data flow | Responsible design |
+| 7. Start with Ops. Expand across the company. | 4:00–4:45 | Initial buyer, market context, subscription and expansion hypothesis | Problem and company potential |
 
-## Slide 3 — One budget update — 0:55–2:25, live demo
+The exact weights are product and user value **25%**, problem and company potential **20%**, measurable model advantage **20%**, technical execution and Token Factory use **20%**, demo clarity **10%**, and responsible design **5%**. These come from the screenshot and the BuilderBase event page. Technical execution and Token Factory use are one combined criterion. Demo clarity is a separate criterion.
 
-Show the actual product only after the full flow passes. Until then, use the visible “Target workflow” label and explain it as planned behavior. Never represent the slide as a product screenshot or the sequence as completed testing.
+## Spoken script
+
+### 1 — Cover
+
+“AutoApps is Lovable for the enterprise. It reads the business context you already have, suggests useful apps, and generates the one you choose. We start with Google Sheets.”
+
+### 2 — Context creates the starting point
+
+“Engineers use AI to build software. Business teams should be able to build their own tools too. Think of a Finance analyst collecting budget inputs: they still coordinate sheet edits, chase people, and reconcile responses every cycle.
+
+AutoApps reads the sheet’s columns, sample values, ownership signals and missing inputs. It can then propose a budget app for each owner, a status board, or a summary. The user chooses an idea and we generate the app. They can refine it in chat. They don’t need to design the software or write a detailed starting brief.”
+
+### 3 — Live demo
+
+Use the web builder on the stage computer. Show context-derived suggestions before typing any custom request.
 
 | Seconds | Action | Narration |
 | ---: | --- | --- |
-| 0–15 | Open the synthetic budget sheet and the extension. Use the web builder if the stage computer cannot load the extension. | “Finance already owns this sheet. Each cost center has an owner and quarterly inputs.” |
-| 15–35 | Choose the owner-input suggestion and generate the app. | “AutoApps reads the sheet’s structure and suggests a workflow that fits it.” |
-| 35–50 | Ask: “Show FY2026 Actual as read-only and make Justification required.” Show the preview. | “The builder describes the change in ordinary language.” |
-| 50–60 | Publish and open the exact app link in the prepared consumer session. | “This is the link a colleague receives.” |
-| 60–80 | Enter one small synthetic update and save. | “The colleague sees their budget line and completes the allowed fields.” |
-| 80–90 | Return to the sheet and show the changed cell. | “The original sheet receives the update.” |
+| 0–10 | Show the synthetic budget sheet, Owner Email and empty quarterly inputs | “The context is already here: who owns each line and what they need to complete.” |
+| 10–20 | Reveal the app suggestions and choose the owner-budget idea | “AutoApps proposes this app from the sheet.” |
+| 20–35 | Generate and show the preview | “One selection gives us a working starting point.” |
+| 35–45 | Make one concise chat refinement if it fits | “Chat is how we refine it.” |
+| 45–55 | Publish and open the prepared colleague session | “This is the link a colleague receives.” |
+| 55–70 | Save a synthetic update through the app | “They complete the fields intended for them.” |
+| 70–75 | Show the changed source cell | “The update lands in the original sheet.” |
 
-Do not spend the demo signing into accounts or granting OAuth. If generation runs long, switch to an explicitly labeled previously generated app and continue the consumer flow. Say what you are doing. Keep a recorded version of the real working flow as a fallback if the event permits it, and label playback clearly.
+The decisive moment is the source cell changing after the colleague acts. Avoid spending the demo on setup, OAuth consent, navigation or a feature tour. If generation exceeds its slot, explicitly switch to a previously generated app and preserve the live write-back. Do not disguise a saved app or recording as live generation.
 
-## Slide 4 — Open models shape the app — 2:25–3:05
+### 4 — Technical execution and Token Factory
 
-“Nebius Token Factory serves the product’s model calls. GLM-5.3-Flash proposes three ideas from the sheet’s structure and samples. GLM-5.3 generates and edits an app specification. We validate the returned JSON and its references to the real sheet, with one retry for invalid outputs. The specification supports forms, tables, a personal-row view, and statistics. Schema extraction and shape analysis run in ordinary code. This constrains what a generated app can express.”
+“We extract the sheet’s structure in code, including ownership and missing-input signals. Nebius Token Factory serves both model roles: GLM-5.3-Flash proposes workflows, and GLM-5.3 generates and edits the selected app specification. We validate the JSON against the actual sheet, with one retry for invalid output. A fixed set of supported views keeps the runtime bounded.”
 
-If asked: DeepSeek was tested on a compatibility spike, not implemented as automatic fallback. Claude helped with development and Codex with submission preparation. The OpenAI SDK is the transport client for Nebius.
+Exact product defaults: `zai-org/GLM-5.3-Flash`, low effort for suggestions; `zai-org/GLM-5.3`, high effort for generation/editing. The next slide compares both models at high effort. Confirm the deployed settings before presenting.
 
-## Slide 5 — Initial generation evidence — 3:05–3:40
+### 5 — Measured tradeoff
 
-“The development log records five sheet types passing spec validation on the first attempt. The first budget generation took 65 seconds. The next four generation cases took 6.7 to 8.6 seconds, and a budget edit took 4 seconds. These are small development observations, and validation is not proof of a correct deployed workflow. A controlled comparison against Flash on the same app-generation tasks is still pending.”
+“We compared both models on the same five generation tasks. Both passed the schema checks in five out of five cases. Flash met four task checklists, and GLM-5.3 met three. GLM-5.3 had a 4.64-second median versus 5.35 seconds for Flash.
 
-Replace this passage after running the comparison. Lead with the measured tradeoff, use the same baseline and sample counts as the written submission, and keep the cold-call result visible. Do not present the toy-schema comparison as product performance.
+Both missed the requested multi-row task view. GLM-5.3 also omitted the RSVP email identity setting. This small pilot gives us a real tradeoff and tells us what to test next. Valid JSON alone isn’t a correct workflow.”
 
-## Slide 6 — Responsible design — 3:40–4:15
+Evidence: [comparison and methodology](evidence/README.md). All ten outputs are retained. Task checks are static specification reviews, not end-to-end app tests. One request per fixture per model is insufficient to establish broad superiority. No cost advantage is claimed. The evaluation did not change production model settings.
 
-“The server validates app specifications and enforces the stored app’s organization, row and editable-field rules. We still need to verify the complete flow with a separate consumer account. Privacy also matters: the backend stores access credentials and cached sheet samples, and Nebius receives headers, sample values, and builder instructions. We will demonstrate with synthetic data. Restoring an app configuration does not undo edits to the underlying sheet.”
+### 6 — Responsible design
 
-Once the two-account checks pass, state what you tested. Keep the data-flow disclosure.
+“The server validates the specification and enforces its row and field rules. We disclose what goes to Nebius: selected schema, samples and builder instructions. Builders can revise or restore an app configuration, while saved spreadsheet edits need separate correction.”
 
-## Slide 7 — A recurring workflow business — 4:15–5:00
+Do not say AutoApps solves all enterprise security or privacy concerns. The model can produce a valid but inappropriate specification, so intended access policy still needs review and testing.
 
-“The broader opportunity is to help business teams build with AI. We would start with Finance and Ops teams that repeatedly collect updates in spreadsheets. The buyer is the workflow owner, and the business-model hypothesis is a team subscription justified by less coordination and reconciliation. Our next step is to observe five teams doing a real workflow and measure the difference. If one app proves useful, we can expand into more workflows in that company. Demand and pricing still need validation.”
+### 7 — Company potential and close
 
-The five teams are a proposed research target, not existing users. Shorten the final slide if live demo execution uses the buffer.
+“Our first customer is an Ops team repeatedly collecting updates in spreadsheets. The workflow owner is our buyer hypothesis, with a team subscription justified by less coordination.
 
-## Coverage of the judging criteria
+Google reported more than eleven million Workspace customers in July 2025. That is a large starting ecosystem, not our addressable-market estimate. We would win one recurring workflow, then expand into more apps and data sources within the company. The next proof is repeat use and willingness to pay. AutoApps gives business teams a way to build with AI.”
 
-The screenshot appears to imply these six categories. Confirm the exact labels in the portal before submission.
+Market source: [Google Workspace, 29 July 2025](https://workspace.google.com/blog/identity-and-security/defending-against-account-takeovers-top-threats-passkeys-and-dbsc). Initial segment, pricing and demand remain unvalidated. Do not present the platform count as the number of prospective AutoApps customers.
 
-| Working criterion | Coverage |
-| --- | --- |
-| Product and user value | Slides 1–3, concrete builder and colleague workflow |
-| Problem and company potential | Slides 2 and 7, frequency, alternatives, buyer and subscription hypothesis |
-| Technical execution | Slides 3–4, working demo and constrained app generation |
-| Token Factory use | Slide 4, exact product model roles |
-| Measurable model advantage | Slide 5, currently feasibility only, comparison still needed |
-| Responsible design | Slide 6, safeguards, data flow, recovery limits |
+## Stage and public-link readiness
 
-## Demo and submission readiness
+- Publish the final presentation to a browser viewer. A local `.key` or `.pptx` file does not satisfy the requested public link.
+- Open the exact public link in an incognito window. Confirm the cover, every slide, readable fonts and presentation controls without a sign-in request.
+- Use the web builder as the primary demo path. The event uses its own computer, so the demo cannot depend on your installed extension or local files.
+- Prepare distinct builder and consumer accounts and verify the consumer’s row/field access. H-6 is still open in the reviewed tracker. Do not expose passwords or OAuth tokens in the slides or URL.
+- Rehearse the full sequence on the deployed site twice. Initial generation latency and authentication can vary.
+- Keep a clearly labeled recording or pre-generated app available if the event permits it. Test any linked or embedded media in the same signed-out viewer.
+- Publish a sanitized evidence viewer or repository link for the comparison. The evidence bundle in this folder contains synthetic data and provider usage, with no secrets.
 
-- Resolve the OAuth-client mismatch and apex/www URL inconsistency recorded in `docs/TRACKER.md`, if still current.
-- Prepare distinct builder and consumer accounts. The tracker currently says the fixture consumer is the builder account. A single-account demo does not verify the handoff.
-- Confirm the consumer can access only intended data. For the budget demo, use email matching, deny unmatched users, and verify secondary tables and statistics do not expose other rows. Inspect API responses as well as visible fields.
-- Verify save-to-sheet, publication, and configuration restoration before claiming them. Rehearse the deployed flow twice.
-- Record the first generation latency separately. A rehearsal generation may help establish a warm state, but do not assume it eliminates all future delays.
-- Prepare a stage-computer path. The screenshot says presenters use the organizers’ computer, so the pitch cannot depend solely on your installed extension or browser profiles.
-- Publish the deck to a viewer accessible while signed out. Test its link and the evidence link from a fresh browser session.
-- Replace slide 5 with the completed comparison and remove only the status qualifiers whose underlying checks have actually passed.
+## Source and format notes
 
-## Likely questions
+The cover direction comes from Amos’s `AutoApps-pitch-draft copy.key`. Native Keynote control was blocked by macOS, and the bundled converter could not load that Keynote file. The revised PowerPoint reuses the original deck’s editable objects and matches the updated cover text/layout from its embedded preview, with the brand spelling corrected to “Lovable” and the subtitle updated for context-driven generation.
 
-**Who pays?** The initial hypothesis is a Finance or Ops team. Explain the coordination problem and proposed pilot measurement. Do not claim validated demand or revenue.
-
-**What is distinctive?** The proposed experience starts in the sheet, suggests workflows from its structure, and lets the owner describe an app in chat. The budget handoff is the concrete demonstration. Do not claim that competitors cannot do this without researching and testing them.
-
-**Why two models?** Different generation tasks have different complexity and output size. The split is an engineering hypothesis until the comparison measures quality, latency, and cost.
-
-**What if the model exposes the wrong data?** Structural validation cannot establish appropriate access policy by itself. Describe the actual builder review and server enforcement that has been implemented, plus the identity/filter tests that passed.
-
-**Does the data stay in Google Sheets?** The sheet remains the source for business records, but the backend caches schema/sample data and sends selected context to Nebius. Give that direct answer.
-
-**Is this already a company?** It is a hackathon prototype with a proposed first customer and business model. The next evidence is a successful real workflow, measured benefit, and willingness to pay.
+Judging source: [BuilderBase event overview](https://builderbase.com/track-dashboard/accel-ai-innovate-amsterdam/overview), read 23 September 2026. Other factual sources are the repository, the comparison evidence, and the Google source above. No broad enterprise-adoption statistic is asserted.

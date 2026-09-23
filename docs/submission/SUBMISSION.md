@@ -12,7 +12,7 @@ Verify the deployed flow with separate builder and consumer accounts before subm
 
 Engineers use AI to build software. Business teams should be able to build their own tools too, starting with the spreadsheets they already use.
 
-AutoApps is a prototype that reads a Google Sheet and generates an internal-app specification from a plain-language request. We are completing the flow for refining the app in chat and sharing it with colleagues. For example, a Finance team could give each budget owner an app to complete their own line, with updates returning to the original sheet.
+AutoApps reads a Google Sheet’s structure and sample data to suggest useful internal apps. The user chooses an idea, AutoApps generates the app, and chat handles refinements. A Finance team could open its budget sheet and get an app for each owner to complete their own line, with updates returning to the original sheet.
 
 Our initial target is Finance and Ops teams collecting recurring updates through shared sheets, separate forms, or manual follow-ups. A team subscription could pay for itself through less coordination and reconciliation, then expand into more workflows in the same company. Willingness to pay remains a hypothesis to test.
 
@@ -26,11 +26,11 @@ Claude assisted development, and Codex assisted submission preparation. No close
 
 ## Measurable model advantage
 
-The development log records GLM-5.3 passing first-attempt spec validation on all five fixture sheets: budget, tasks, inventory, RSVP, and headcount. The first generation took 65 seconds; the next four took 6.7–8.6 seconds. A budget edit took 4 seconds.
+We compared GLM-5.3 and GLM-5.3-Flash on five identical sheet-generation tasks through Nebius, both at high reasoning effort. Both passed first-attempt schema checks in 5/5 cases. Flash met the predefined task checklist in 4/5, compared with GLM-5.3’s 3/5. Median elapsed time was 5.35 seconds for Flash and 4.64 seconds for GLM-5.3.
 
-These are single-run feasibility observations. We have not yet established a comparative advantage. Our planned baseline is GLM-5.3-Flash on identical generation requests, measuring validity, workflow correctness, latency, and token usage.
+This small pilot shows a quality/latency tradeoff. Both missed the multi-row task-table requirement, and GLM-5.3 omitted the RSVP email identity setting. These are specification checks, not production reliability measurements.
 
-*Replace this interim answer with the measured comparison and a public proof link. See [EVALUATION.md](EVALUATION.md).*
+Evidence: [results, methodology and raw outputs](evidence/README.md). Publish this evidence and insert its public link before submitting.
 
 ## Responsible design
 
@@ -38,7 +38,7 @@ AutoApps validates generated app specifications and enforces the stored app’s 
 
 ## Pitch slides
 
-Editable draft: [AutoApps-pitch-draft.pptx](AutoApps-pitch-draft.pptx)
+Editable draft: [AutoApps-pitch-v2.pptx](AutoApps-pitch-v2.pptx)
 
 Five-minute script, including the demo: [PITCH.md](PITCH.md)
 
@@ -46,11 +46,11 @@ Upload the final deck to a public viewer and test its link while signed out. The
 
 ## Final checks
 
-- Replace the model-evidence answer with an actual comparison. The current numbers establish feasibility, not an advantage over a baseline.
+- Publish the measured comparison and retain its small-sample and specification-review qualifications.
 - Rehearse the deployed flow with two accounts, then update the product paragraph and slide status labels. Do not claim “under two minutes” until measured.
 - Confirm the deployed model names and effort settings match the code defaults above.
 - Keep demand and pricing as hypotheses until supported. No customer evidence was provided.
 - Verify permission behavior across every view. App-configuration rollback does not undo spreadsheet edits.
-- Publish the slides and evidence links. Confirm the portal’s exact six judging criteria.
+- Publish the slides and evidence links. Cover the six weighted criteria listed in PITCH.md.
 
-Sources: `docs/PRD.md`, `docs/TRACKER.md`, `docs/DECISIONS.md`, and the reviewed AI, validation, authorization, and runtime code. Development-log measurements were not independently repeated during submission preparation. Broader enterprise-adoption rates are not claimed.
+Sources: `docs/PRD.md`, `docs/TRACKER.md`, `docs/DECISIONS.md`, and the reviewed AI, validation, authorization, and runtime code. Older development-log measurements were not repeated; the new matched-task comparison was run during pitch revision. Broader enterprise-adoption rates are not claimed.
