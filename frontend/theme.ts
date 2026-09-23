@@ -1,6 +1,16 @@
 "use client";
+import * as React from "react";
+import NextLink, { LinkProps } from "next/link";
 import { createTheme } from "@mui/material/styles";
 import { Roboto } from "next/font/google";
+
+// MUI components with an href render a Next <Link>, so navigation is always a
+// real link (CLAUDE.md: never onClick + router.push for navigation)
+const LinkBehavior = React.forwardRef<HTMLAnchorElement, Omit<LinkProps, "href"> & { href: LinkProps["href"] }>(
+  function LinkBehavior(props, ref) {
+    return React.createElement(NextLink, { ref, ...props });
+  }
+);
 
 const roboto = Roboto({
   weight: ["300", "400", "500", "700"],
@@ -79,6 +89,11 @@ const theme = createTheme({
     fontFamily: roboto.style.fontFamily,
   },
   components: {
+    MuiButtonBase: {
+      defaultProps: {
+        LinkComponent: LinkBehavior,
+      },
+    },
     MuiCssBaseline: {
       styleOverrides: {
         body: {
@@ -259,6 +274,9 @@ const theme = createTheme({
       },
     },
     MuiLink: {
+      defaultProps: {
+        component: LinkBehavior,
+      },
       styleOverrides: {
         root: {
           color: colors.primary.light,
