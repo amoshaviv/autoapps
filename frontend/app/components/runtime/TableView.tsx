@@ -20,7 +20,7 @@ import Typography from "@mui/material/Typography";
 import SearchIcon from "@mui/icons-material/Search";
 import FieldInput, { isChecked, toSheetValue } from "./FieldInput";
 import { apiFetch, runtimeUrl, RuntimeRow, useJson } from "./useAppData";
-import { compareCells } from "@/lib/apps/compare";
+import { compareByColumn } from "@/lib/apps/compare";
 import type { AppSpec } from "@/lib/apps/spec";
 
 type TableView = Extract<AppSpec["views"][number], { type: "table" }>;
@@ -60,11 +60,12 @@ export default function TableView({
         const va = a.values[sort.column] ?? "";
         const vb = b.values[sort.column] ?? "";
         if (va === "" || vb === "") return va === vb ? 0 : va === "" ? 1 : -1;
-        return compareCells(va, vb) * factor;
+        const options = spec.columns.find((c) => c.header === sort.column)?.options;
+        return compareByColumn(va, vb, options) * factor;
       });
     }
     return list;
-  }, [data, search, sort, view.columns]);
+  }, [data, search, sort, view.columns, spec.columns]);
 
   const commit = async (row: RuntimeRow, column: string, raw: string) => {
     setEditing(null);

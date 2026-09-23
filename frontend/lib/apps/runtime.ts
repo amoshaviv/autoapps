@@ -3,7 +3,7 @@
 import { HttpError } from "@/lib/http-error";
 import { AppSpec, Filter, Metric, View } from "./spec";
 import { parseNumber, resolveHeaderNames } from "@/lib/google/schema";
-import { compareCells } from "./compare";
+import { compareByColumn, compareCells } from "./compare";
 
 export interface Viewer {
   email: string;
@@ -134,15 +134,17 @@ export function applyFilters(rows: SheetRow[], filters: Filter[] | undefined, vi
 // Empty cells sort last in both directions
 export function sortRows(
   rows: SheetRow[],
-  sort: { column: string; direction: "asc" | "desc" } | undefined
+  sort: { column: string; direction: "asc" | "desc" } | undefined,
+  columns: AppSpec["columns"] = []
 ): SheetRow[] {
   if (!sort) return rows;
   const factor = sort.direction === "desc" ? -1 : 1;
+  const options = columns.find((c) => c.header === sort.column && c.type === "select")?.options;
   return [...rows].sort((a, b) => {
     const va = a.values[sort.column] ?? "";
     const vb = b.values[sort.column] ?? "";
     if (va === "" || vb === "") return va === vb ? 0 : va === "" ? 1 : -1;
-    return compareCells(va, vb) * factor;
+    return compareByColumn(va, vb, options) * factor;
   });
 }
 

@@ -58,7 +58,7 @@ export const GET = handleRoute(async (request: NextRequest, context: Context) =>
   }
 
   if (view.type === "table") {
-    const rows = sortRows(applyFilters(sheet.rows, view.filter, viewer), view.sort);
+    const rows = sortRows(applyFilters(sheet.rows, view.filter, viewer), view.sort, spec.columns);
     return NextResponse.json({ rows: rows.map((r) => withKey(r, view.columns)), total: rows.length });
   }
 

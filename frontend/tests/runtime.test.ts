@@ -129,6 +129,16 @@ describe("filters, sort and metrics", () => {
     expect(sorted[sorted.length - 1].values["Start Date"]).toBe("Sep 28, 2026");
   });
 
+  it("sorts choice columns in option order, not alphabetically", () => {
+    const tasks = sheetFromValues(fixtures.tasks.values, 1);
+    const sorted = sortRows(tasks.rows, { column: "Priority", direction: "asc" }, [
+      { header: "Priority", type: "select", options: ["High", "Medium", "Low"] },
+    ]);
+    const order = sorted.map((r) => r.values["Priority"]);
+    expect(order.indexOf("Medium")).toBeGreaterThan(order.lastIndexOf("High"));
+    expect(order.indexOf("Low")).toBeGreaterThan(order.lastIndexOf("Medium"));
+  });
+
   it("computes metrics with filters", () => {
     const view = budgetSpec().views[1];
     if (view.type !== "stats") throw new Error("expected a stats view");
