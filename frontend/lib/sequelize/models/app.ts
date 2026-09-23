@@ -6,6 +6,7 @@ import { IUserInstance } from "./user";
 import { IOrganizationInstance } from "./organization";
 import { IConnectionInstance } from "./connection";
 import { IAppVersionInstance } from "./app-version";
+import type { AppSpec } from "@/lib/apps/spec";
 
 // nanoid's default alphabet without "-" and "_", so links survive copy/paste
 const newShortId = customAlphabet(
@@ -31,7 +32,7 @@ export interface IAppInstance extends Model {
   organization?: IOrganizationInstance;
   connection?: IConnectionInstance;
   addVersion(
-    spec: Record<string, unknown>,
+    spec: AppSpec,
     summary: string | null,
     user: IUserInstance
   ): Promise<IAppVersionInstance>;
@@ -47,7 +48,7 @@ export interface IAppModel extends ModelStatic<IAppInstance> {
     connection: IConnectionInstance;
     user: IUserInstance;
     name: string;
-    spec: Record<string, unknown>;
+    spec: AppSpec;
     summary: string | null;
   }): Promise<{ app: IAppInstance; version: IAppVersionInstance }>;
   findBySlugInOrg(organizationSlug: string, appSlug: string): Promise<IAppInstance | null>;
@@ -176,8 +177,8 @@ export default function defineAppModel(sequelize: Sequelize): IAppModel {
           createdById: user.id,
           name,
           slug,
-          description: (spec.description as string | undefined) ?? null,
-          icon: (spec.icon as string | undefined) ?? null,
+          description: spec.description ?? null,
+          icon: spec.icon ?? null,
         },
         { transaction }
       );
@@ -208,7 +209,7 @@ export default function defineAppModel(sequelize: Sequelize): IAppModel {
   };
 
   (App.prototype as IAppInstance).addVersion = async function addVersion(
-    spec: Record<string, unknown>,
+    spec: AppSpec,
     summary: string | null,
     user: IUserInstance
   ) {

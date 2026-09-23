@@ -4,13 +4,9 @@ import { getDBModels } from "@/lib/sequelize";
 import { IUserInstance } from "@/lib/sequelize/models/user";
 import { IOrganizationInstance } from "@/lib/sequelize/models/organization";
 import { UserRole } from "@/lib/sequelize/models/users-organizations";
+import { HttpError } from "@/lib/http-error";
 
-export class HttpError extends Error {
-  constructor(public status: number, message: string, public code?: string) {
-    super(message);
-    this.name = "HttpError";
-  }
-}
+export { HttpError };
 
 type MinRole = "user" | "admin" | "owner";
 const ROLE_RANK: Record<string, number> = { user: 0, admin: 1, owner: 2 };

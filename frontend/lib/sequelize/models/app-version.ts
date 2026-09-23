@@ -1,12 +1,12 @@
 import { Sequelize, DataTypes, Model, ModelStatic } from "sequelize";
 import { IModels } from ".";
+import type { AppSpec } from "@/lib/apps/spec";
 
 export interface IAppVersionInstance extends Model {
   id: string;
   appId: string;
   number: number;
-  // Shape defined by the AppSpec zod schema (lib/apps/spec.ts, P2-1)
-  spec: Record<string, unknown>;
+  spec: AppSpec;
   summary: string | null;
   createdById: string | null;
   createdAt: Date;

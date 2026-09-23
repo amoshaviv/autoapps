@@ -2,6 +2,17 @@
 
 One paragraph per entry, newest first. Reference the task id. Record only things that differ from `docs/PLAN.md` or that a future session would otherwise have to rediscover (e.g. the P0-6 spike result, a Google API quirk, a library swap).
 
+- **2026-09-23 · P2-2 Nebius structured output measured.** `scripts/try-nebius.ts` with a toy `{ greeting, number }` schema: all three models accepted `response_format: json_schema` (strict) with `reasoning_effort` set, and the `json_object` fallback never fired.
+
+  | Model | Effort | Latency |
+  |---|---|---|
+  | `zai-org/GLM-5.3` | `high` | 13.2 s on the first (cold) call, then 8.9 / 5.6 / 2.2 s |
+  | `zai-org/GLM-5.3` | `low` | 12.9 s (first call) |
+  | `zai-org/GLM-5.3-Flash` | `low` | 1.1–1.4 s |
+  | `deepseek-ai/DeepSeek-V4.1-Flash` | `none` | 2.3 s |
+
+  GLM-5.3's latency is dominated by time-to-first-token and varies a lot. Reasoning tokens were 1–5 on this trivial prompt, so effort barely mattered here. P2-4 measures real spec generation. The system prompt's embedded JSON schema is sent without its `$schema` key.
+
 - **2026-09-23 · P2-1 extra spec rules.** Besides PRD §6's rules, `validateSpec` also requires:
   - every header a view uses (show, editable, fields, table columns, filters, sort, metrics) to be declared in `columns`, so the renderer always has a type for it;
   - no header declared twice in `columns`;

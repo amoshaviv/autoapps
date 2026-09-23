@@ -2,6 +2,7 @@ import { Sequelize, DataTypes, Model, ModelStatic } from "sequelize";
 import { IModels } from ".";
 import { IUserInstance } from "./user";
 import { IOrganizationInstance } from "./organization";
+import type { ConnectionSchema } from "@/lib/google/schema";
 
 export interface ConnectionSheet {
   sheetId: number;
@@ -18,8 +19,7 @@ export interface IConnectionInstance extends Model {
   spreadsheetId: string;
   title: string | null;
   sheets: ConnectionSheet[];
-  // Shape defined by extractSchema (lib/google/schema.ts, P1-4)
-  schema: Record<string, unknown> | null;
+  schema: ConnectionSchema | null;
   schemaFetchedAt: Date | null;
   createdAt: Date;
   updatedAt: Date;

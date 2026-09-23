@@ -71,8 +71,8 @@ Phase check: `POST /api/organizations/<org>/connections` with each fixture sheet
 
 | ID | Task | Pri | Depends on | Status | Commit | Notes |
 |---|---|---|---|---|---|---|
-| P2-1 | AppSpec zod schema + `validateSpec` + tests | must | P1-4 | in_progress | | 2026-09-23 |
-| P2-2 | AI client (Nebius via `openai` SDK, `json_schema`), prompts, `try-nebius` script | must | P2-1, H-3 | todo | | record json_schema vs json_object result and latency per model in DECISIONS.md |
+| P2-1 | AppSpec zod schema + `validateSpec` + tests | must | P1-4 | done | e2c971b | 12 tests; 3 extra structural rules (DECISIONS) |
+| P2-2 | AI client (Nebius via `openai` SDK, `json_schema`), prompts, `try-nebius` script | must | P2-1, H-3 | in_progress | | 2026-09-23; record json_schema vs json_object result and latency per model in DECISIONS.md |
 | P2-3 | `suggestApps` + suggest route, checked on all five fixture sheets | must | P2-2, P1-5, P1-6 | todo | | |
 | P2-4 | `generateSpec` / `editSpec` with validation retry + `try-ai` script | must | P2-2 | todo | | |
 | P2-5 | Builder-side app routes (create, get, messages, publish, restore, activity, patch, delete) | must | P2-4, P1-5 | todo | | |

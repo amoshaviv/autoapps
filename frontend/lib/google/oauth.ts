@@ -1,5 +1,5 @@
 import type { Account } from "next-auth";
-import { HttpError } from "@/lib/auth/guards";
+import { HttpError } from "@/lib/http-error";
 import { IUserInstance } from "@/lib/sequelize/models/user";
 
 import { SHEETS_SCOPE } from "./scopes";
