@@ -2,6 +2,19 @@
 
 One paragraph per entry, newest first. Reference the task id. Record only things that differ from `docs/PLAN.md` or that a future session would otherwise have to rediscover (e.g. the P0-6 spike result, a Google API quirk, a library swap).
 
+- **2026-09-23 · P2-4 generation results; effort stays `high`.** `try-ai` on the five fixture schemas (`fixture:NAME`, because no real connections exist until the Sheets grant; the same code path runs on `connection.schema`). Every spec passed `validateSpec` on the first attempt.
+
+  | Fixture | Latency | Result |
+  |---|---|---|
+  | budget | **65 s** (first call) | my-row on Owner Email plus stats |
+  | budget edit | 4 s | made Justification required |
+  | tasks | 7 s | my-row plus a board with inline status |
+  | inventory | 8.6 s | stats plus a table sorted by quantity |
+  | rsvp | 6.7 s | a form; the email is filled by the server |
+  | headcount | 8.6 s | a table filtered to `Manager Email = $user.email`, with an editable checkbox |
+
+  The 65 s is Nebius compiling the `json_schema` grammar the first time it sees a schema (reasoning tokens were only 186). Every later call with the same schema was 4–9 s, so `NEBIUS_REASONING_EFFORT` stays `high`. Consequence for the demo: run one generation after each deploy and before presenting (added to P6-3's notes). The prompt now says explicitly that only the identity email is auto-filled, after the model claimed the RSVP timestamp would be.
+
 - **2026-09-23 · P2-2 Nebius structured output measured.** `scripts/try-nebius.ts` with a toy `{ greeting, number }` schema: all three models accepted `response_format: json_schema` (strict) with `reasoning_effort` set, and the `json_object` fallback never fired.
 
   | Model | Effort | Latency |

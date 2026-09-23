@@ -68,7 +68,7 @@ const SPEC_GUIDE = `An app is an AppSpec JSON document rendered by a fixed set o
 - columns lists every header the app touches, each with the closest type; select columns list their options. Mark columns people must not change as readOnly.
 - Every header used by a view must also appear in columns.
 - my-row views need identity: matchColumn is the header compared to the signed-in user, matchBy "email" for an email column or "name" for a name column, fallback "choose" (let them pick a row) or "deny". editable must be a subset of show, and never include readOnly columns.
-- form views append a row. When identity.matchBy is "email", leave the identity column out of fields; the server fills it with the signed-in user's email.
+- form views append a row. When identity.matchBy is "email", leave the identity column out of fields; the server fills it with the signed-in user's email. No other column is filled automatically: columns left out of fields stay empty in the new row (there is no automatic timestamp).
 - table views may filter, sort, search, and make some columns editable. Filter values "$user.email" and "$user.name" are replaced with the signed-in user's.
 - stats views show metrics: count, sum, avg, count_filled, count_empty, each optionally filtered.
 - At most 4 views and 40 columns. access.audience is always "organization". version is always 1. icon is a single emoji.`;
