@@ -57,6 +57,14 @@ export default function PublishBar({
     }
   };
 
+  const statusChip = (
+    <Chip
+      size="small"
+      label={app.status === "published" ? (upToDate ? "Live" : "Live · unpublished changes") : "Draft"}
+      color={app.status === "published" ? (upToDate ? "success" : "warning") : "default"}
+    />
+  );
+
   return (
     <>
       <Stack
@@ -82,13 +90,10 @@ export default function PublishBar({
               {app.name}
             </Typography>
           )}
-          <Chip
-            size="small"
-            label={app.status === "published" ? (upToDate ? "Live" : "Live · unpublished changes") : "Draft"}
-            color={app.status === "published" ? (upToDate ? "success" : "warning") : "default"}
-          />
+          {!compact && statusChip}
         </Stack>
         <Stack direction="row" spacing={1} alignItems="center" flexWrap="wrap" useFlexGap>
+          {compact && statusChip}
           {canEdit && (
             <Button variant="contained" onClick={publish} disabled={publishing || upToDate || !app.draftVersionId}>
               {publishing ? "Publishing…" : app.status === "published" ? "Publish changes" : "Publish"}

@@ -49,7 +49,7 @@ export default function AppRenderer({ shortId, draft = false }: { shortId: strin
             {spec.icon}
           </Typography>
         )}
-        <Typography variant="h4" component="h1" fontWeight={700}>
+        <Typography variant="h4" component="h1" fontWeight={700} sx={{ fontSize: { xs: "1.5rem", sm: "2.125rem" } }}>
           {spec.title}
         </Typography>
       </Stack>
