@@ -1,0 +1,5 @@
+# Decisions and deviations
+
+One paragraph per entry, newest first. Reference the task id. Record only things that differ from `docs/PLAN.md` or that a future session would otherwise have to rediscover (e.g. the P0-6 spike result, a Google API quirk, a library swap).
+
+- **2026-09-23 · LLM provider (PRD §9).** The hackathon requires Nebius Token Factory, so the Anthropic SDK plan was replaced before implementation started. Chosen: `zai-org/GLM-5.3` (`reasoning_effort: high`) for spec generation and editing, `zai-org/GLM-5.3-Flash` (`low`) for suggestions, `deepseek-ai/DeepSeek-V4.1-Flash` (`none`) as fallback. Basis: Nebius's public catalog (throughput and price), its chat-completion reference (`response_format: json_schema`, `reasoning_effort` enum, `max_completion_tokens` includes reasoning, default 8192), and Sept 2026 third-party rankings placing GLM-5.3 first among open-weight models. Unverified until P2-2 runs: that `json_schema` mode is accepted for these models on Nebius; the client falls back to `json_object` and zod validation covers both paths.
