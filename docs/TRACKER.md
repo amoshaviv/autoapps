@@ -48,7 +48,7 @@ Add `npx vitest run` once tests exist (P1-4 onward), and `npm run build` from `e
 | P0-1 | Copy and strip flow-tester's frontend | must | — | done | 27be745 | deps pinned to flow-tester's locked majors; legal pages are placeholders (see DECISIONS) |
 | P0-2 | Database bootstrap script (`db:sync`) | must | P0-1, H-1 | done | 5f6cd7d | OAuth token columns are TEXT (see DECISIONS) |
 | P0-3 | Auth guards (`lib/auth/guards.ts`) | must | P0-1 | done | 88e223d | checked 401/200/403/404 with minted JWTs on :3001 (another app holds :3000) |
-| P0-4 | Organization auto-join by email domain | must | P0-2, P0-3, H-2 | blocked | 9f21d1d | code done; scripted check passed (2nd same-domain user joins as `user`); awaiting the two-account Google sign-in check |
+| P0-4 | Organization auto-join by email domain | must | P0-2, P0-3, H-2 | blocked | 9f21d1d | code done; scripted check passed; Google sign-in verified with mail@amoshaviv.com (owner of `amoshaviv`); awaiting a 2nd @amoshaviv.com account |
 | P0-5 | Session cookie `SameSite=None; Secure` | must | P0-1 | done | ae9a5ea | verified via curl credentials sign-in on :3001: `Secure; HttpOnly; SameSite=none` |
 | P0-6 | Spike: side-panel iframe carries the session | should | P0-5, P0-4 | todo | | record Plan A/Plan B result in `docs/DECISIONS.md` |
 
@@ -144,4 +144,5 @@ Executor: Claude Opus 5.5 (`claude --model claude-opus-5-5`), chosen 2026-09-23.
 
 (Newest first. One entry per session: date · model · tasks done · blocked · next.)
 
+- 2026-09-23 · Claude Opus 5.5 · Port 3000 freed by Amos. Google sign-in works locally (Phase 0 check): mail@amoshaviv.com created org `amoshaviv` as owner. P0-4 stays blocked until a second @amoshaviv.com account signs in.
 - 2026-09-23 · Claude Opus 5.5 · Initialized git (`chore: planning docs`, ba91d15). Done: P0-1 (27be745), P0-2 (5f6cd7d), P0-3 (88e223d), P0-5 (ae9a5ea). P0-4 is committed (9f21d1d) and passed a scripted check, but is blocked on the two-account Google sign-in check. P0-6 is not started because it depends on P0-4. Port 3000 is held by another app, so the dev server ran on :3001 (see Needs Amos). `next dev` (16.3) writes `frontend/AGENTS.md` + `frontend/CLAUDE.md` (a pointer to Next's bundled docs); they are committed. The database is empty again after the checks. Next: close P0-4 after Amos's sign-in check, then P0-6; Phase 1 tasks P1-1 and P1-4 are unblocked in the meantime. 
