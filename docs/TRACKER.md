@@ -59,8 +59,8 @@ Phase check: `grep -ri "flowtester\|testSuite\|gitlab" frontend --exclude-dir=no
 | ID | Task | Pri | Depends on | Status | Commit | Notes |
 |---|---|---|---|---|---|---|
 | P1-1 | Models: Connection, App, AppVersion, AppMessage, AppActivity | must | P0-2 | done | 1b5a04a | apps.draft/published_version_id have no FK (avoids cyclic sync) |
-| P1-2 | Google OAuth: incremental Sheets scope, token refresh, `/api/me` | must | P0-4 | blocked | f066917 | code done; `/api/me` verified (401 / 200 with sheetsConnected=false); awaiting Amos's grant check |
-| P1-3 | Sheets client (`lib/google/sheets.ts`, incl. `createSpreadsheet`) | must | P1-2 | todo | | |
+| P1-2 | Google OAuth: incremental Sheets scope, token refresh, `/api/me` | must | P0-4 | done | f066917 | Amos granted on prod; scope + refresh token kept after plain re-sign-in. Refresh fails locally (`unauthorized_client`): prod uses a different OAuth client (Needs Amos) |
+| P1-3 | Sheets client (`lib/google/sheets.ts`, incl. `createSpreadsheet`) | must | P1-2 | in_progress | | 2026-09-23 |
 | P1-4 | Schema extraction (types, fill ratio, distinct) + `analyzeShape` + five fixture sheets + vitest | must | P0-1 | done | 94b65a5 | 13 tests; heuristic clarifications in DECISIONS |
 | P1-5 | Connection routes (`POST connections`, `refresh`) | must | P1-1, P1-3, P1-4, P0-3 | todo | | |
 | P1-6 | Seed the five fixture sheets into the builder's Drive (`seed:sheets`) | must | P1-3, P1-4 | todo | | paste the five URLs into H-5 |
@@ -127,7 +127,8 @@ Phase check: hero scenario runs twice in a row on the deployed URL.
 
 (The executing session adds bullets here; Amos deletes them when resolved.)
 
-- **P1-2 check**: with you signed in at http://localhost:3000, open http://localhost:3000/connect/google, grant the Sheets permission, then sign out (avatar menu, top right) and sign in again with Google. Tell the executor; it checks `sheetsConnected` in the database/`/api/me`.
+- **Use one Google OAuth client everywhere**: Vercel Production's `GOOGLE_CLIENT_ID`/`GOOGLE_CLIENT_SECRET` differ from `frontend/.env` (token refresh from local fails with `unauthorized_client`, since both share one database). Set Vercel's to the local values, add `https://autoapps.win/api/auth/callback/google` to that client's redirect URIs, redeploy, and grant again at https://autoapps.win/connect/google.
+- **Domain**: `autoapps.win` 308-redirects to `www.autoapps.win` while `NEXTAUTH_URL=https://autoapps.win`. Make the apex primary in Vercel → Domains (or switch `NEXTAUTH_URL` and the OAuth redirect URI to `www`).
 - **(later, with H-6) P0-4 real check** (code is committed in 9f21d1d): run `cd frontend && npm run dev` on :3000, sign in with Google as two accounts on the same company domain (for example two `@amoshaviv.com` accounts; both must be test users on the OAuth consent screen), then tell the executor (dev server now runs on :3000). It will confirm in `users_organizations` that the second account has role `user` in the first account's org and close P0-4. A `gmail.com` account does not auto-join; it gets a personal org and must be added from the Users page after its first sign-in.
 
 ---

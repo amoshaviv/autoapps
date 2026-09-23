@@ -2,6 +2,8 @@
 
 One paragraph per entry, newest first. Reference the task id. Record only things that differ from `docs/PLAN.md` or that a future session would otherwise have to rediscover (e.g. the P0-6 spike result, a Google API quirk, a library swap).
 
+- **2026-09-23 · P1-3 Sheets error mapping.** 401, or a 403 that mentions scope/auth, maps to 428 `sheets_not_connected`, as planned. Any other 403 (the spreadsheet is not shared with the builder) maps to 403 `sheet_forbidden`, and a 404 to 404 `sheet_not_found`, because reconnecting Sheets would not fix either. Sheet names in ranges are always quoted (`'Form Responses 1'!A1`). `createSpreadsheet` pads rows to equal width. Checked live with `scripts/try-sheets.ts`: scratch sheet https://docs.google.com/spreadsheets/d/120bZU0BE2PAz39vG5-WJZkCB833K-eYWTWGT9UYdhtg (safe to delete).
+
 - **2026-09-23 · P2-4 generation results; effort stays `high`.** `try-ai` on the five fixture schemas (`fixture:NAME`, because no real connections exist until the Sheets grant; the same code path runs on `connection.schema`). Every spec passed `validateSpec` on the first attempt.
 
   | Fixture | Latency | Result |
