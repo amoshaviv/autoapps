@@ -59,7 +59,7 @@ Phase check: `grep -ri "flowtester\|testSuite\|gitlab" frontend --exclude-dir=no
 | ID | Task | Pri | Depends on | Status | Commit | Notes |
 |---|---|---|---|---|---|---|
 | P1-1 | Models: Connection, App, AppVersion, AppMessage, AppActivity | must | P0-2 | done | 1b5a04a | apps.draft/published_version_id have no FK (avoids cyclic sync) |
-| P1-2 | Google OAuth: incremental Sheets scope, token refresh, `/api/me` | must | P0-4 | in_progress | | 2026-09-23 |
+| P1-2 | Google OAuth: incremental Sheets scope, token refresh, `/api/me` | must | P0-4 | blocked | f066917 | code done; `/api/me` verified (401 / 200 with sheetsConnected=false); awaiting Amos's grant check |
 | P1-3 | Sheets client (`lib/google/sheets.ts`, incl. `createSpreadsheet`) | must | P1-2 | todo | | |
 | P1-4 | Schema extraction (types, fill ratio, distinct) + `analyzeShape` + five fixture sheets + vitest | must | P0-1 | todo | | |
 | P1-5 | Connection routes (`POST connections`, `refresh`) | must | P1-1, P1-3, P1-4, P0-3 | todo | | |
@@ -127,6 +127,7 @@ Phase check: hero scenario runs twice in a row on the deployed URL.
 
 (The executing session adds bullets here; Amos deletes them when resolved.)
 
+- **P1-2 check**: with you signed in at http://localhost:3000, open http://localhost:3000/connect/google, grant the Sheets permission, then sign out (avatar menu, top right) and sign in again with Google. Tell the executor; it checks `sheetsConnected` in the database/`/api/me`.
 - **(later, with H-6) P0-4 real check** (code is committed in 9f21d1d): run `cd frontend && npm run dev` on :3000, sign in with Google as two accounts on the same company domain (for example two `@amoshaviv.com` accounts; both must be test users on the OAuth consent screen), then tell the executor (dev server now runs on :3000). It will confirm in `users_organizations` that the second account has role `user` in the first account's org and close P0-4. A `gmail.com` account does not auto-join; it gets a personal org and must be added from the Users page after its first sign-in.
 - **P0-6 spike**: with `cd frontend && npm run dev` running on :3000 and you signed in at http://localhost:3000 in Chrome: open `chrome://extensions`, turn on Developer mode, click "Load unpacked", pick `AutoApps/extension/dist`, then click the AutoApps toolbar icon (pin it from the puzzle-piece menu). Report what the side panel shows: "Signed in as mail@amoshaviv.com", "signed out", or the sign-in page.
 
