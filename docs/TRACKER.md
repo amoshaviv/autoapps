@@ -74,7 +74,7 @@ Phase check: `POST /api/organizations/<org>/connections` with each fixture sheet
 | P2-1 | AppSpec zod schema + `validateSpec` + tests | must | P1-4 | done | e2c971b | 12 tests; 3 extra structural rules (DECISIONS) |
 | P2-2 | AI client (Nebius via `openai` SDK, `json_schema`), prompts, `try-nebius` script | must | P2-1, H-3 | done | 4b7cd7e | json_schema accepted by all 3 models; GLM-5.3 cold call 13 s, warm 2–9 s (DECISIONS) |
 | P2-3 | `suggestApps` + suggest route, checked on all five fixture sheets | must | P2-2, P1-5, P1-6 | todo | | |
-| P2-4 | `generateSpec` / `editSpec` with validation retry + `try-ai` script | must | P2-2 | in_progress | | 2026-09-23 |
+| P2-4 | `generateSpec` / `editSpec` with validation retry + `try-ai` script | must | P2-2 | done | 62ed4e8 | verified on fixture schemas, all valid 1st try; rerun with real connectionIds after P1-6 |
 | P2-5 | Builder-side app routes (create, get, messages, publish, restore, activity, patch, delete) | must | P2-4, P1-5 | todo | | |
 
 Phase check: `scripts/try-ai.ts` yields valid specs for all five fixture sheets; suggestions differ per sheet; curl flow create → message → publish works.
@@ -83,7 +83,7 @@ Phase check: `scripts/try-ai.ts` yields valid specs for all five fixture sheets;
 
 | ID | Task | Pri | Depends on | Status | Commit | Notes |
 |---|---|---|---|---|---|---|
-| P3-1 | Runtime resolution library + tests | must | P2-1, P1-3 | todo | | |
+| P3-1 | Runtime resolution library + tests | must | P2-1, P1-3 | todo | | also require a PATCHed table row to pass the view's filters (e.g. `$user.email`), not only the column checks |
 | P3-2 | Runtime routes + `requireAppAccess` | must | P3-1, P2-5 | todo | | |
 | P3-3 | Renderer components (my-row, form, table, stats) | must | P3-2 | todo | | |
 | P3-4 | Runtime page `/a/[shortId]` | must | P3-3 | todo | | |
@@ -117,7 +117,7 @@ Phase check: hero steps 2–6 run inside the side panel against localhost; switc
 |---|---|---|---|---|---|---|
 | P6-1 | Deploy to Vercel, production OAuth redirect, prod `db:sync`, extension build with prod origin | must | P4-3, H-4 | todo | | |
 | P6-2 | Polish, in order: light theme, empty states, error toasts, README, icons | should | P6-1 | todo | | stop when time runs out |
-| P6-3 | Demo rehearsal checklist | should | P6-1 | todo | | |
+| P6-3 | Demo rehearsal checklist | should | P6-1 | todo | | warm Nebius first: the first spec generation per deploy takes ~65 s (grammar compile) |
 
 Phase check: hero scenario runs twice in a row on the deployed URL.
 
