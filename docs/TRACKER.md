@@ -73,9 +73,9 @@ Phase check: `POST /api/organizations/<org>/connections` with each fixture sheet
 |---|---|---|---|---|---|---|
 | P2-1 | AppSpec zod schema + `validateSpec` + tests | must | P1-4 | done | e2c971b | 12 tests; 3 extra structural rules (DECISIONS) |
 | P2-2 | AI client (Nebius via `openai` SDK, `json_schema`), prompts, `try-nebius` script | must | P2-1, H-3 | done | 4b7cd7e | json_schema accepted by all 3 models; GLM-5.3 cold call 13 s, warm 2–9 s (DECISIONS) |
-| P2-3 | `suggestApps` + suggest route, checked on all five fixture sheets | must | P2-2, P1-5, P1-6 | in_progress | | 2026-09-23 |
+| P2-3 | `suggestApps` + suggest route, checked on all five fixture sheets | must | P2-2, P1-5, P1-6 | done | ccd0ef8 | headcount's person-scoped idea is a Manager Email table, not my-row (DECISIONS) |
 | P2-4 | `generateSpec` / `editSpec` with validation retry + `try-ai` script | must | P2-2 | done | 62ed4e8 | verified on fixture schemas, all valid 1st try; rerun with real connectionIds after P1-6 |
-| P2-5 | Builder-side app routes (create, get, messages, publish, restore, activity, patch, delete) | must | P2-4, P1-5 | todo | | |
+| P2-5 | Builder-side app routes (create, get, messages, publish, restore, activity, patch, delete) | must | P2-4, P1-5 | in_progress | | 2026-09-23 |
 
 Phase check: `scripts/try-ai.ts` yields valid specs for all five fixture sheets; suggestions differ per sheet; curl flow create → message → publish works.
 
