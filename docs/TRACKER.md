@@ -107,7 +107,7 @@ Phase check: hero steps 3–6 work from `/[org]/new` in a normal tab; `/extensio
 |---|---|---|---|---|---|---|
 | P5-1 | Scaffold, esbuild, manifest, icons | should | P0-6 | done | 9c4a588 | APP_ORIGIN defaults to https://www.autoapps.win (prod-first); icons drawn by scripts/make-icons.mjs |
 | P5-2 | Background + content script (badge, OPEN_PANEL, SHEET_CHANGED) | should | P5-1 | done | 4f49e1c | phase check in Chrome pending (Amos) |
-| P5-3 | Side panel iframe host | should | P5-2, P4-4 | in_progress | | 2026-09-23 |
+| P5-3 | Side panel iframe host | should | P5-2, P4-4 | blocked | 88e7096 | code done; awaiting Amos's Chrome phase check (Needs Amos) |
 
 Phase check: hero steps 2–6 run inside the side panel against localhost; switching sheets updates the panel.
 
@@ -128,6 +128,13 @@ Phase check: hero scenario runs twice in a row on the deployed URL.
 (The executing session adds bullets here; Amos deletes them when resolved.)
 
 - **Local token refresh fails** (`unauthorized_client`) while production refreshes fine with the same client ID. Production works; local scripts can use the current access token for about an hour after each production refresh. Low priority: re-check that Vercel's `GOOGLE_CLIENT_ID`/`GOOGLE_CLIENT_SECRET` have no stray whitespace and match `frontend/.env` exactly.
+- **Phase 5 check (extension)**: in `chrome://extensions`, click reload on AutoApps (same `extension/dist` folder; it now has icons, a content script and host permission for docs.google.com/spreadsheets, so Chrome may ask to accept the new permissions). Then:
+  1. Open the budget fixture sheet: the "⚡ Build an app from this sheet" badge appears bottom-right.
+  2. Click it: the side panel opens and lists the sheet's apps plus "Build another app".
+  3. Click "Build another app", pick a suggestion or type a request, wait for the preview, send one chat edit, and Publish / Copy link.
+  4. Switch to another fixture sheet tab: the panel follows it.
+
+  Report anything that looks wrong.
 - **(later, with H-6) P0-4 real check** (code is committed in 9f21d1d): run `cd frontend && npm run dev` on :3000, sign in with Google as two accounts on the same company domain (for example two `@amoshaviv.com` accounts; both must be test users on the OAuth consent screen), then tell the executor (dev server now runs on :3000). It will confirm in `users_organizations` that the second account has role `user` in the first account's org and close P0-4. A `gmail.com` account does not auto-join; it gets a personal org and must be added from the Users page after its first sign-in.
 
 ---
@@ -144,6 +151,7 @@ Executor: Claude Opus 5.5 (`claude --model claude-opus-5-5`), chosen 2026-09-23.
 
 (Newest first. One entry per session: date · model · tasks done · blocked · next.)
 
+- 2026-09-23 · Claude Opus 5.5 · Phase 3 closed after browser checks on production. Phase 4 done: hero steps 3–6 on prod, and the panel checked at 360 px. A real edit regression (a dropped `$user` filter) led to edit guards. Phase 5 code done (P5-1…P5-3); the Chrome check is with Amos. Next: after that check, Phase 6 (P6-1 deploy tasks are mostly done already; P6-2 polish; P6-3 rehearsal).
 - 2026-09-23 · Claude Opus 5.5 · Phases 1 and 2 are done, and P3-1/P3-2 are done. P3-3/P3-4 are committed but not yet rendered in a browser. Switched to working against production (DECISIONS). Next: once pushed and deployed, render-check `/a/DdQJoEtren` and the RSVP app on autoapps.win, close P3-3/P3-4, then Phase 4.
 - 2026-09-23 · Claude Opus 5.5 · Port 3000 freed by Amos. Google sign-in works locally (Phase 0 check): mail@amoshaviv.com created org `amoshaviv` as owner. P0-4 stays blocked until a second @amoshaviv.com account signs in.
 - 2026-09-23 · Claude Opus 5.5 · Initialized git (`chore: planning docs`, ba91d15). Done: P0-1 (27be745), P0-2 (5f6cd7d), P0-3 (88e223d), P0-5 (ae9a5ea). P0-4 is committed (9f21d1d) and passed a scripted check, but is blocked on the two-account Google sign-in check. P0-6 is not started because it depends on P0-4. Port 3000 is held by another app, so the dev server ran on :3001 (see Needs Amos). `next dev` (16.3) writes `frontend/AGENTS.md` + `frontend/CLAUDE.md` (a pointer to Next's bundled docs); they are committed. The database is empty again after the checks. Next: close P0-4 after Amos's sign-in check, then P0-6; Phase 1 tasks P1-1 and P1-4 are unblocked in the meantime. 
