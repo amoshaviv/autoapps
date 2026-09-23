@@ -35,7 +35,7 @@ Add `npx vitest run` once tests exist (P1-4 onward), and `npm run build` from `e
 | H-1 | Fresh Postgres; `DB_URL` in the root `.env` (P0-1 copies it to `frontend/.env`) | done | 2026-09-23, Supabase transaction pooler (port 6543), PostgreSQL 17, empty schema, credentials verified |
 | H-2 | Google Cloud OAuth client (Testing mode, test users, Sheets API enabled, both redirect URIs); `GOOGLE_CLIENT_ID`/`GOOGLE_CLIENT_SECRET` in the root `.env` | done | 2026-09-23, localhost redirect URI only; add the Vercel URI in P6-1 |
 | H-3 | Nebius Token Factory API key in the root `.env` as `NEBIUS_API_KEY` (account funded) | done | 2026-09-23, key verified against `/v1/models`; GLM-5.3, GLM-5.3-Flash, DeepSeek-V4.1-Flash all visible |
-| H-4 | Vercel project for `frontend/` with env vars and `NEXTAUTH_URL=https://autoapps.win`; domain `autoapps.win` attached | todo | |
+| H-4 | Vercel project for `frontend/` with env vars and `NEXTAUTH_URL=https://autoapps.win`; domain `autoapps.win` attached | done | 2026-09-23; Framework Preset had to be set to Next.js; apex currently redirects to www (Needs Amos) |
 | H-5 | Fixture sheets: created automatically by P1-6; optionally any real sheet of Amos's for the demo | done | 2026-09-23 seeded by P1-6 (consumer = builder): [budget](https://docs.google.com/spreadsheets/d/1TKG4ectrsyoW7cdqgTG4aQVnR-az4BqHI9dk0JNzpvg/edit), [tasks](https://docs.google.com/spreadsheets/d/1r5Coh4Qcr2fAeLbVZ1XX6VFVWKb431OpJbFq46mhV90/edit), [inventory](https://docs.google.com/spreadsheets/d/1za_6PwHj4GHyVaxTYMZYXcxJjqwWp1lk7N4L1bla2SE/edit), [rsvp](https://docs.google.com/spreadsheets/d/1PXVh5RIqVSLw8-X7DPtNc_3ghKnjKUDAMURyCkGabzY/edit), [headcount](https://docs.google.com/spreadsheets/d/1UrdCLmw0Jaf56aigyL5q3RMy6gA3OfMPxgnJrv1_npo/edit) |
 | H-6 | A second Google account for the consumer role (any provider), invited into the org from the Users page, signed in on a second Chrome profile or an incognito window; then set `DEMO_CONSUMER_EMAIL` and re-run `seed:sheets` | todo | builder is mail@amoshaviv.com; consumer currently the same account (dev only) |
 
@@ -85,8 +85,8 @@ Phase check: `scripts/try-ai.ts` yields valid specs for all five fixture sheets;
 |---|---|---|---|---|---|---|
 | P3-1 | Runtime resolution library + tests | must | P2-1, P1-3 | done | 80046d6 | 21 tests; table edits also check the view filter (DECISIONS); fix-up 3e6601f for a test typecheck error |
 | P3-2 | Runtime routes + `requireAppAccess` | must | P3-1, P2-5 | done | ed43899 | live: own-row read, Q1 PATCH in sheet, Cost Center 403, RSVP append w/ server email, row_moved relocate; `?row=N` picks among allowed candidates |
-| P3-3 | Renderer components (my-row, form, table, stats) | must | P3-2 | in_progress | | 2026-09-23 |
-| P3-4 | Runtime page `/a/[shortId]` | must | P3-3 | in_progress | | 2026-09-23 |
+| P3-3 | Renderer components (my-row, form, table, stats) | must | P3-2 | in_progress | | 2026-09-23; code 77bb4b8; render check on production after push (test app `/a/DdQJoEtren`) |
+| P3-4 | Runtime page `/a/[shortId]` | must | P3-3 | in_progress | | 2026-09-23; code 3d0262a, signed-out redirect verified; render check on production after push |
 
 Phase check: consumer account completes hero steps 7–8 by URL; a PATCH to a non-editable column returns 403.
 
@@ -145,5 +145,6 @@ Executor: Claude Opus 5.5 (`claude --model claude-opus-5-5`), chosen 2026-09-23.
 
 (Newest first. One entry per session: date · model · tasks done · blocked · next.)
 
+- 2026-09-23 · Claude Opus 5.5 · Phases 1 and 2 are done, and P3-1/P3-2 are done. P3-3/P3-4 are committed but not yet rendered in a browser. Switched to working against production (DECISIONS). Next: once pushed and deployed, render-check `/a/DdQJoEtren` and the RSVP app on autoapps.win, close P3-3/P3-4, then Phase 4.
 - 2026-09-23 · Claude Opus 5.5 · Port 3000 freed by Amos. Google sign-in works locally (Phase 0 check): mail@amoshaviv.com created org `amoshaviv` as owner. P0-4 stays blocked until a second @amoshaviv.com account signs in.
 - 2026-09-23 · Claude Opus 5.5 · Initialized git (`chore: planning docs`, ba91d15). Done: P0-1 (27be745), P0-2 (5f6cd7d), P0-3 (88e223d), P0-5 (ae9a5ea). P0-4 is committed (9f21d1d) and passed a scripted check, but is blocked on the two-account Google sign-in check. P0-6 is not started because it depends on P0-4. Port 3000 is held by another app, so the dev server ran on :3001 (see Needs Amos). `next dev` (16.3) writes `frontend/AGENTS.md` + `frontend/CLAUDE.md` (a pointer to Next's bundled docs); they are committed. The database is empty again after the checks. Next: close P0-4 after Amos's sign-in check, then P0-6; Phase 1 tasks P1-1 and P1-4 are unblocked in the meantime. 
