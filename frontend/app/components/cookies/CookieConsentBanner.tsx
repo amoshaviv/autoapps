@@ -1,6 +1,7 @@
 "use client";
 
 import * as React from "react";
+import { usePathname } from "next/navigation";
 import {
   Box,
   Button,
@@ -17,11 +18,14 @@ import { useCookieConsent } from "./CookieConsentContext";
 
 export default function CookieConsentBanner() {
   const { showBanner, acceptAll, rejectNonEssential, savePreferences } = useCookieConsent();
+  const pathname = usePathname();
   const [showSettings, setShowSettings] = React.useState(false);
   const [functionalEnabled, setFunctionalEnabled] = React.useState(true);
   const [analyticsEnabled, setAnalyticsEnabled] = React.useState(true);
 
-  if (!showBanner) {
+  // Never in the extension's side panel: it is part of the product, loads no
+  // analytics, and a banner there would cover the builder
+  if (!showBanner || pathname?.startsWith("/extension/")) {
     return null;
   }
 

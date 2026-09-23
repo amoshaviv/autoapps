@@ -2,6 +2,10 @@
 
 One paragraph per entry, newest first. Reference the task id. Record only things that differ from `docs/PLAN.md` or that a future session would otherwise have to rediscover (e.g. the P0-6 spike result, a Google API quirk, a library swap).
 
+- **2026-09-23 · No cookie banner in the side panel.** Amos saw the cookie banner every time he opened the extension. The consent choice was stored in a `SameSite=Lax` cookie, which Chrome neither stores nor sends in the side panel's cross-site iframe, so the choice never stuck. Two fixes:
+  - The banner is not rendered on `/extension/*`. That page loads no analytics, and a banner there covers the builder.
+  - The consent cookie is written with `SameSite=None; Secure` over HTTPS, so a choice made on the site also holds in the panel.
+
 - **2026-09-23 · P4-4 `/extension/panel` is not redirected when signed out.** P0-1's proxy sent signed-out visitors on `/extension/*` to sign-in. Inside the side-panel iframe that would load Google's sign-in page, which Google refuses to show in iframes. So the panel page handles the signed-out state itself: a "Sign in" button with `target="_blank"` and a 3-second `/api/me` poll (PLAN P4-4). `/extension/connected` still redirects.
 
 - **2026-09-23 · P4-3 edit guards after a real regression.** In the browser check, "Remove the Notes column and sort by priority" produced a spec that duplicated a view and dropped My Tasks' `Assignee eq $user.name` filter, so a personal view would have shown everyone's rows. Three fixes:
