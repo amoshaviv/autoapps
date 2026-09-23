@@ -110,6 +110,18 @@ function inferType(typeSample: string[], distinct: Set<string>, filledCount: num
   return median(typeSample.map((v) => v.length)) > 60 ? "longtext" : "text";
 }
 
+// Header text as AppSpecs refer to it: trimmed, "Column C" for blanks,
+// " (2)" for repeats. The runtime must resolve headers exactly the same way.
+export function resolveHeaderNames(headerCells: string[], width: number): string[] {
+  const seen = new Map<string, number>();
+  return Array.from({ length: width }, (_, i) => {
+    const name = cell(headerCells, i) || `Column ${columnLetter(i)}`;
+    const count = (seen.get(name) ?? 0) + 1;
+    seen.set(name, count);
+    return count > 1 ? `${name} (${count})` : name;
+  });
+}
+
 export function extractSchema(
   values: string[][],
   sheetTitle: string,
@@ -130,15 +142,12 @@ export function extractSchema(
     usedWidth--;
   }
 
-  const seen = new Map<string, number>();
   const rowCount = dataRows.length;
   const headers: SchemaHeader[] = [];
+  const names = resolveHeaderNames(headerCells, usedWidth);
 
   for (let i = 0; i < usedWidth; i++) {
-    let name = cell(headerCells, i) || `Column ${columnLetter(i)}`;
-    const count = (seen.get(name) ?? 0) + 1;
-    seen.set(name, count);
-    if (count > 1) name = `${name} (${count})`;
+    const name = names[i];
 
     const column = dataRows.map((r) => cell(r, i));
     const filled = column.filter((v) => v !== "");

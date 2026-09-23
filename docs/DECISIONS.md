@@ -2,6 +2,15 @@
 
 One paragraph per entry, newest first. Reference the task id. Record only things that differ from `docs/PLAN.md` or that a future session would otherwise have to rediscover (e.g. the P0-6 spike result, a Google API quirk, a library swap).
 
+- **2026-09-23 · P3-1 runtime write rules.** The rules beyond the plan's wording:
+  - **Table edits:** the target row must pass the view's filters, so a manager filtered to `$user.email` cannot PATCH another manager's row.
+  - **`my-row`:** a viewer may write only rows matching their identity. If they own several, they can pick among them.
+  - **`fallback: "choose"`:** this lets a viewer pick and edit any row only when *no* row matches them (PRD §5.4's picker). Anyone who has a row cannot touch other rows.
+  - **Required columns:** these are enforced on PATCH as well as on append.
+  - **Owner not connected:** when the owner's Google connection is gone, consumers get 503 `owner_not_connected`, not 428, since they cannot fix it.
+  - **Header names:** `resolveHeaderNames` is shared with `extractSchema`, so runtime header names ("Column C", "Name (2)") always match the schema's.
+  - **Reads:** `projectRow` limits every read to the view's columns.
+
 - **2026-09-23 · P2-3 suggestions: the person-scoped idea may be a table.** The plan expected a `my-row` idea for headcount on Manager Email. But each manager owns about 4.5 rows, and `my-row` shows one row per person, so "a table of your rows" is the right shape (P2-4 built exactly that). The rules are now:
   - when a sheet has an identity column, exactly one idea is scoped to the signed-in person, with `identityColumn` set;
   - that idea is `my-row` when there is about one row per person, and otherwise a table of their rows;
