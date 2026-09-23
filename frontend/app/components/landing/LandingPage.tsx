@@ -232,7 +232,7 @@ export default function LandingPage() {
           <Box sx={{ textAlign: "center", maxWidth: 860, mx: "auto" }}>
             <Chip
               icon={<AutoAwesomeOutlined sx={{ fontSize: 18 }} />}
-              label="Apps suggested automatically · Google Sheets now, Workday, SAP and more soon"
+              label="Open your data, get the app suggested · Google Sheets now, Workday, SAP and more soon"
               sx={{
                 mb: 3,
                 fontWeight: 600,
@@ -249,15 +249,15 @@ export default function LandingPage() {
               letterSpacing={-1.5}
               sx={{ fontSize: { xs: "2.5rem", sm: "3.25rem", md: "4rem" }, lineHeight: 1.05 }}
             >
-              Open your data.{" "}
               <Box component="span" sx={gradientText}>
-                AutoApps suggests the app.
-              </Box>
+                Auto-generated apps
+              </Box>{" "}
+              on top of your existing tools and workflows
             </Typography>
             <Typography color="text.secondary" sx={{ mt: 3, fontSize: { xs: "1.1rem", md: "1.3rem" }, maxWidth: 680, mx: "auto" }}>
-              No prompt to write, no blank page. Open a Google Sheet and AutoApps reads it in context, then suggests
-              the apps your team needs. Pick one, tweak it in chat, and share a link: each colleague sees and updates
-              only their part, while your system of record stays the source of truth.
+              AutoApps turns the spreadsheets and business systems your team already runs on into ready-to-use internal
+              apps. Open your data and the right app is suggested automatically, in context: no prompt, no code. Tweak
+              it in chat, share a link, and everyone updates only their part, straight back to the source.
             </Typography>
             <Stack direction={{ xs: "column", sm: "row" }} spacing={1.5} justifyContent="center" sx={{ mt: 4 }}>
               <Button href={SIGN_IN} variant="contained" size="large" sx={{ px: 4, py: 1.4, fontSize: "1.05rem" }}>
@@ -573,7 +573,7 @@ export default function LandingPage() {
             }}
           >
             <Typography variant="h3" component="h2" fontWeight={800} letterSpacing={-0.8} sx={{ fontSize: { xs: "2rem", md: "2.75rem" } }}>
-              Your next internal app is already waiting in your data
+              Let your tools generate their own apps
             </Typography>
             <Typography sx={{ mt: 2, opacity: 0.9, fontSize: { md: "1.125rem" }, maxWidth: 620, mx: "auto" }}>
               Sign in with Google and open a sheet: AutoApps suggests the app before you ask. Share a link with your team today. More sources are on the way.
@@ -596,7 +596,7 @@ export default function LandingPage() {
             <Stack spacing={1}>
               <Logo />
               <Typography variant="body2" color="text.secondary">
-                Internal apps on top of the tools you already use.
+                Auto-generated apps on top of your existing tools and workflows.
               </Typography>
             </Stack>
             <Stack direction="row" spacing={3} flexWrap="wrap" useFlexGap>

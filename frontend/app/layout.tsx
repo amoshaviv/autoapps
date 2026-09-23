@@ -14,7 +14,7 @@ export const metadata: Metadata = {
     template: "%s | AutoApps",
   },
   description:
-    "Build internal apps on top of the business tools you already use, starting with Google Sheets, by describing them in chat.",
+    "Auto-generated internal apps on top of your existing tools and workflows, starting with Google Sheets.",
 };
 
 export default async function RootLayout(props: { children: React.ReactNode }) {

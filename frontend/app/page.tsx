@@ -7,13 +7,13 @@ import LandingPage from "@/app/components/landing/LandingPage";
 import { DEMO_VIDEO_ID } from "@/app/components/landing/video";
 
 const description =
-  "Open your data and AutoApps suggests the internal app your team needs, no prompt required. Tweak it in chat and share a link; each colleague sees and updates only their part. Google Sheets today, more business tools soon.";
+  "Auto-generated internal apps on top of your existing tools and workflows. Open your data and AutoApps suggests the right app in context, no prompt and no code. Google Sheets today; Workday, SAP and more coming soon.";
 
 export const metadata: Metadata = {
-  title: { absolute: "AutoApps · Open your data, get the app suggested" },
+  title: { absolute: "AutoApps · Auto-generated apps on top of your existing tools" },
   description,
   openGraph: {
-    title: "AutoApps · Open your data, get the app suggested",
+    title: "AutoApps · Auto-generated apps on top of your existing tools",
     description,
     type: "website",
     images: [{ url: `https://i.ytimg.com/vi/${DEMO_VIDEO_ID}/maxresdefault.jpg`, width: 1280, height: 720 }],
