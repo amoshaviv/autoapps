@@ -3,8 +3,20 @@
   "name": "AutoApps",
   "version": "0.1.0",
   "description": "Build an app from the Google Sheet you are looking at.",
-  "permissions": ["sidePanel"],
-  "action": { "default_title": "AutoApps" },
+  "permissions": ["sidePanel", "tabs", "storage"],
+  "host_permissions": ["https://docs.google.com/spreadsheets/*"],
+  "background": { "service_worker": "background.js" },
+  "content_scripts": [
+    {
+      "matches": ["https://docs.google.com/spreadsheets/*"],
+      "js": ["content.js"],
+      "run_at": "document_idle"
+    }
+  ],
   "side_panel": { "default_path": "sidepanel.html" },
-  "background": { "service_worker": "background.js" }
+  "action": {
+    "default_title": "AutoApps",
+    "default_icon": { "16": "icons/icon-16.png", "48": "icons/icon-48.png", "128": "icons/icon-128.png" }
+  },
+  "icons": { "16": "icons/icon-16.png", "48": "icons/icon-48.png", "128": "icons/icon-128.png" }
 }
