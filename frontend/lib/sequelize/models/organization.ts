@@ -110,6 +110,10 @@ export default function defineOrganizationModel(
       through: UsersOrganizations,
     });
 
+    this.hasMany(models.App, { as: "apps", foreignKey: "organizationId" });
+
+    this.hasMany(models.Connection, { as: "connections", foreignKey: "organizationId" });
+
     this.belongsTo(models.User, {
       as: "createdBy",
       foreignKey: {

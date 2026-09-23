@@ -50,7 +50,7 @@ Add `npx vitest run` once tests exist (P1-4 onward), and `npm run build` from `e
 | P0-3 | Auth guards (`lib/auth/guards.ts`) | must | P0-1 | done | 88e223d | checked 401/200/403/404 with minted JWTs on :3001 (another app holds :3000) |
 | P0-4 | Organization auto-join by email domain | must | P0-2, P0-3, H-2 | done | 9f21d1d | closed on scripted check + one-account Google sign-in (see DECISIONS); re-check with a 2nd same-domain account at H-6 |
 | P0-5 | Session cookie `SameSite=None; Secure` | must | P0-1 | done | ae9a5ea | verified via curl credentials sign-in on :3001: `Secure; HttpOnly; SameSite=none` |
-| P0-6 | Spike: side-panel iframe carries the session | should | P0-5, P0-4 | in_progress | | 2026-09-23; record Plan A/Plan B result in `docs/DECISIONS.md` |
+| P0-6 | Spike: side-panel iframe carries the session | should | P0-5, P0-4 | blocked | 1a4c578 | skeleton built; awaiting Amos's Chrome check (Needs Amos) |
 
 Phase check: `grep -ri "flowtester\|testSuite\|gitlab" frontend --exclude-dir=node_modules --exclude-dir=.next` prints nothing; sign-in with Google works locally.
 
@@ -58,7 +58,7 @@ Phase check: `grep -ri "flowtester\|testSuite\|gitlab" frontend --exclude-dir=no
 
 | ID | Task | Pri | Depends on | Status | Commit | Notes |
 |---|---|---|---|---|---|---|
-| P1-1 | Models: Connection, App, AppVersion, AppMessage, AppActivity | must | P0-2 | todo | | |
+| P1-1 | Models: Connection, App, AppVersion, AppMessage, AppActivity | must | P0-2 | in_progress | | 2026-09-23 |
 | P1-2 | Google OAuth: incremental Sheets scope, token refresh, `/api/me` | must | P0-4 | todo | | |
 | P1-3 | Sheets client (`lib/google/sheets.ts`, incl. `createSpreadsheet`) | must | P1-2 | todo | | |
 | P1-4 | Schema extraction (types, fill ratio, distinct) + `analyzeShape` + five fixture sheets + vitest | must | P0-1 | todo | | |
@@ -128,7 +128,7 @@ Phase check: hero scenario runs twice in a row on the deployed URL.
 (The executing session adds bullets here; Amos deletes them when resolved.)
 
 - **(later, with H-6) P0-4 real check** (code is committed in 9f21d1d): run `cd frontend && npm run dev` on :3000, sign in with Google as two accounts on the same company domain (for example two `@amoshaviv.com` accounts; both must be test users on the OAuth consent screen), then tell the executor (dev server now runs on :3000). It will confirm in `users_organizations` that the second account has role `user` in the first account's org and close P0-4. A `gmail.com` account does not auto-join; it gets a personal org and must be added from the Users page after its first sign-in.
-- **P0-6 spike** (after P0-4 is closed): needs a human in Chrome to load `extension/dist` unpacked and open the side panel. The executor builds the skeleton first and tells you exactly what to click.
+- **P0-6 spike**: with `cd frontend && npm run dev` running on :3000 and you signed in at http://localhost:3000 in Chrome: open `chrome://extensions`, turn on Developer mode, click "Load unpacked", pick `AutoApps/extension/dist`, then click the AutoApps toolbar icon (pin it from the puzzle-piece menu). Report what the side panel shows: "Signed in as mail@amoshaviv.com", "signed out", or the sign-in page.
 
 ---
 
