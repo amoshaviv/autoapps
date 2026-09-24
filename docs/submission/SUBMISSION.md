@@ -38,7 +38,7 @@ AutoApps validates generated app specifications and enforces the stored app’s 
 
 ## Pitch slides
 
-Editable draft: [AutoApps-pitch-v3.pptx](AutoApps-pitch-v3.pptx)
+Editable draft: [AutoApps-pitch-v4.pptx](AutoApps-pitch-v4.pptx)
 
 Five-minute script, including the demo: [PITCH.md](PITCH.md)
 

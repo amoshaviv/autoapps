@@ -1,108 +1,82 @@
 # AutoApps — five-minute pitch
 
-Updated to the six confirmed judging criteria and Amos’s context-first positioning. Seven slides, 4:45 of planned delivery, including a 75-second live demo. Leave 15 seconds for transitions or delays. Timing is a rehearsal allocation.
+Current deck: [AutoApps-pitch-v4.pptx](AutoApps-pitch-v4.pptx). Seven slides in Amos’s requested order. Planned delivery is 4:45, including a 65-second live demo, with 15 seconds of margin. The cover is unchanged.
 
-## Story
+## Timing
 
-**AutoApps reads the business context people already have, suggests useful apps, and generates the one they choose.** Google Sheets is the first source. Chat refines an app after creation. Keep this order visible in the demo: context, suggestions, generation, colleague action, update in the original sheet.
+| Slide | Time |
+| --- | --- |
+| Cover | 0:00–0:15 |
+| The Problem | 0:15–0:50 |
+| AutoApps | 0:50–1:25 |
+| Budget example and live demo | 1:25–2:45 |
+| How it works, Nebius and evidence | 2:45–3:40 |
+| Market and Jevons thesis | 3:40–4:25 |
+| Amos Haviv | 4:25–4:45 |
 
-## Timing and rubric coverage
+## 1. Cover
 
-| Slide | Time | What it establishes | Judging coverage |
-| --- | --- | --- | --- |
-| 1. Lovable for the enterprise | 0:00–0:15 | Business teams can build with AI, starting in their existing context | Product and user value |
-| 2. Every budget cycle repeats the same work | 0:15–1:05 | Recurring coordination pain, and useful app ideas inferred from a sheet | Product and user value, problem and company potential |
-| 3. Live demo: sheet to generated app | 1:05–2:20 | Suggestions, generation, publication and a visible write-back | Product and user value, demo clarity |
-| 4. Context, generation and a bounded runtime | 2:20–2:55 | Exact model roles, context extraction and validation | Technical execution and Token Factory use |
-| 5. Model advantage: latency versus task fit | 2:55–3:40 | Actual matched-task comparison, including task failures | Measurable model advantage |
-| 6. Responsible design | 3:40–4:00 | Bounded generation, access enforcement and data flow | Responsible design |
-| 7. A subscription for recurring business workflows | 4:00–4:45 | Initial buyer, market context, subscription and expansion hypothesis | Problem and company potential |
+0:00–0:15. AutoApps is Lovable for the enterprise. It reads the business context you already have, suggests useful apps, and generates the one you choose. We start with Google Sheets.
 
-The exact weights are product and user value **25%**, problem and company potential **20%**, measurable model advantage **20%**, technical execution and Token Factory use **20%**, demo clarity **10%**, and responsible design **5%**. These come from the screenshot and the BuilderBase event page. Technical execution and Token Factory use are one combined criterion. Demo clarity is a separate criterion.
+The Lovable comparison is positioning, not a feature-parity, affiliation, or enterprise-readiness claim. Broader business contexts are the direction; Google Sheets is the current source. Cover layout and positioning follow Amos’s AutoApps-pitch-draft copy.key embedded preview. The subtitle reflects his subsequent request to emphasize automatic suggestions and generation from context. The brand spelling has been corrected from Loveable to Lovable.
 
-## What each judge can assess
+## 2. The Problem
 
-| Criterion | Visible proof in the pitch | Remaining evidence gap |
-| --- | --- | --- |
-| Product and user value, 25% | Slide 2 names the user and recurring work. Slide 3 shows automatic creation and a source-sheet update. | No observed customer time savings yet. |
-| Problem and company potential, 20% | Slides 2 and 7 cover existing workarounds, recurring pain, buyer, subscription and expansion. | Willingness to pay and addressable-market size remain unvalidated. The Workspace count is only ecosystem context. |
-| Measurable model advantage, 20% | Slide 5 names a baseline, matched tasks, latency and task-fit results. Raw outputs are retained. | Five tasks with one run each establish only a pilot result. No cost advantage measured. |
-| Technical execution and Token Factory use, 20% | Slide 4 names both served models, distinct roles, validation/retry and bounded rendering. | Confirm deployed defaults and rehearse the full live path. |
-| Demo clarity, 10% | Slide 3 has one user story and one visible success condition: the source cell changes. | Complete the stage-browser and distinct-account rehearsal. |
-| Responsible design, 5% | Slide 6 discloses model data, enforced app rules and configuration recovery limits. | Review generated access rules against the intended policy. |
+0:15–0:50. Engineers already use AI to build software. Business teams should be able to build their own tools too. But giving everyone a chat box is only the beginning. McKinsey’s 2026 survey reports 47 percent scaling chatbots across the enterprise, versus about twenty percent scaling AI agents. Our opportunity is to make useful software emerge from the work people already do, using existing data, with reliable behavior and clear access rules.
 
-The pitch should make these points naturally, without reading the rubric aloud. Keep unvalidated business assumptions explicit. The current deliverable is `AutoApps-pitch-v3.pptx`.
+Source: https://www.mckinsey.com/capabilities/quantumblack/our-insights/the-state-of-ai , 2026 survey, accessed 23 September 2026. Exact seven-word quote: “chatbots are the most widely scaled”. These are organizational scaling reports, not individual employee adoption rates or proof of demand for AutoApps. Product design requirements reflect Amos’s positioning.
 
-## Spoken script
+## 3. AutoApps
 
-### 1 — Cover
+0:50–1:25. AutoApps automatically generates ephemeral business applications on top of existing software. By ephemeral, we mean a focused app for a task or business cycle. It reads the context and offers a useful starting point. The user chooses an idea and we generate the app. They do not need to learn Claude Code or build a custom integration. They keep working with the data source they already use, and can refine the app in chat. The vision is software that appears when needed and understands the user’s context and permissions.
 
-“AutoApps is Lovable for the enterprise. It reads the business context you already have, suggests useful apps, and generates the one you choose. We start with Google Sheets.”
+Current scope: Google Sheets, OAuth authorization, built-in connector, web builder and Chrome extension entry point. Initial authorization/setup still exists. The prototype enforces its configured organization, row and field rules. It does not prove universal inheritance of source-system permissions. Ephemeral describes intended use duration, not an implemented automatic-expiry/deletion capability. Source: docs/PRD.md, docs/TRACKER.md, frontend/lib/apps/runtime.ts.
 
-### 2 — Recurring problem and automatic generation
+## 4. Example: the quarterly budget cycle
 
-“Engineers use AI to build software. Business teams should be able to build their own tools too. Think of a Finance analyst collecting budget inputs. Every cycle means chasing inputs, coordinating sheet edits and reconciling replies. Today they use shared sheets or separate forms, or ask someone to build a tool.
+1:25–2:45, including a 65-second live demo. Finance has a budget sheet with owners, missing forecasts and received submissions. Instead of asking someone to build software, AutoApps reads that context and proposes a budget collection app. Each owner gets a focused form and the forecast goes back into the original sheet. The app serves this cycle while the data remains useful afterward.
 
-AutoApps reads the columns, sample values and missing inputs to propose useful apps. They choose a budget collection app and we generate it automatically. Colleagues get a focused interface that updates the original sheet. Chat handles refinements after creation.”
+Demo: 10 seconds show the synthetic sheet, 10 show the context-derived suggestions, 15 generate and preview the selected app, 10 open the prepared consumer session, 15 save an update, 5 show the changed cell. Show suggestions before any custom prompt. If generation takes too long, explicitly identify a pre-generated app and keep the live write-back. Verify consumer access and the full stage-browser path beforehand. The distinct-account rehearsal remains pending in the reviewed tracker. The diagram is an illustrative scenario, not a product screenshot.
 
-### 3 — Live demo
+## 5. How it works
 
-Use the web builder on the stage computer. Show context-derived suggestions before typing any custom request.
+2:45–3:40. Nebius Token Factory serves both open models in the product. We extract sheet structure and sample values. GLM-5.3-Flash proposes apps, and GLM-5.3 generates and edits a bounded JSON specification. We validate exact sheet columns and retry invalid output once. The runtime enforces the app’s configured row and field rules. Nebius receives selected schema, samples and builder prompts.
 
-| Seconds | Action | Narration |
-| ---: | --- | --- |
-| 0–10 | Show the synthetic budget sheet, Owner Email and empty quarterly inputs | “The context is already here: who owns each line and what they need to complete.” |
-| 10–20 | Reveal the app suggestions and choose the owner-budget idea | “AutoApps proposes this app from the sheet.” |
-| 20–35 | Generate and show the preview | “One selection gives us a working starting point.” |
-| 35–45 | Make one concise chat refinement if it fits | “Chat is how we refine it.” |
-| 45–55 | Publish and open the prepared colleague session | “This is the link a colleague receives.” |
-| 55–70 | Save a synthetic update through the app | “They complete the fields intended for them.” |
-| 70–75 | Show the changed source cell | “The update lands in the original sheet.” |
+We compared five matched tasks at high effort. GLM-5.3 had a thirteen percent lower median latency, while Flash met one more task checklist. Both passed all schema checks. This is a small pilot, with a quality and latency tradeoff.
 
-The decisive moment is the source cell changing after the colleague acts. Avoid spending the demo on setup, OAuth consent, navigation or a feature tour. If generation exceeds its slot, explicitly switch to a previously generated app and preserve the live write-back. Do not disguise a saved app or recording as live generation.
+Product defaults: zai-org/GLM-5.3-Flash low effort for suggestions and zai-org/GLM-5.3 high effort for generation/editing. Benchmark used high effort for both. Calculation: (5.352 - 4.640)/5.352 = 13.3%, rounded. Ten responses, one per fixture/model, static spec review, no end-to-end correctness claim or cost measurement. Evidence: docs/submission/evidence/README.md and results.json. Both missed a required task-table shape. GLM also missed an RSVP identity setting. Backend stores identity, OAuth tokens and cached samples. Generated policy needs review. Configuration restore does not undo sheet edits. Claude assisted product development, Codex assisted submission/evaluation. No closed-model inference in the reviewed product path.
 
-### 4 — Technical execution and Token Factory
+## 6. The market extends beyond software teams
 
-“We extract the sheet’s structure in code, including ownership and missing-input signals. Nebius Token Factory serves both model roles: GLM-5.3-Flash proposes workflows, and GLM-5.3 generates and edits the selected app specification. We validate the JSON against the actual sheet, with one retry for invalid output. A fixed set of supported views keeps the runtime bounded.”
+3:40–4:25. Software developers are about one percent of U.S. employment. Business and financial operations alone account for about eleven-point-four million jobs. Our initial segment is Finance and Ops teams using Sheets for recurring workflows, with team subscriptions as the business-model hypothesis. The larger opportunity is making software useful for people outside development. Our Jevons thesis is that lower creation cost unlocks enough new uses that total software creation grows. Temporary apps for one task or cycle become economical. We still need to validate paid demand and price.
 
-Exact product defaults: `zai-org/GLM-5.3-Flash`, low effort for suggestions; `zai-org/GLM-5.3`, high effort for generation/editing. The next slide compares both models at high effort. Confirm the deployed settings before presenting.
+Sources: BLS Occupational projections and worker characteristics, table 1.2, 2025–35, https://www.bls.gov/emp/tables/occupational-projections-and-characteristics.htm , accessed 23 September 2026. All jobs 170,280.8 thousand, software developers 1,717.8 thousand, business and financial operations 11,368.5 thousand. Developer share=1.0088%. Role counts are U.S. population context, not unique buyer counts, software revenue, global market share, or proven addressable customer counts. TAM would require eligible organizations/workflows multiplied by validated annual price. Jevons-style demand expansion is a thesis, not an inevitability: lower unit cost can increase total consumption when induced demand outweighs efficiency gains. AI analogy: Satya Nadella, 26 January 2025, https://news.microsoft.com/recent-news/page/3/ .
 
-### 5 — Measured tradeoff
+## 7. Amos Haviv
 
-“We used GLM-5.3-Flash as the baseline on five matched generation tasks, both models at high effort. GLM-5.3 had a 4.64-second median, about thirteen percent lower than the baseline. Both passed every schema check. But Flash met four task checklists and GLM-5.3 met three.
+4:25–4:45. I’m Amos Haviv, an engineering leader at Booking.com. I have twenty years of experience building software and ten years leading teams. I co-created and maintained MEAN and wrote two books about it. Today my focus is developer productivity and AI-native software development. AutoApps brings that building power to business teams.
 
-Both missed the requested multi-row task table, and GLM-5.3 omitted the RSVP identity setting. This is a small measured latency advantage with a task-fit tradeoff. We need repeat runs before changing our model choice.”
+Source and portrait: https://www.linkedin.com/in/amoshaviv/ , accessed 23 September 2026. Experience figures are self-reported in the About section. Employer reference supplies professional background and does not imply employer affiliation with or endorsement of AutoApps. Only public professional profile details are used.
 
-Relative median reduction: `(5.352 − 4.640) / 5.352 = 13.30%`, rounded to 13%. This compares the observed medians in this pilot, not an expected speedup for future requests.
+## Judging coverage
 
-Evidence: [comparison and methodology](evidence/README.md). All ten outputs are retained. Task checks are static specification reviews, not end-to-end app tests. One request per fixture per model is insufficient to establish broad superiority. No cost advantage is claimed. The evaluation did not change production model settings.
+| Criterion | Slides |
+| --- | --- |
+| Product and user value, 25% | 2–4: business users, automatic generation from existing context, source-sheet update |
+| Problem and company potential, 20% | 2 and 6: adoption gap, initial segment, workforce context, subscription and demand-expansion thesis |
+| Measurable model advantage, 20% | 5: Flash baseline, observed median latency and static task checklist comparison |
+| Technical execution and Token Factory use, 20% | 5: both Nebius-hosted models, distinct roles, validation and bounded runtime |
+| Demo clarity, 10% | 4: one budget workflow, ending with a visible source-cell update |
+| Responsible design, 5% | 3 and 5: authorized access, configured row/field rules and model data disclosure |
 
-### 6 — Responsible design
+## Stage readiness
 
-“The server validates the specification and enforces its row and field rules. We disclose what goes to Nebius: selected schema, samples and builder instructions. Builders can revise or restore an app configuration, while saved spreadsheet edits need separate correction.”
+Publish the final deck to a public browser viewer and test the exact link in incognito without sign-in. This has not yet been done. Rehearse the deployed product on the stage browser, including a distinct consumer account. Keep a clearly identified pre-generated app available if live generation overruns. Do not describe configured app permissions as automatic inheritance of every source-system policy, or ephemeral usage as an implemented automatic expiry mechanism.
 
-Do not say AutoApps solves all enterprise security or privacy concerns. The model can produce a valid but inappropriate specification, so intended access policy still needs review and testing.
+## Sources
 
-### 7 — Company potential and close
-
-“Our first customer is an Ops team repeatedly collecting updates in spreadsheets. The workflow owner is our buyer hypothesis, with a team subscription justified by less coordination.
-
-Google reported more than eleven million Workspace customers in July 2025. That is a large starting ecosystem, not our addressable-market estimate. We would win one recurring workflow, then expand into more apps and data sources within the company. The next proof is reduced coordination time, repeat use and willingness to pay. AutoApps gives business teams a way to build with AI.”
-
-Market source: [Google Workspace, 29 July 2025](https://workspace.google.com/blog/identity-and-security/defending-against-account-takeovers-top-threats-passkeys-and-dbsc). Initial segment, pricing and demand remain unvalidated. Do not present the platform count as the number of prospective AutoApps customers.
-
-## Stage and public-link readiness
-
-- Publish the final presentation to a browser viewer. A local `.key` or `.pptx` file does not satisfy the requested public link.
-- Open the exact public link in an incognito window. Confirm the cover, every slide, readable fonts and presentation controls without a sign-in request.
-- Use the web builder as the primary demo path. The event uses its own computer, so the demo cannot depend on your installed extension or local files.
-- Prepare distinct builder and consumer accounts and verify the consumer’s row/field access. H-6 is still open in the reviewed tracker. Do not expose passwords or OAuth tokens in the slides or URL.
-- Rehearse the full sequence on the deployed site twice. Initial generation latency and authentication can vary.
-- Keep a clearly labeled recording or pre-generated app available if the event permits it. Test any linked or embedded media in the same signed-out viewer.
-- Publish a sanitized evidence viewer or repository link for the comparison. The evidence bundle in this folder contains synthetic data and provider usage, with no secrets.
-
-## Source and format notes
-
-The cover direction comes from Amos’s `AutoApps-pitch-draft copy.key`. Native Keynote control was blocked by macOS, and the bundled converter could not load that Keynote file. The revised PowerPoint reuses the original deck’s editable objects and matches the updated cover text/layout from its embedded preview, with the brand spelling corrected to “Lovable” and the subtitle updated for context-driven generation.
-
-Judging source: [BuilderBase event overview](https://builderbase.com/track-dashboard/accel-ai-innovate-amsterdam/overview), read 23 September 2026. Other factual sources are the repository, the comparison evidence, and the Google source above. No broad enterprise-adoption statistic is asserted.
+- [McKinsey, State of AI 2026](https://www.mckinsey.com/capabilities/quantumblack/our-insights/the-state-of-ai): quote and chatbot/agent scaling figures.
+- [BLS, 2025 employment and 2025–35 projections](https://www.bls.gov/emp/tables/occupational-projections-and-characteristics.htm): role counts and developer share. These are workforce scale figures, not a revenue TAM.
+- [Microsoft, January 26, 2025](https://news.microsoft.com/recent-news/page/3/): Nadella’s application of Jevons’ paradox to AI. AutoApps demand expansion is our own thesis.
+- [Amos Haviv on LinkedIn](https://www.linkedin.com/in/amoshaviv/): professional background and portrait, accessed September 23, 2026.
+- [Model pilot evidence](evidence/README.md): protocol, raw outputs, static checklist review and limitations.
